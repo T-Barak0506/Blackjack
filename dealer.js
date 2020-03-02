@@ -3,3 +3,6 @@ class Dealer {
     this.hand = [];
   }
 }
+const deckOfCards = new Deck();
+deckOfCards.createDeck();
+console.log(deckOfCards.deck);
