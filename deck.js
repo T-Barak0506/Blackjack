@@ -1,17 +1,22 @@
 class Deck {
   constructor() {
     this.deck = [];
+    this.suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+    this.values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
   }
-
-  // TODO: Change loops to forEach
-  // TODO: find a way to link variables between js files
 
 
   createDeck(suits, values) {
-    for (const suit of suits) {
-      for (const value of values) { // creates an array of values for each suit
-        this.deck.push(new Card(suit, value));
-      }
-    }
+    // for (const suit of this.suits) {
+    //   for (const value of this.values) { // creates an array of values for each suit
+    //     this.deck.push(new Card(suit, value));
+    //   }
+    // }
+
+    this.suits.forEach((suit) => {
+      this.values.forEach((value) => {
+        this.deck.push(new Card(suit, value)); // 13 values per suit
+      });
+    });
   }
 }
