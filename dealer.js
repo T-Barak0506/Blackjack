@@ -1,4 +1,5 @@
 class Dealer {
+<<<<<<< HEAD
     constructor(deck){
       this.dealerHand = [];
     }
@@ -26,3 +27,12 @@ Deal(){
 }
 }
 console.log(deck.deal())
+=======
+  constructor(deck) {
+    this.hand = [];
+  }
+}
+const deckOfCards = new Deck();
+deckOfCards.createDeck();
+console.log(deckOfCards.deck);
+>>>>>>> 7f5bf224b1cc53d09b6f5d3ba4a32845a1ff5a2e
