@@ -5,7 +5,6 @@ class Deck {
     this.values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
   }
 
-
   createDeck(suits, values) {
     // for (const suit of this.suits) {
     //   for (const value of this.values) { // creates an array of values for each suit
