@@ -6,12 +6,6 @@ class Deck {
   }
 
   createDeck(suits, values) {
-    // for (const suit of this.suits) {
-    //   for (const value of this.values) { // creates an array of values for each suit
-    //     this.deck.push(new Card(suit, value));
-    //   }
-    // }
-
     this.suits.forEach((suit) => {
       this.values.forEach((value) => {
         this.deck.push(new Card(suit, value)); // 13 values per suit
