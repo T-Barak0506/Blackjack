@@ -15,26 +15,30 @@
 
 
 */
+let deckOfCards = new Deck(); // Gives our new object (deck) the name of "deckOfCards"
+
 class Dealer {
-  constructor(deck) {
+  constructor() {
     this.dealerHand = [];
   }
 
+  // eslint-disable-next-line class-methods-use-this
   shuffle() {
-    let temp;
-    let i;
-    let counter = this.deck.length;
+    // eslint-disable-next-line one-var
+    let counter = deckOfCards.deck.length,
+      temp,
+      i;
 
     while (counter) {
       i = Math.floor(Math.random() * counter--);
-      temp = this.deck[counter];
-      this.deck[counter] = this.deck[i];
-      this.deck[i] = temp;
+      temp = deckOfCards.deck[counter];
+      deckOfCards.deck[counter] = deckOfCards.deck[i];
+      deckOfCards.deck[i] = temp;
     }
-    return this.deck;
+    return deckOfCards.deck;
   }
 
-  Deal() {
+  deal() {
     let hand = [];
     // what the player holds
     while (hand.length < 2) {
@@ -43,13 +47,12 @@ class Dealer {
     return hand;
   }
 }
+/*--------------------------------*/
 
-let deckOfCards = new Deck(); // Gives our new object (deck) the name of "deckOfCards"
 deckOfCards.createDeck();
-
+// console.log(deckOfCards.shuffle());
+// deckOfCards.deal();
 
 // Pulling info from the new deck from the deck class in deck.js
 // Imagine pulling direct data without using the 'this' keyword tho
-console.log(deckOfCards.suits);
-console.log(deckOfCards.values);
 console.log(deckOfCards.deck);
