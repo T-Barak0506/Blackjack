@@ -1,5 +1,6 @@
+/* eslint-disable prefer-const */
 class Game {
-  constructor(player, dealer, deck) {
+  constructor() {
     this.discardPile = [];
     this.player = new Player();
     this.dealer = new Dealer();
@@ -7,3 +8,7 @@ class Game {
 
   // getHandValue(hand) {}
 }
+
+let game = new Game();
+
+console.log(game);

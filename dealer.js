@@ -35,16 +35,15 @@ class Dealer {
       deckOfCards.deck[counter] = deckOfCards.deck[i];
       deckOfCards.deck[i] = temp;
     }
-    return deckOfCards.deck;
+    // return deckOfCards.deck;
   }
 
-  deal() {
-    let hand = [];
-    // what the player holds
-    while (hand.length < 2) {
-      hand.push(this.deck.pop());
+  initdeal(player, deck) {
+    // while both the player and dealer have less than 3 cards
+    while (game.dealer.dealerHand.length <= 2 && game.player.hand.length <= 2) {
+      game.dealer.dealerHand.push(deckOfCards.deck.pop());
     }
-    return hand;
+    // return hand;
   }
 }
 /*--------------------------------*/
