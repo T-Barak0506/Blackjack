@@ -4,11 +4,13 @@ class Game {
     this.discardPile = [];
     this.player = new Player();
     this.dealer = new Dealer();
+    this.deck = new Deck();
   }
 
   // getHandValue(hand) {}
 }
 
 let game = new Game();
-
-console.log(game);
+game.deck.createDeck();
+game.dealer.shuffle(game.deck.deck);
+console.dir(game.deck.deck);

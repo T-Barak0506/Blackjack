@@ -8,6 +8,8 @@ MAC OS
 ⌘P - Go to File...
 ⇧⌘O - Go to Symbol...
 ⇧⌘M - Show Problems panel
+⇧⌘P - Execute command
+⌘ + leftClick - SHOW ME DA CODE PART'NA
 
 ------ FILE MANAGEMENT: ------
 
@@ -30,6 +32,8 @@ Ctrl+G - Go to Line...
 Ctrl+P - Go to File...
 Ctrl+Shift+O - Go to Symbol...
 Ctrl+Shift+M - Show Problems panel
+Ctrl + leftClick - SHOW ME DA CODE PART'NA
+
 
 ------ FILE MANAGEMENT: ------
 

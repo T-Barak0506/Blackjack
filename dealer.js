@@ -11,11 +11,11 @@
       this.values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
   }
 
-  VARIABLES USED:
+  ETERNAL VARIABLES USED:
 
 
 */
-let deckOfCards = new Deck(); // Gives our new object (deck) the name of "deckOfCards"
+// let deckOfCards = new Deck(); // Gives our new object (deck) the name of "deckOfCards"
 
 class Dealer {
   constructor() {
@@ -23,35 +23,25 @@ class Dealer {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  shuffle() {
+  shuffle(deck) {
     // eslint-disable-next-line one-var
-    let counter = deckOfCards.deck.length,
+    let counter = deck.length,
       temp,
       i;
 
     while (counter) {
       i = Math.floor(Math.random() * counter--);
-      temp = deckOfCards.deck[counter];
-      deckOfCards.deck[counter] = deckOfCards.deck[i];
-      deckOfCards.deck[i] = temp;
+      temp = deck[counter];
+      deck[counter] = deck[i];
+      deck[i] = temp;
     }
-    // return deckOfCards.deck;
   }
 
-  initdeal(player, deck) {
-    // while both the player and dealer have less than 3 cards
-    while (game.dealer.dealerHand.length <= 2 && game.player.hand.length <= 2) {
-      game.dealer.dealerHand.push(deckOfCards.deck.pop());
-    }
-    // return hand;
-  }
+  // initDeal(player, deck) {
+  //  // while both the player and dealer have less than 3 cards
+  //   while (this.dealerHand.length <= 2 && game.player.hand.length <= 2) {
+  //     this.dealerHand.push(deckOfCards.deck.pop());
+  //   }
+  // }
 }
 /*--------------------------------*/
-
-deckOfCards.createDeck();
-// console.log(deckOfCards.shuffle());
-// deckOfCards.deal();
-
-// Pulling info from the new deck from the deck class in deck.js
-// Imagine pulling direct data without using the 'this' keyword tho
-console.log(deckOfCards.deck);
