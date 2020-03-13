@@ -43,5 +43,22 @@ class Dealer {
   //     this.dealerHand.push(deckOfCards.deck.pop());
   //   }
   // }
+
+  hitPlayerDeal(player, deck) {
+    let card = deck.pop;
+    // add the value of the card to either the player class, or the game class.
+    // Separate function below for dealer hit
+  }
+
+  hitDealerDeal(dealer, deck) {
+    let card = deck.pop;
+
+    if (dealerHand > 16) {
+      return false;
+    }
+    if (dealerHand < 17) {
+      return card;
+    }
+  }
 }
 /*--------------------------------*/
