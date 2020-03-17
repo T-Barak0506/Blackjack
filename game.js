@@ -5,6 +5,7 @@ class Game {
     this.player = new Player();
     this.dealer = new Dealer();
     this.deck = new Deck();
+    this.wageredCoins = 0;
   }
 
   // getHandValue(hand) {}
