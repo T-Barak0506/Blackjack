@@ -4,9 +4,13 @@ class Player {
     this.playerCoins = 500;
   }
 
-  hit(card) {}
+  playerHit(player, deck) {
 
-  stay(card) {}
+  }
+
+  playerStand(player, deck) {
+
+  }
 
   split(card) {}
 }

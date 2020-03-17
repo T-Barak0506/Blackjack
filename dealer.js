@@ -28,11 +28,11 @@ class Dealer {
     }
   }
 
-  hitPlayerDeal(player, deck) {
-    // let card = deck.pop;
-    // add the value of the card to either the player class, or the game class.
-    // Separate function below for dealer hit
-  }
+  // hitPlayerDeal(player, deck) {
+  //   let card = deck.pop;
+  //   add the value of the card to either the player class, or the game class.
+  //   Separate function below for dealer hit
+  // }
 
   hitDealerDeal(dealer, deck) {
     let card = deck.pop;
