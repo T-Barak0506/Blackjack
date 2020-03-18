@@ -4,13 +4,15 @@ class Player {
     this.playerCoins = 500;
   }
 
-  playerHit(player, deck) {
-
+  playerHit(playerHand, theDeck) {
+    playerHand.push(theDeck.pop());
   }
 
   playerStand(player, deck) {
-
+    // your code here
   }
 
-  split(card) {}
+  split(card) {
+    // your code here
+  }
 }

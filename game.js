@@ -22,5 +22,6 @@ game.dealer.shuffle(game.deck.deckOfCards);
 game.dealer.initDeal2Hand(game.dealer.dealerHand, game.deck.deckOfCards);
 game.dealer.initDeal2Hand(game.player.playerHand, game.deck.deckOfCards);
 /* ----------------------------------------------------------*/
+// game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
 
 console.dir(game);
