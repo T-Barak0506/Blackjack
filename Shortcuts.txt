@@ -14,7 +14,7 @@ MAC OS
 ------ FILE MANAGEMENT: ------
 
 ⌘N -  New File
-⌘O -  Open File...
+⌘O -  Open File..
 ⌘S -  Save
 ⇧⌘S -  Save As...
 ⌥⌘S -  Save All
