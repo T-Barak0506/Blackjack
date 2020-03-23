@@ -44,3 +44,5 @@ Ctrl+Shift+S Save As...
 Ctrl+K S Save All
 Ctrl+F4 Close
 Ctrl+K Ctrl+W Close All
+
+

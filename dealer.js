@@ -5,6 +5,7 @@
 class Dealer {
   constructor() {
     this.dealerHand = [];
+    this.dealerHandValue = 0;
   }
 
   shuffle(deck) {
@@ -19,6 +20,7 @@ class Dealer {
       deck[counter] = deck[i];
       deck[i] = temp;
     }
+    return deck;
   }
 
   initDeal2Hand(playerHand, theDeck) {
@@ -26,9 +28,10 @@ class Dealer {
     while (playerHand.length < 2) {
       playerHand.push(theDeck.pop());
     }
+    return playerHand;
   }
 
-  // hitPlayerDeal(player, deck) {
+  // hitPlayerDeal(playerHand, theDeck) {
   //   let card = deck.pop;
   //   add the value of the card to either the player class, or the game class.
   //   Separate function below for dealer hit
