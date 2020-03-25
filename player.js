@@ -8,6 +8,7 @@ class Player {
 
   playerHit(playerHand, theDeck) {
     playerHand.push(theDeck.pop());
+    return playerHand;
   }
 
   playerStand(player, deck) {

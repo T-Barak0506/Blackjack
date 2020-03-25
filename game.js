@@ -58,9 +58,11 @@ class Game {
 let game = new Game();
 game.deck.createDeck();
 
-// Shuffle the deck twice because... why not :)
+// Shuffle the deck thrice because... why not :)
 game.dealer.shuffle(game.deck.deckOfCards);
 game.dealer.shuffle(game.deck.deckOfCards);
+game.dealer.shuffle(game.deck.deckOfCards);
+
 
 // Gives 2 cards to both the player and dealer
 game.dealer.initDeal2Hand(game.dealer.dealerHand, game.deck.deckOfCards);
@@ -69,6 +71,7 @@ game.dealer.initDeal2Hand(game.player.playerHand, game.deck.deckOfCards);
 // game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
 
 game.getHandValue(game.dealer.dealerHand, game.dealer.dealerHandValue);
+
 console.dir(game);
 console.dir(game.dealer.dealerHand);
 console.dir(game.dealer.dealerHand[0]);
