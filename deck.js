@@ -5,7 +5,7 @@ class Deck {
     this.values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
   }
 
-  createDeck(suits, values) {
+  createDeck() {
     this.suits.forEach((suit) => {
       this.values.forEach((value) => {
         this.deckOfCards.push(new Card(suit, value)); // 13 values per suit
