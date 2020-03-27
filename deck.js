@@ -11,6 +11,7 @@ class Deck {
         this.deckOfCards.push(new Card(suit, value)); // 13 values per suit
       });
     });
+
     return this.deckOfCards;
   }
 }

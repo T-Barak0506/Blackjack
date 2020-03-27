@@ -2,7 +2,6 @@
 class Player {
   constructor() {
     this.playerHand = [];
-    this.playerHandValue = 0;
     this.playerCoins = 500;
   }
 
