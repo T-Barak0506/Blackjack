@@ -1,5 +1,30 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+body {
   box-sizing: border-box;
+}
+
+#container {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  background-color: aqua;
+  width: 9.375rem;
+  height: 9.375rem;
+  border: 3px red solid;
+  display: flex;
+  justify-content: center;
+}
+
+.text {
+  position: absolute;
+  font-size: 1rem;
+  margin: 1.563em auto;
+}
+
+.text > p {
+  padding: 0.625em;
 }

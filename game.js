@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
 class Game {
   constructor() {
@@ -10,6 +11,7 @@ class Game {
     this.dealerHandValue = 0;
   }
 
+
   getPlayerHandValue(hand) {
     let handValue = 0;
 
@@ -21,20 +23,24 @@ class Game {
       if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
         handValue += 10;
       } else if (data.value === 'Ace') {
-        if (handValue <= 10) {
-          handValue += 11;
-        } else {
-          handValue += 1;
-        }
+        handValue += 11;
       } else {
         handValue += parseInt(data.value, 10);
       }
     });
 
+    hand.forEach((data) => {
+      if (data.value === 'Ace' && handValue > 21) {
+        handValue -= 10;
+      }
+    });
+
     this.playerHandValue += handValue;
+    document.getElementById('p1').innerHTML = `<strong>${this.playerHandValue.toString()}</strong>`;
 
     return handValue;
   }
+
 
   getDealerHandValue(hand) {
     let handValue = 0;
@@ -47,17 +53,21 @@ class Game {
       if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
         handValue += 10;
       } else if (data.value === 'Ace') {
-        if (handValue <= 10) {
-          handValue += 11;
-        } else {
-          handValue += 1;
-        }
+        handValue += 11;
       } else {
         handValue += parseInt(data.value, 10);
       }
     });
 
+    hand.forEach((data) => {
+      if (data.value === 'Ace' && handValue > 21) {
+        handValue -= 10;
+      }
+    });
+
     this.dealerHandValue += handValue;
+    document.getElementById('cpu').innerHTML = `<strong>${this.dealerHandValue.toString()}</strong>`;
+
 
     return this.dealerHandValue;
   }
@@ -85,7 +95,3 @@ console.dir(game);
 // console.dir(game.dealer.dealerHand[0]);
 // console.dir(game.dealer.dealerHand[0].value);
 // console.dir(game.dealer.dealerHandValue);
-
-// const cardValues = game.deck.deckOfCards.map((deck) => deck.cardValue);
-
-// console.log(cardValues);

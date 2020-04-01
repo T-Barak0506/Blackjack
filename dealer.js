@@ -38,7 +38,8 @@ class Dealer {
       playerHand.push(theDeck.pop());
       dealerHand.push(theDeck.pop());
     }
-    return playerHand;
+
+    return `${playerHand} ${dealerHand}`;
   }
 
   // hitPlayerDeal(playerHand, theDeck) {
@@ -47,8 +48,8 @@ class Dealer {
   //   Separate function below for dealer hit
   // }
 
-  hitDealerDeal(dealer, deck) {
-    let card = deck.pop;
+  dealerPlay(dealerHand, theDeck) {
+    // let card = deck.pop;
 
     if (dealerHand > 16) {
       return false;
