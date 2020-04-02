@@ -84,7 +84,6 @@ game.dealer.shuffle(game.deck.deckOfCards);
 
 // Gives 2 cards to both the player and dealer
 game.dealer.initDeal2Hand(game.player.playerHand, game.dealer.dealerHand, game.deck.deckOfCards);
-
 /* ----------------------------------------------------------*/
 
 game.getPlayerHandValue(game.player.playerHand);

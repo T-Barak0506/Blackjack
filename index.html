@@ -21,8 +21,13 @@
 <body>
   <div id="container">
     <div class="text">
-      <p>PlayerHand: <span id="p1">n</span></p>
-      <p>DealerHand: <span id="cpu">n</span></p>
+      <p>PlayerHand: <strong><span id="p1" class="counter">NULL</span></strong></p>
+      <p>DealerHand: <span id="cpu" class="counter">NULL</span></p>
+    </div>
+    <div class="buttons">
+      <button class="hitMe" onclick="game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
+game.getPlayerHandValue(game.player.playerHand);">Hit</button>
+      <button class="stand">Stand</button>
     </div>
 
   </div>
