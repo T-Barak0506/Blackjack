@@ -22,7 +22,7 @@
 
 .text {
   position: absolute;
-  top: 5%;
+  top: -5%;
   font-size: 1em;
   margin: 1.563em auto;
   padding-left: 10%;
@@ -44,10 +44,7 @@
   bottom: 0%;
 }
 
-button:hover {
-  cursor: pointer;
-  color: crimson;
-}
+
 
 .buttons > button {
   width: 40%;
@@ -56,8 +53,13 @@ button:hover {
   background: none;
   background-color: #961313;
   border: 2px solid rgb(0, 0, 0);
+  border-radius: 5%;
   position: relative;
   margin: 10px 5px;
   size: 5px;
 }
 
+.buttons > button:hover {
+  cursor: pointer;
+  background-color: rgb(190, 96, 89);
+}

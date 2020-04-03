@@ -5,7 +5,7 @@ class Game {
     this.player = new Player();
     this.dealer = new Dealer();
     this.deck = new Deck();
-    this.discardPile = [];
+    this.menu = new Menu();
     this.roundNumber = 0;
     this.playerHandValue = 0;
     this.dealerHandValue = 0;
@@ -18,7 +18,7 @@ class Game {
     this.playerHandValue = 0;
 
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
-    // final hand value for the player's hand.
+    //  final hand value for the player's hand.
     hand.forEach((data) => {
       if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
         handValue += 10;
@@ -29,6 +29,9 @@ class Game {
       }
     });
 
+
+    // Loops through the array again, but checks for ace cards. If the hand value exceeds 21, ten-
+    //  is subtracted from this value. (Since Aces can also equal 1).
     hand.forEach((data) => {
       if (data.value === 'Ace' && handValue > 21) {
         handValue -= 10;
@@ -48,7 +51,7 @@ class Game {
     this.dealerHandValue = 0;
 
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
-    // final hand value for the dealer's hand.
+    //  final hand value for the player's hand.
     hand.forEach((data) => {
       if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
         handValue += 10;
@@ -59,6 +62,8 @@ class Game {
       }
     });
 
+    // Loops through the array again, but checks for ace cards. If the hand value exceeds 21, ten-
+    //  is subtracted from this value. (Since Aces can also equal 1).
     hand.forEach((data) => {
       if (data.value === 'Ace' && handValue > 21) {
         handValue -= 10;
@@ -72,6 +77,12 @@ class Game {
     return this.dealerHandValue;
   }
 }
+
+const intervalConversion = {
+  seconds: 1000,
+  minutes: 60000,
+  hours: 3e+6,
+};
 
 // Creates a "New game" with a deck
 const game = new Game();
@@ -88,6 +99,8 @@ game.dealer.initDeal2Hand(game.player.playerHand, game.dealer.dealerHand, game.d
 
 game.getPlayerHandValue(game.player.playerHand);
 game.getDealerHandValue(game.dealer.dealerHand);
+
+game.menu.disableBtn(game.menu.hitButton);
 
 console.dir(game);
 // console.dir(game.dealer.dealerHand);
