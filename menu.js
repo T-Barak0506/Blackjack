@@ -4,6 +4,7 @@ class Menu {
   constructor() {
     this.hitButton = document.getElementById('hitMe');
     this.standButton = document.getElementById('stand');
+    // PLACEHOLDERS
     this.doubleButton = undefined;
     this.splitButton = undefined;
     this.nextRoundButton = undefined;

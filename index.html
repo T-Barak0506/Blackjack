@@ -15,6 +15,7 @@
   <script src="player.js" defer></script>
   <script src="dealer.js" defer></script>
   <script src="menu.js" defer></script>
+  <script src="sound.js" defer></script>
   <script src="game.js" defer></script>
 </head>
 
@@ -25,9 +26,8 @@
       <p>DealerHand: <span id="cpu" class="counter">NULL</span></p>
     </div>
     <div class="buttons">
-      <button id="hitMe" onclick="game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
-game.getPlayerHandValue(game.player.playerHand);" title="Receive a card from the deck">Hit</button>
-      <button id="stand">Stand (does nothing, don't click me)</button>
+      <button id="hitMe" title="Receive a card from the deck">Hit</button>
+      <button id="stand" title="Try your luck">Stand</button>
     </div>
 
   </div>
