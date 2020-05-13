@@ -2,17 +2,41 @@
 /* eslint-disable class-methods-use-this */
 class Menu {
   constructor() {
-    this.hitButton = document.getElementById('hitMe');
+    // Title menu
+    this.mainMenu = undefined;
+    this.start = undefined;
+    this.credits = undefined;
+
+    // Table theme menu
+    this.tableMenu = undefined;
+    this.classicTheme = undefined;
+    this.rubyTheme = undefined;
+    this.aquaTheme = undefined;
+    this.charcoalTheme = undefined;
+
+    // Command menu (hit, stand, etc.)
+    this.cmdMenu = document.querySelector('.button-container');
+    this.hitButton = document.getElementById('hit');
     this.standButton = document.getElementById('stand');
-    // PLACEHOLDERS
-    this.doubleButton = undefined;
-    this.splitButton = undefined;
+    this.doubleButton = document.getElementById('double');
+    this.splitButton = document.getElementById('split');
+
+    // Insurance menu
+    this.insuranceMenu = undefined;
+    this.insureYes = undefined;
+    this.insureNo = undefined;
+
+    // Misc.
     this.nextRoundButton = undefined;
   }
 
   disableBtn(btn) {
-    // Disables a button and also grays it out
+    // Disables and grays out a button
     btn.disabled = true;
     btn.style.backgroundColor = 'gray';
+  }
+
+  toggleDisplay(item) {
+    item.classList.toggle('hidden');
   }
 }

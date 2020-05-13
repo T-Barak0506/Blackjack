@@ -1,65 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --classic-table: radial-gradient( #004b00, #003000);
+  --classic-table-border: 2px rgba(0, 119, 0, 0.277) solid;
+  --classic-background: #003000;
+  --ruby-table: radial-gradient( #750202, #5d0000);
+  --ruby-table-border: 2px rgba(192, 0, 0, 0.277) solid;
+  --ruby-background: #5d0000;
+  --aqua-table: radial-gradient(#007e8e, #005d68);
+  --aqua-table-border: 2px rgba(14,230,255, 0.277) solid;
+  --aqua-background: #005d68;
+  --charcoal-table: radial-gradient(#252525, #000000);
+  --charcoal-table-border: 2px rgba(103, 103, 103, 0.277) solid;
+  --charcoal-background: #000000;
+
+}
+
+body {
+  background-color: var(--ruby-background);
+}
+
 #container {
   position: absolute;
-  top: 50vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient( #008d00, #005700);
-  width: 35vw;
-  height: 30vh;
+  background: var(--ruby-table);
+  max-width: 100%;
+  width: 100%;
+  max-height: 100vh;
+  height: 100vh;
   border: 3px rgb(114, 72, 0) solid;
-  display: flex;
-}
-
-
-
-.text {
-  position: absolute;
-  top: -5%;
-  font-size: 1em;
-  margin: 1.563em auto;
-  padding-left: 10%;
   overflow: hidden;
-  flex-direction: column;
+  transition: 0.5s;
 }
 
-.text > p {
-  padding: 0.625em;
-  float: left;
+/* SVG chip stack ------------------ */
+.coin-container .fa-coins {
+  width: 50px;
+  height: 50px;
+  margin: 0.3em;
+  color: white;
+}
+
+
+
+/* Hand value text ------------------ */
+.text {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1em;
+  color: rgb(255, 241, 194);
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  font-size: 1.75rem;
+  justify-content: space-between;
+  user-select: none;
+}
+
+
+
+/* coin container ------------------ */
+.coin-container {
+  margin-top: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 40%;
+  display: flex;
+  border: 2px solid whitesmoke;
+  background-color: rgb(0, 0, 0);
+  height: 75px;
+  width: 169px;
+  flex-direction: row;
+  align-items: center;
+  z-index: 2;
+}
+
+.coin-amount {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bolder;
+  flex: 1;
+  color: white;
+  letter-spacing: 0;
+  user-select: none;
+}
+
+
+
+/* Score Values ------------------ */
+#player {
+  margin-left: 2.5em;
+  margin-right: 2em;
+}
+
+#dealer {
+  margin-right: 2.5em;
+  margin-left: 2em;
+}
+
+
+
+/* card container and space ------------------ */
+.card-container {
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;  
+  width: 95%;
+  height: 69%;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-space {
+  align-items: center;
+  justify-content: space-evenly;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#p1-space {
+  margin-top: 3rem;
+  border: var(--ruby-table-border);
+  width: 50%;
+  height: 100%;
+}
+
+#cpu-space {
+  margin-top: 3rem;
+  border: var(--ruby-table-border);
+  width: 50%;
+  height: 100%;
+}
+
+.card {
+  -webkit-user-drag: none;
+  user-select: none;
+  width: 20%;
+  height: 37%;
+  margin: 1rem;
+}
+
+
+
+/* command buttons and labels------------------ */
+.button-container {
+  opacity: 70%;
+  margin: 0.5rem;
+  padding: 0.33rem;
+  position: absolute;
+  width: 17.125rem;
+  height: 110px;
+  border: 1px whitesmoke solid;
+  background-color: black;
+  bottom: 0.5%;
+  left: 39%;
+  /* box-shadow: 5px 10px 8px #242424; */
+  border-radius: 10px;
+}
+
+.button-content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .buttons {
-  width: 100%;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  bottom: 0%;
-}
-
-
-
-.buttons > button {
-  width: 40%;
-  padding: 5px;
+  border: transparent;
+  width: 60px;
+  height: 60px;
   color: azure;
   background: none;
-  background-color: #961313;
-  border: 2px solid rgb(0, 0, 0);
-  border-radius: 5%;
-  position: relative;
-  margin: 10px 5px;
-  size: 5px;
+  border-radius: 50%;
+  transition: 0.33s;
 }
 
-.buttons > button:hover {
+#double {
+  background-color: #ff9100;
+}
+
+#hit {
+  background-color: rgb(0, 206, 0);
+}
+
+#stand {
+  background-color: #ff2400;
+}
+
+#split {
+  background-color: #0000ff;
+}
+
+#double:hover {
+  background-color: #ffc9a9;
   cursor: pointer;
-  background-color: rgb(190, 96, 89);
+}
+
+#hit:hover {
+  background-color: rgb(132, 255, 132);
+  cursor: pointer;
+}
+
+#stand:hover {
+  background-color: #ffa597;
+  cursor: pointer;
+}
+
+#split:hover {
+  background-color: rgb(70, 119, 255);
+  cursor: pointer;
+}
+
+.button-labels {
+  left: 0;
+  position: absolute;
+  color: white;
+  width: 98%;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  user-select: none;
+}
+
+.label {
+  margin-top: 0.25rem;
+}
+
+.hidden {
+  display: none;
+}
+
+@media only screen and (min-width: 975px) {
+  /* desktop users */
+
+
 }

@@ -8,26 +8,54 @@ class Game {
     this.deck = new Deck();
     this.menu = new Menu();
 
+    // VIEWPORT DIMENSIONS
+    this.vw = window.innerWidth;
+    this.vh = window.innerHeight;
+
     // SOUNDS:
     this.backgroundMusic = new Sound('./media/Casino-delfino.mp3');
 
-    // RAW NUMBERS:
+    // CHECKERS
+    this.bjChecker = false;
+    this.splitCheck = false;
+
+    // HAND MODIFIERS
+    this.insuranceHand = false;
+    this.splitHand = false;
+
+
+    // MISC. RAW VALUES:
     this.roundNumber = 0;
     this.playerHandValue = 0;
     this.dealerHandValue = 0;
   }
 
+
   determineWinner() {
+    if (this.bjChecker === true && this.playerHandValue === 21) {
+      console.log('BLACKJACK!! YOU WIN!!');
+    }
+
     if (this.playerHandValue > 21 || this.dealerHandValue > this.playerHandValue && this.dealerHandValue <= 21) {
       console.log('Dealer wins lol u suck');
-    } else if (this.dealerHandValue === this.playerHandValue) {
+    } else if (this.dealerHandValue === this.playerHandValue && this.bjChecker === false) {
       console.log('It\'s a push, so no one wins.');
-    } else if (this.playerHandValue > this.dealerHandValue && this.playerHandValue <= 21 || this.dealerHandValue > 21) {
+    } else if (this.playerHandValue > this.dealerHandValue && this.playerHandValue <= 21 && this.bjChecker === false || this.dealerHandValue > 21) {
       console.log('You won WOW YOU EXIST');
     }
 
     return `playerHand: ${this.playerHandValue}\nDealerHand: ${this.dealerHandValue}`;
   }
+
+
+  checkForBlackjack() {
+    if (this.playerHandValue === 21) {
+      game.determineWinner();
+    } else {
+      this.bjChecker = false;
+    }
+  }
+
 
   getDealerHandValue(hand) {
     let handValue = 0;
@@ -37,9 +65,9 @@ class Game {
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
     // final hand value for the player's hand.
     hand.forEach((data) => {
-      if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
+      if (data.value === 'K' || data.value === 'Q' || data.value === 'J') {
         handValue += 10;
-      } else if (data.value === 'Ace') {
+      } else if (data.value === 'A') {
         handValue += 11;
       } else {
         handValue += parseInt(data.value, 10);
@@ -49,7 +77,7 @@ class Game {
     // Loops through the array again, but checks for aces. If the hand value exceeds 21, ten-
     // is subtracted from this value. (Since Aces can also equal 1).
     hand.forEach((data) => {
-      if (data.value === 'Ace' && handValue > 21) {
+      if (data.value === 'A' && handValue > 21) {
         handValue -= 10;
       }
     });
@@ -70,20 +98,20 @@ class Game {
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
     // final hand value for the player's hand.
     hand.forEach((data) => {
-      if (data.value === 'King' || data.value === 'Queen' || data.value === 'Jack') {
+      if (data.value === 'K' || data.value === 'Q' || data.value === 'J') {
         handValue += 10;
-      } else if (data.value === 'Ace') {
+      } else if (data.value === 'A') {
         handValue += 11;
       } else {
         handValue += parseInt(data.value, 10);
       }
     });
 
-
     // Looping to check for aces. If the hand value exceeds 21, ten-
     //  is subtracted from this value. (Since Aces can also equal 1).
+
     hand.forEach((data) => {
-      if (data.value === 'Ace' && handValue > 21) {
+      if (data.value === 'A' && handValue > 21) {
         handValue -= 10;
       }
     });
@@ -93,7 +121,7 @@ class Game {
     document.getElementById('p1').innerHTML = `<strong>${this.playerHandValue.toString()}</strong>`;
 
     // Ends the game if the player's hand exceeds 21
-    if (this.playerHandValue >= 21) {
+    if (this.playerHandValue >= 21 && this.bjChecker === false) {
       game.menu.disableBtn(game.menu.hitButton);
       game.menu.disableBtn(game.menu.standButton);
       game.determineWinner();
@@ -101,6 +129,7 @@ class Game {
 
     return this.playerHandValue;
   }
+
 
   dealerPlay(hand, theDeck) {
     // Check the hand value after each draw; draws each card-
@@ -113,7 +142,7 @@ class Game {
         game.determineWinner();
         clearInterval(interval);
       }
-    }, 1000 * 0.75);
+    }, 1000 * 1);
 
 
     return this.dealerHandValue;
@@ -127,18 +156,19 @@ class Game {
 // Creates a "New game" with a deck, also plays background music
 const game = new Game();
 game.deck.createDeck();
-// game.backgroundMusic.playSound();
+// //game.backgroundMusic.playSound();
 
 
-// Adds the "onClick" functions to the hit and stay buttons
+// Adds the "onClick" functions to the hit and stand buttons
 game.menu.hitButton.addEventListener('click', () => {
   game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
   game.getPlayerHandValue(game.player.playerHand);
 });
 
 game.menu.standButton.addEventListener('click', () => {
-  game.menu.disableBtn(game.menu.standButton);
-  game.menu.disableBtn(game.menu.hitButton);
+  // game.menu.disableBtn(game.menu.standButton);
+  // game.menu.disableBtn(game.menu.hitButton);
+  game.menu.toggleDisplay(game.menu.cmdMenu);
   game.dealerPlay(game.dealer.dealerHand, game.deck.deckOfCards);
 });
 
@@ -153,5 +183,7 @@ game.dealer.initDeal2Hand(game.player.playerHand, game.dealer.dealerHand, game.d
 
 game.getPlayerHandValue(game.player.playerHand);
 game.getDealerHandValue(game.dealer.dealerHand);
+game.checkForBlackjack();
 
 console.dir(game);
+console.log(`${game.vw} x ${game.vh}`);

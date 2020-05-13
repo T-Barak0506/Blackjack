@@ -10,6 +10,7 @@
   <meta name="description" content="description here">
   <meta name="keywords" content="keywords,here">
   <link rel="stylesheet" href="style.css" type="text/css">
+  <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
   <script src="card.js" defer></script>
   <script src="deck.js" defer></script>
   <script src="player.js" defer></script>
@@ -20,14 +21,47 @@
 </head>
 
 <body>
+  <!-- <div>Chip Stack icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
   <div id="container">
+
     <div class="text">
-      <p>PlayerHand: <strong><span id="p1" class="counter">NULL</span></strong></p>
-      <p>DealerHand: <span id="cpu" class="counter">NULL</span></p>
+      <p id="player">Your Hand: <strong><span id="p1" class="counter">NULL</span></strong></p>
+      <p id="dealer">DealerHand: <span id="cpu" class="counter">NULL</span></p>
     </div>
-    <div class="buttons">
-      <button id="hitMe" title="Receive a card from the deck">Hit</button>
-      <button id="stand" title="Try your luck">Stand</button>
+
+
+    <div class="coin-container">
+      <i class="fas fa-coins fa-3x"></i>
+      <div class="coin-amount" data-value="NULL">NaN</div>
+    </div>
+
+    <div class="card-container">
+      <div class="card-space" id="p1-space">
+        <!-- Player's cards here -->
+
+      </div>
+
+      <div class="card-space" id="cpu-space">
+        <!-- Dealer's cards here -->
+
+      </div>
+    </div>
+
+
+    <div class="button-container">
+      <div class="button-content">
+        <button class="buttons" id="double" title="Receive a card"><i class="fas fa-coins fa-3x"></i></button>
+        <button class="buttons" id="hit" title="Receive a card from the deck"><i class="fas fa-plus fa-3x"></i></button>
+        <button class="buttons" id="stand" title="Try your luck"><i class="fas fa-ban fa-3x"></i></button>
+        <button class="buttons" id="split"><i class="fas fa-sort fa-3x"></i></button>
+      </div>
+
+      <div class="button-labels">
+        <p class="label" id="double-label">Double<br>Down</p>
+        <p class="label" id="hit-label">Hit</p>
+        <p class="label" id="stand-label">Stand</p>
+        <p class="label" id="split-label">Split</p>
+      </div>
     </div>
 
   </div>
