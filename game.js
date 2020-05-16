@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-mixed-operators */
@@ -39,7 +40,7 @@ class Game {
 
     for (let i = 0; i < str.length; i++) {
       if (str[i] === '.') {
-        // Crashes the browser if a cheeky user decides to bypass the number verification system with
+      // Crashes the browser if a cheeky user decides to bypass the number verification system with
       // a period with something I like to call the "FUN-FUN LOOP"
         let txt = 'A';
         let txt2 = 'PP!';
@@ -55,6 +56,8 @@ class Game {
         }
       }
     }
+
+
     if (betValue.value === null || betValue.value.trim() === '') {
       // If the input value is submitted blank
       alert('You need to input an amount of coins to bet.');
