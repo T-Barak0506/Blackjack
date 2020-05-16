@@ -41,5 +41,23 @@ class Dealer {
 
     return `${playerHand} ${dealerHand}`;
   }
+
+  discardCards(playerHand, dealerHand, discardPile) {
+    while (playerHand.length > 0) {
+      discardPile.push(playerHand.pop());
+    }
+
+    while (dealerHand.length > 0) {
+      discardPile.push(dealerHand.pop());
+    }
+  }
+
+  checkDeck(deck, discardPile) {
+    if (deck.length <= 10) {
+      while (discardPile.length > 1) {
+        deck.push(discardPile.pop());
+      }
+    }
+  }
 }
 /*--------------------------------*/

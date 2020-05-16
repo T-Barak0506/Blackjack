@@ -21,49 +21,112 @@
 </head>
 
 <body>
-  <!-- <div>Chip Stack icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
+  <div class="orientation-background">
+    <div class="orientation-container">
+      <div class="orientation-icon"></div>
+      <div class="orientation-label">Please rotate your device</div>
+      <div class="img-citation">Phone icon made by <a href="https://www.flaticon.com/authors/freepik"
+          title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+      </div>
+    </div>
+  </div>
+
   <div id="container">
 
     <div class="text">
-      <p id="player">Your Hand: <strong><span id="p1" class="counter">NULL</span></strong></p>
-      <p id="dealer">DealerHand: <span id="cpu" class="counter">NULL</span></p>
+      <p id="player">You: <strong><span id="p1" class="counter">NULL</span></strong></p>
+      <p id="dealer">Dealer: <span id="cpu" class="counter">NULL</span></p>
     </div>
 
 
     <div class="coin-container">
       <i class="fas fa-coins fa-3x"></i>
-      <div class="coin-amount" data-value="NULL">NaN</div>
+      <div class="coin-amount" data-value="0">1000</div>
     </div>
 
     <div class="card-container">
       <div class="card-space" id="p1-space">
         <!-- Player's cards here -->
+        <div class="card"></div>
 
       </div>
 
       <div class="card-space" id="cpu-space">
         <!-- Dealer's cards here -->
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+
 
       </div>
     </div>
-
 
     <div class="button-container">
       <div class="button-content">
-        <button class="buttons" id="double" title="Receive a card"><i class="fas fa-coins fa-3x"></i></button>
-        <button class="buttons" id="hit" title="Receive a card from the deck"><i class="fas fa-plus fa-3x"></i></button>
-        <button class="buttons" id="stand" title="Try your luck"><i class="fas fa-ban fa-3x"></i></button>
-        <button class="buttons" id="split"><i class="fas fa-sort fa-3x"></i></button>
-      </div>
 
-      <div class="button-labels">
-        <p class="label" id="double-label">Double<br>Down</p>
-        <p class="label" id="hit-label">Hit</p>
-        <p class="label" id="stand-label">Stand</p>
-        <p class="label" id="split-label">Split</p>
+        <div id="double-container">
+          <button class="buttons" id="double" title="Receive a card"><i class="fas fa-coins fa-3x"></i></button>
+          <p class="label" id="double-label">Double<br>Down</p>
+        </div>
+
+        <div class="hit-container">
+          <button class="buttons" id="hit" title="Receive a card"><i class="fas fa-plus fa-3x"></i></button>
+          <p class="label" id="hit-label"> Hit</p>
+        </div>
+
+        <div class="stand-container">
+          <button class="buttons" id="stand" title="Try your luck"><i class="fas fa-ban fa-3x"></i></button>
+          <p class="label" id="stand-label">Stand</p>
+        </div>
+
+        <div id="split-container">
+          <button class="buttons" id="split" title="split your deck"><i class="fas fa-sort fa-3x"></i></button>
+          <p class="label" id="split-label">Split</p>
+        </div>
       </div>
     </div>
 
+    <div class="total-bet-container">
+      <div class="total-bet-label">
+        Total Bet:
+      </div>
+
+      <div class="total-bet-amount">
+        <i class="fas fa-coins fa-3x"></i>
+        <span class="bet-number">
+          3
+        </span>
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="bet-container">
+    <h1>Place your Bets:</h1>
+    <!-- <h1>Feeling lucky? Place your bets!</h1> -->
+    <input type="text" placeholder="Enter amount here" id="bet-amount">
+    <h4>You currently have <span class="remaining-coins">0</span> coins.</h4>
+
+    <div class="theme-container">
+      <div class="title-text">
+        Choose a table theme:
+        <span class="theme-name"></span>
+      </div>
+
+      <div class="theme-choice-container">
+        <div id="choice1" class="choice"></div>
+        <div id="choice2" class="choice"></div>
+        <div id="choice3" class="choice"></div>
+        <div id="choice4" class="choice"></div>
+      </div>
+    </div>
+
+    <button id="deal-button">Start</button>
   </div>
 
 

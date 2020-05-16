@@ -1,9 +1,8 @@
 class Card {
-  constructor(suit, value) {
+  constructor(suit, value, hidden = false) {
     this.suit = suit;
     this.value = value;
+    this.hidden = hidden;
     this.visual = '';
   }
 }
-
-// console.log(`${window.innerWidth} x ${window.innerHeight}`);

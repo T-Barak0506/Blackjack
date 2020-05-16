@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
@@ -8,26 +9,49 @@ class Game {
     this.deck = new Deck();
     this.menu = new Menu();
 
-    // VIEWPORT DIMENSIONS
-    this.vw = window.innerWidth;
-    this.vh = window.innerHeight;
 
     // SOUNDS:
     this.backgroundMusic = new Sound('./media/Casino-delfino.mp3');
 
     // CHECKERS
-    this.bjChecker = false;
+    this.bjChecker = true;
+    this.doubleChecker = true;
     this.splitCheck = false;
 
     // HAND MODIFIERS
     this.insuranceHand = false;
     this.splitHand = false;
+    this.doubleHand = false;
 
 
     // MISC. RAW VALUES:
+    this.legitBetValue = false;
     this.roundNumber = 0;
     this.playerHandValue = 0;
     this.dealerHandValue = 0;
+    this.totalBet = 0;
+  }
+
+  checkBetValue(betValue) {
+    // TODO: Create a custom alert
+
+
+    if (betValue.value === null || betValue.value.trim() === '') {
+      // If the input value is submitted blank
+      alert('You need to input an amount of coins to bet.');
+      betValue.value = '';
+      // ...
+    } else if ((typeof parseInt(betValue.value, 10) !== 'number')
+             || (isNaN(betValue.value))
+             || (Number.isFinite(betValue.value))) {
+      // If the value entered isn't a legitimate number
+      alert('You need to input an ACTUAL numerical value. Don\'t try to break the system.');
+      betValue.value = '';
+      // ...
+    } else {
+      console.log(betValue.value.trim());
+      this.legitBetValue = true;
+    }
   }
 
 
@@ -124,6 +148,7 @@ class Game {
     if (this.playerHandValue >= 21 && this.bjChecker === false) {
       game.menu.disableBtn(game.menu.hitButton);
       game.menu.disableBtn(game.menu.standButton);
+      game.menu.toggleDisplay(game.menu.cmdMenu);
       game.determineWinner();
     }
 
@@ -156,8 +181,78 @@ class Game {
 // Creates a "New game" with a deck, also plays background music
 const game = new Game();
 game.deck.createDeck();
+game.menu.toggleBetMenu();
 // //game.backgroundMusic.playSound();
 
+
+// mouseOver and click events for the theme choice buttons
+game.menu.classicTheme.addEventListener('mouseover', () => {
+  game.menu.themeName.textContent = 'Classic';
+  game.menu.themeName.style.color = '#004b00';
+
+  setTimeout(() => {
+    game.menu.themeName.textContent = '';
+  }, 2000);
+});
+
+game.menu.classicTheme.addEventListener('click', () => {
+  game.menu.currentThemeId = 0;
+  game.menu.toggleThemes();
+});
+
+game.menu.rubyTheme.addEventListener('mouseover', () => {
+  game.menu.themeName.textContent = 'Ruby';
+  game.menu.themeName.style.color = '#750202';
+
+  setTimeout(() => {
+    game.menu.themeName.textContent = '';
+  }, 2000);
+});
+
+game.menu.rubyTheme.addEventListener('click', () => {
+  game.menu.currentThemeId = 1;
+  game.menu.toggleThemes();
+});
+
+game.menu.aquaTheme.addEventListener('mouseover', () => {
+  game.menu.themeName.textContent = 'Aqua';
+  game.menu.themeName.style.color = '#007e8e';
+
+  setTimeout(() => {
+    game.menu.themeName.textContent = '';
+  }, 2000);
+});
+
+game.menu.aquaTheme.addEventListener('click', () => {
+  game.menu.currentThemeId = 2;
+  game.menu.toggleThemes();
+});
+
+game.menu.charcoalTheme.addEventListener('mouseover', () => {
+  game.menu.themeName.textContent = 'Charcoal';
+  game.menu.themeName.style.color = '#545454';
+
+  setTimeout(() => {
+    game.menu.themeName.textContent = '';
+  }, 2000);
+});
+
+game.menu.charcoalTheme.addEventListener('click', () => {
+  game.menu.currentThemeId = 3;
+  game.menu.toggleThemes();
+});
+
+
+// Start the game!
+game.menu.start.addEventListener('click', () => {
+  game.checkBetValue(game.menu.betValueInput);
+
+  if (game.legitBetValue === true) {
+    game.menu.disableBtn(game.menu.start);
+    game.menu.toggleBetMenu();
+    // ...
+  }
+});
 
 // Adds the "onClick" functions to the hit and stand buttons
 game.menu.hitButton.addEventListener('click', () => {
@@ -166,9 +261,9 @@ game.menu.hitButton.addEventListener('click', () => {
 });
 
 game.menu.standButton.addEventListener('click', () => {
-  // game.menu.disableBtn(game.menu.standButton);
-  // game.menu.disableBtn(game.menu.hitButton);
-  game.menu.toggleDisplay(game.menu.cmdMenu);
+  game.menu.disableBtn(game.menu.standButton);
+  game.menu.disableBtn(game.menu.hitButton);
+  // game.menu.toggleDisplay(game.menu.cmdMenu);
   game.dealerPlay(game.dealer.dealerHand, game.deck.deckOfCards);
 });
 
@@ -186,4 +281,3 @@ game.getDealerHandValue(game.dealer.dealerHand);
 game.checkForBlackjack();
 
 console.dir(game);
-console.log(`${game.vw} x ${game.vh}`);
