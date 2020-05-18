@@ -1,3 +1,3 @@
 # Blackjack
 
-Blackjack project for school coding class
+Blackjack project built with HTML, CSS, and vanilla Javascript.

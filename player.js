@@ -3,7 +3,7 @@ class Player {
   constructor() {
     this.playerHand = [];
     this.splitHand = [];
-    this.playerCoins = 2225;
+    this.playerCoins = 2500;
   }
 
   playerHit(hand, theDeck) {

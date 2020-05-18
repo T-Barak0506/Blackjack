@@ -450,7 +450,16 @@ span.bet-number {
   -moz-transition: 0.4s;
   -o-transition: 0.4s;
   -webkit-transition: 0.4s;
+  opacity: 0;
+}
+
+.hidden2 {
+  bottom: -20%;
+  pointer-events: none;
   transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
   opacity: 0;
 }
 
@@ -503,6 +512,9 @@ span.bet-number {
 
 @media only screen and (orientation: portrait){
     /*phones and tablets using portrait mode*/
+    .theme-name {
+      display: none;
+    }
 
     .orientation-container {
       width: 85%;
@@ -544,7 +556,7 @@ span.bet-number {
   }
 
   @media only screen and (min-width: 768px) and (min-height: 1024px) {
-    /* Ipads and larger devices */
+    /* Ipads and medium sized tablets */
 
     .orientation-background {
       display: none;
@@ -565,6 +577,40 @@ span.bet-number {
       color: white;
       width: calc(83% - 2em);
       height: 30vh;
+    }
+
+    .coin-container {
+      margin-top: 2vh;
+    }
+
+    .total-bet-container {
+      transition: 0.4s;
+      -moz-transition: 0.4s;
+      -o-transition: 0.4s;
+      -webkit-transition: 0.4s;
+      position: relative;
+      width: 18rem;
+      height: 99px;
+      float: right;
+      bottom: calc(0.5% + 0vh);
+      right: 11%;
+      border-radius: 50px;
+      background-color: black;
+      border: 2px solid white;
+      box-shadow: 0px 0px 40px 40px #1f1f1f;
+    } 
+
+    span.bet-number {
+      text-align: center;
+      font-size: 2.1rem;
+      position: relative;
+      display: block;
+      left: 17%;
+      margin-top: 0rem;
+    }
+
+    #bet-amount {
+      font-size: calc(2.5vh + 1rem);
     }
 
     h1 {
@@ -593,7 +639,71 @@ span.bet-number {
       height: calc(20px + 3vh);
     }
 
+    #p1-space {
+      margin-top: 3rem;
+      width: 95%;
+      height: 100%;
+    }
+    
+    #cpu-space {
+      margin-top: 3rem;
+      width: 95%;
+      height: 100%;
+    }
 
+    #dealer {
+      text-align: center;
+      width: 95%;
+      margin: auto;
+      -moz-transform: translate(-26vw, 8.8vh);
+      -ms-transform: translate(-26vw, 8.8vh);
+      -o-transform: translate(-26vw, 8.8vh);
+      -webkit-transform: translate(-26vw, 8.8vh);
+      transform: translate(-26vw, 8.8vh);
+      font-size: calc(2.5vh + 0.09rem);
+    }
+
+    #player {
+      text-align: center;
+      width: 95%;
+      margin: auto;
+      transform: translate(23vw, 49.7vh);
+      -moz-transform: translate(23vw, 49.7vh);
+      -ms-transform: translate(23vw, 49.7vh);
+      -o-transform: translate(23vw, 49.7vh);
+      -webkit-transform: translate(23vw, 49.7vh);
+      font-size: calc(2.5vh + 0.09rem);
+    }
+
+    .card-container {
+      align-items: center;
+      justify-content: flex-end;
+      margin: auto;  
+      width: 95%;
+      height: 83%;
+      flex-direction: column-reverse;
+    }
+
+    .card {
+      position: relative;
+      width: calc(2vw + 6rem);
+      height: calc(2vh + 9rem);
+      margin: 0rem;
+    }
+
+    .button-container {
+      left: 10%;
+    }
+    
+
+
+  }
+
+  @media only screen and (min-height: 1280px) {
+    /* Large tablets and other monitors */ 
+    .total-bet-container {
+      bottom: calc(0.5% + -3.5vh);
+    } 
   }
 }
 

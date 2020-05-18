@@ -4,6 +4,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-undef */
 /* eslint-disable class-methods-use-this */
+
 class Game {
   constructor() {
     this.player = new Player();
@@ -36,44 +37,50 @@ class Game {
 
   checkBetValue(betValue) {
     // TODO: Create a custom alert
-    const str = betValue.value.split('');
+    let str = betValue.value.trim();
 
-    for (let i = 0; i < str.length; i++) {
-      if (str[i] === '.') {
+    if (str[str.length - 1] === '.') {
       // Crashes the browser if a cheeky user decides to bypass the number verification system with
       // a period with something I like to call the "FUN-FUN LOOP"
-        let txt = 'A';
-        let txt2 = 'PP!';
-        let txt3 = 'Cheeky!';
-
-        while (1) {
-          txt = txt += 'a';
-          txt2 = txt2 += 'pp!';
-          txt3 = txt3 += 'Cheeky!';
-          console.log(txt);
-          console.log(txt2);
-          console.log(object);
-        }
-      }
+      str = 5;
     }
 
 
-    if (betValue.value === null || betValue.value.trim() === '') {
+    if (str === null || str === '') {
       // If the input value is submitted blank
       alert('You need to input an amount of coins to bet.');
-      betValue.value = '';
+      str = '';
       // ...
-    } else if ((typeof parseInt(betValue.value, 10) !== 'number')
-             || (isNaN(betValue.value))
-             || (Number.isFinite(betValue.value))) {
+    } else if ((typeof parseInt(str, 10) !== 'number')
+             || (isNaN(str))
+             || (Number.isFinite(str))) {
       // If the value entered isn't a legitimate number
-      alert('You need to input an ACTUAL numerical value. Don\'t try to break the system.');
-      betValue.value = '';
+      alert('You need to input an ACTUAL numerical value. Don\'t try to break me.');
+      str = '';
+      // ...
+    } else if (parseInt(str, 10) > this.player.playerCoins) {
+      alert(`You only have ${this.player.playerCoins} coins, Don't try and lie to me cowboy.`);
+      str = '';
+      // ...
+    } else if (parseInt(str, 10) <= 0) {
+      alert('Needs to be an integer greater than 0 yeah?');
+      str = '';
       // ...
     } else {
-      console.log(betValue.value.trim());
       this.legitBetValue = true;
+
+      // Displays the total bet
+      this.menu.wageredCoins.textContent = Math.floor(str);
+
+      // Subtracts the bet value from the player's total coins and displayes it
+      this.player.playerCoins -= Math.floor(parseInt(str, 10));
+      this.menu.coinAmount.textContent = this.player.playerCoins.toString();
     }
+  }
+
+  getInitialCoins(playerCoins, current, remaining) {
+    current.textContent = playerCoins.toString();
+    remaining.textContent = playerCoins.toString();
   }
 
 
@@ -202,6 +209,7 @@ class Game {
 
 // Creates a "New game" with a deck, also plays background music
 const game = new Game();
+game.getInitialCoins(game.player.playerCoins, game.menu.coinAmount, game.menu.remainingCoins);
 game.deck.createDeck();
 game.menu.toggleBetMenu();
 // //game.backgroundMusic.playSound();
@@ -272,6 +280,7 @@ game.menu.start.addEventListener('click', () => {
   if (game.legitBetValue === true) {
     game.menu.disableBtn(game.menu.start);
     game.menu.toggleBetMenu();
+    game.menu.toggleTotalBetMenu();
     // ...
   }
 });

@@ -8,6 +8,9 @@ class Menu {
     this.start = document.querySelector('#deal-button');
 
     // coin amount placeholders
+    this.coinAmount = document.querySelector('.coin-amount');
+    this.remainingCoins = document.querySelector('.remaining-coins');
+    this.wageredCoins = document.querySelector('.bet-number');
 
 
     // Table theme menu
@@ -72,6 +75,11 @@ class Menu {
     betContainer.classList.toggle('blur');
   }
 
+  toggleTotalBetMenu() {
+    const item = document.querySelector('.total-bet-container');
+    item.classList.toggle('hidden2');
+  }
+
   toggleThemes() {
     if (this.currentThemeId === 0) {
       // ..
@@ -122,3 +130,13 @@ class Menu {
 //       alert(`You only have ${playerCoins} coins. Don't lie to me yankee.`);
 //       // ...
 //     }
+
+
+// else if (/* str <= 0 || */ Number.isInteger(str) === false) {
+//   // If the value entered is a decimal or less than 1
+//   console.log(parseInt(str, 10));
+//   console.log(Number.isInteger(str));
+//   str = '';
+//   alert('Needs to be a whole number greater than 0 yeah?');
+//   // ...
+// }
