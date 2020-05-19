@@ -40,8 +40,6 @@ class Game {
     let str = betValue.value.trim();
 
     if (str[str.length - 1] === '.') {
-      // Crashes the browser if a cheeky user decides to bypass the number verification system with
-      // a period with something I like to call the "FUN-FUN LOOP"
       str = 5;
     }
 
@@ -271,6 +269,9 @@ game.menu.charcoalTheme.addEventListener('click', () => {
   game.menu.currentThemeId = 3;
   game.menu.toggleThemes();
 });
+
+
+// ---------------------------------------------------------------
 
 
 // Start the game!
