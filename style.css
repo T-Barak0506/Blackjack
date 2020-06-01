@@ -301,11 +301,22 @@ body {
   width: 113px;
   height: 165px;
   margin: 0rem;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 5%;
-  background-image: url('/media/Playing Cards/cards/10Di.png');
+  /* background-image: url('/media/Playing Cards/cards/10Di.png'); */
+  transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+}
+
+.inactive {
+  transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
 }
 
 
@@ -355,10 +366,18 @@ body {
 
 #hit:enabled {
   background-color: #00ce00;
+  transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  -webkit-transition: 0s;
 }
 
 #stand:enabled {
   background-color: #ff2400;
+  transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  -webkit-transition: 0s;
 }
 
 #split:enabled {
@@ -370,6 +389,10 @@ body {
 #hit:disabled, #stand:disabled {
   background-color: gray;
   pointer-events: none;
+  transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  -webkit-transition: 0s;
 }
 
 #double-container:disabled, #split-container:disabled {
@@ -691,6 +714,18 @@ span.bet-number {
       margin: 0rem;
     }
 
+    .inactive {
+      transform: translate(68vw, -83vh);
+      -o-transform: translate(68vw, -83vh);
+      -webkit-transform: translate(68vw, -83vh);
+      -ms-transform: translate(68vw, -83vh);
+      -moz-transform: translate(68vw, -83vh);
+      transition: 0.5s;
+      -moz-transition: 0.5s;
+      -o-transition: 0.5s;
+      -webkit-transition: 0.5s;
+    }
+
     .button-container {
       left: 10%;
     }
@@ -720,6 +755,10 @@ span.bet-number {
     /* Very small smartphones */
     #container {
       overflow: auto;
+    }
+
+    .theme-name {
+      display: none;
     }
 
 
@@ -783,6 +822,18 @@ span.bet-number {
       margin: 0rem;
       background-size: contain;
       border-radius: 5%;
+    }
+
+    .inactive {
+      transform: translate(24vw, -75vh);
+      -o-transform: translate(24vw, -75vh);
+      -webkit-transform: translate(24vw, -75vh);
+      -ms-transform: translate(24vw, -75vh);
+      -moz-transform: translate(24vw, -75vh);
+      transition: 0.5s;
+      -moz-transition: 0.5s;
+      -o-transition: 0.5s;
+      -webkit-transition: 0.5s;
     }
   
     #p1-space, #cpu-space {
@@ -901,6 +952,7 @@ span.bet-number {
       max-width: 100px;
       max-height: 82px;
     }
+
   }
 
   @media only screen and (min-height: 406px) {
@@ -909,6 +961,8 @@ span.bet-number {
       max-width: 110px;
       max-height: 92px;
     }
+
+
   }
 
   @media only screen and (min-height: 595px) {
@@ -918,6 +972,18 @@ span.bet-number {
       max-width: 210px;
       max-height: 192px;
       margin: 1.17rem;
+    }
+
+    .inactive {
+      transform: translate(24vw, -75vh);
+      -o-transform: translate(24vw, -75vh);
+      -webkit-transform: translate(24vw, -75vh);
+      -ms-transform: translate(24vw, -75vh);
+      -moz-transform: translate(24vw, -75vh);
+      transition: 0.5s;
+      -moz-transition: 0.5s;
+      -o-transition: 0.5s;
+      -webkit-transition: 0.5s;
     }
 
     .button-container {
@@ -958,6 +1024,9 @@ span.bet-number {
 
     }
 
+    .theme-name {
+      display: inline;
+    }
 
     .choice {
       max-width: 25%;

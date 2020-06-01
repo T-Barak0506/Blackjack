@@ -4,6 +4,7 @@
 class Menu {
   constructor() {
     // bet menu
+    this.betContainer = document.querySelector('.bet-container');
     this.betValueInput = document.querySelector('#bet-amount');
     this.start = document.querySelector('#deal-button');
 
@@ -29,10 +30,12 @@ class Menu {
 
     // Command menu (hit, stand, etc.)
     this.cmdMenu = document.querySelector('.button-container');
-    this.hitButton = document.getElementById('hit');
-    this.standButton = document.getElementById('stand');
-    this.doubleButton = document.getElementById('double-container');
-    this.splitButton = document.getElementById('split-container');
+    this.hitButton = document.querySelector('#hit');
+    this.standButton = document.querySelector('#stand');
+    this.doubleButton = document.querySelector('#double');
+    this.splitButton = document.querySelector('#split');
+    this.doubleContainer = document.querySelector('#double-container');
+    this.splitContainer = document.querySelector('#split-container');
 
     // Insurance menu
     this.insuranceMenu = undefined;
@@ -46,18 +49,21 @@ class Menu {
   disableBtn(btn) {
     // Disables and grays out a button
     btn.disabled = true;
-    // btn.style.backgroundColor = 'gray';
+    btn.style.backgroundColor = 'gray';
   }
 
   enableBtn(btn) {
     btn.disabled = false;
 
+
+    if (btn === this.hitButton) {
+      btn.style.backgroundColor = '#00ce00';
+    } if (btn === this.standButton) {
+      btn.style.backgroundColor = '#ff2400';
+    }
+
     // if (btn === this.doubleButton) {
     //   btn.style.backgroundColor = '#ff9100';
-    // } else if (btn === this.hitButton) {
-    //   btn.style.backgroundColor = '#00ce00';
-    // } else if (btn === this.standButton) {
-    //   btn.style.backgroundColor = '#ff2400';
     // } else if (btn === this.splitButton) {
     //   btn.style.backgroundColor = '#0000cd';
     // }

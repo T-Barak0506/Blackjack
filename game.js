@@ -1,3 +1,7 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable max-len */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
@@ -11,6 +15,7 @@ class Game {
     this.dealer = new Dealer();
     this.deck = new Deck();
     this.menu = new Menu();
+    this.currency = new Currency();
 
 
     // SOUNDS:
@@ -26,16 +31,15 @@ class Game {
     this.splitHand = false;
     this.doubleHand = false;
 
-
     // MISC. RAW VALUES:
     this.legitBetValue = false;
     this.roundNumber = 0;
     this.playerHandValue = 0;
     this.dealerHandValue = 0;
-    this.totalBet = 0;
   }
 
   checkBetValue(betValue) {
+    // If the start button is clicked, checks the value entered to make sure it's legit
     // TODO: Create a custom alert
     let str = betValue.value.trim();
 
@@ -47,38 +51,41 @@ class Game {
     if (str === null || str === '') {
       // If the input value is submitted blank
       alert('You need to input an amount of coins to bet.');
-      str = '';
+      betValue.value = '';
       // ...
     } else if ((typeof parseInt(str, 10) !== 'number')
              || (isNaN(str))
              || (Number.isFinite(str))) {
       // If the value entered isn't a legitimate number
       alert('You need to input an ACTUAL numerical value. Don\'t try to break me.');
-      str = '';
+      betValue.value = '';
       // ...
-    } else if (parseInt(str, 10) > this.player.playerCoins) {
-      alert(`You only have ${this.player.playerCoins} coins, Don't try and lie to me cowboy.`);
-      str = '';
+    } else if (parseInt(str, 10) > this.currency.playerCoins) {
+      // If the user tries to bet more coins than they currently have
+      alert(`You only have ${this.currency.playerCoins} coins, Don't try and lie to me cowboy.`);
+      betValue.value = '';
       // ...
     } else if (parseInt(str, 10) <= 0) {
+      // If the number submitted is less than 0
       alert('Needs to be an integer greater than 0 yeah?');
-      str = '';
+      betValue.value = '';
       // ...
     } else {
       this.legitBetValue = true;
 
       // Displays the total bet
-      this.menu.wageredCoins.textContent = Math.floor(str);
+      this.currency.totalBet = Math.floor(str);
+      this.menu.wageredCoins.textContent = this.currency.totalBet.toString();
 
-      // Subtracts the bet value from the player's total coins and displayes it
-      this.player.playerCoins -= Math.floor(parseInt(str, 10));
-      this.menu.coinAmount.textContent = this.player.playerCoins.toString();
+      // Subtracts the bet value from the player's total coins and displays it
+      this.currency.playerCoins -= Math.floor(parseInt(str, 10));
+      this.menu.coinAmount.textContent = this.currency.playerCoins.toString();
     }
   }
 
-  getInitialCoins(playerCoins, current, remaining) {
-    current.textContent = playerCoins.toString();
-    remaining.textContent = playerCoins.toString();
+  getInitialCoins(current, remaining) {
+    current.textContent = this.currency.playerCoins.toString();
+    remaining.textContent = this.currency.playerCoins.toString();
   }
 
 
@@ -101,7 +108,7 @@ class Game {
 
   checkForBlackjack() {
     if (this.playerHandValue === 21) {
-      game.determineWinner();
+      this.determineWinner();
     } else {
       this.bjChecker = false;
     }
@@ -116,20 +123,24 @@ class Game {
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
     // final hand value for the player's hand.
     hand.forEach((data) => {
-      if (data.value === 'K' || data.value === 'Q' || data.value === 'J') {
-        handValue += 10;
-      } else if (data.value === 'A') {
-        handValue += 11;
-      } else {
-        handValue += parseInt(data.value, 10);
+      if (data.hidden === false) {
+        if (data.value === 'K' || data.value === 'Q' || data.value === 'J') {
+          handValue += 10;
+        } else if (data.value === 'A') {
+          handValue += 11;
+        } else {
+          handValue += parseInt(data.value, 10);
+        }
       }
     });
 
     // Loops through the array again, but checks for aces. If the hand value exceeds 21, ten-
     // is subtracted from this value. (Since Aces can also equal 1).
     hand.forEach((data) => {
-      if (data.value === 'A' && handValue > 21) {
-        handValue -= 10;
+      if (data.hidden === false) {
+        if (data.value === 'A' && handValue > 21) {
+          handValue -= 10;
+        }
       }
     });
 
@@ -173,10 +184,10 @@ class Game {
 
     // Ends the game if the player's hand exceeds 21
     if (this.playerHandValue >= 21 && this.bjChecker === false) {
-      game.menu.disableBtn(game.menu.hitButton);
-      game.menu.disableBtn(game.menu.standButton);
-      game.menu.toggleDisplay(game.menu.cmdMenu);
-      game.determineWinner();
+      this.menu.disableBtn(this.menu.hitButton);
+      this.menu.disableBtn(this.menu.standButton);
+      this.menu.toggleDisplay(this.menu.cmdMenu);
+      this.determineWinner();
     }
 
     return this.playerHandValue;
@@ -189,9 +200,9 @@ class Game {
     const interval = setInterval(() => {
       if (this.dealerHandValue < 17) {
         hand.push(theDeck.pop());
-        game.getDealerHandValue(game.dealer.dealerHand);
+        this.getDealerHandValue(this.dealer.dealerHand);
       } else {
-        game.determineWinner();
+        this.determineWinner();
         clearInterval(interval);
       }
     }, 1000 * 1);
@@ -202,15 +213,19 @@ class Game {
 }
 
 
-/* --------------BREAK:---------------*/
+/* -------------------------------------------*/
 
-
-// Creates a "New game" with a deck, also plays background music
 const game = new Game();
-game.getInitialCoins(game.player.playerCoins, game.menu.coinAmount, game.menu.remainingCoins);
-game.deck.createDeck();
-game.menu.toggleBetMenu();
 // //game.backgroundMusic.playSound();
+
+game.menu.toggleDisplay(game.menu.cmdMenu);
+game.getInitialCoins(game.menu.coinAmount, game.menu.remainingCoins);
+game.deck.createDeck();
+game.dealer.shuffle(game.deck.deckOfCards);
+game.menu.toggleBetMenu();
+
+
+/* ------------------------------------------------------------------------------------------------------*/
 
 
 // mouseOver and click events for the theme choice buttons
@@ -274,6 +289,36 @@ game.menu.charcoalTheme.addEventListener('click', () => {
 // ---------------------------------------------------------------
 
 
+// Adds the "onClick" functions to the hit, stand, double and split buttons
+game.menu.doubleButton.addEventListener('click', () => {
+  // ...
+});
+
+game.menu.hitButton.addEventListener('click', () => {
+  game.menu.disableBtn(game.menu.hitButton);
+
+  setTimeout(() => {
+    game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
+    game.dealer.getPlayerCardVisual(game.player.playerHand);
+  }, 400);
+
+  setTimeout(() => {
+    game.getPlayerHandValue(game.player.playerHand);
+    if (game.playerHandValue <= 21) {
+      game.menu.enableBtn(game.menu.hitButton);
+    }
+  }, 1199);
+});
+
+game.menu.standButton.addEventListener('click', () => {
+  game.menu.disableBtn(game.menu.standButton);
+  game.menu.disableBtn(game.menu.hitButton);
+  game.menu.toggleDisplay(game.menu.cmdMenu);
+  game.dealerPlay(game.dealer.dealerHand, game.deck.deckOfCards);
+});
+
+/* -------------------------------------------------------------------------------------*/
+
 // Start the game!
 game.menu.start.addEventListener('click', () => {
   game.checkBetValue(game.menu.betValueInput);
@@ -282,34 +327,21 @@ game.menu.start.addEventListener('click', () => {
     game.menu.disableBtn(game.menu.start);
     game.menu.toggleBetMenu();
     game.menu.toggleTotalBetMenu();
+
+    // Gives 2 cards to both the player and dealer
+    game.dealer.initDeal2Hand(game.player.playerHand, game.dealer.dealerHand, game.deck.deckOfCards);
+
+    setTimeout(() => {
+      game.getPlayerHandValue(game.player.playerHand);
+      game.getDealerHandValue(game.dealer.dealerHand);
+      game.menu.toggleDisplay(game.menu.cmdMenu);
+      game.checkForBlackjack();
+    }, 2700);
     // ...
   }
 });
 
-// Adds the "onClick" functions to the hit and stand buttons
-game.menu.hitButton.addEventListener('click', () => {
-  game.player.playerHit(game.player.playerHand, game.deck.deckOfCards);
-  game.getPlayerHandValue(game.player.playerHand);
-});
+/* -------------------------- */
 
-game.menu.standButton.addEventListener('click', () => {
-  game.menu.disableBtn(game.menu.standButton);
-  game.menu.disableBtn(game.menu.hitButton);
-  // game.menu.toggleDisplay(game.menu.cmdMenu);
-  game.dealerPlay(game.dealer.dealerHand, game.deck.deckOfCards);
-});
-
-
-// Shuffles the deck
-game.dealer.shuffle(game.deck.deckOfCards);
-
-
-// Gives 2 cards to both the player and dealer
-game.dealer.initDeal2Hand(game.player.playerHand, game.dealer.dealerHand, game.deck.deckOfCards);
-/* ----------------------------------------------------------*/
-
-game.getPlayerHandValue(game.player.playerHand);
-game.getDealerHandValue(game.dealer.dealerHand);
-game.checkForBlackjack();
 
 console.dir(game);
