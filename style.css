@@ -262,6 +262,41 @@ body {
 }
 
 
+/* Loader ------------------------------------------------------------------------------------ */
+
+.loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  align-items: center;
+  justify-content: center;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 32vh;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+}
+
+
+.loader-text {
+  user-select: none;
+  color: white;
+  font-size: calc(2.8rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 /* card container and space ------------------------------------------------------------------------- */
 .card-container {
@@ -358,7 +393,8 @@ body {
   transition: 0.33s;
   -moz-transition: 0.33s;
   -o-transition: 0.33s;
-  -webkit-transition: 0.33s;}
+  -webkit-transition: 0.33s;
+}
 
 #double:enabled {
   background-color: #ff9100;
@@ -386,7 +422,7 @@ body {
 
 /* --------------- */
 
-#hit:disabled, #stand:disabled {
+#hit:disabled, #stand:disabled, #double:disabled, #split:disabled {
   background-color: gray;
   pointer-events: none;
   transition: 0s;
@@ -446,6 +482,7 @@ body {
   font-size: 1.5rem;
   border-radius: 50px;
 }
+
 
 .total-bet-label {
   margin-bottom: 0.2rem;

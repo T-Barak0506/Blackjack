@@ -8,12 +8,6 @@ class Menu {
     this.betValueInput = document.querySelector('#bet-amount');
     this.start = document.querySelector('#deal-button');
 
-    // coin amount placeholders
-    this.coinAmount = document.querySelector('.coin-amount');
-    this.remainingCoins = document.querySelector('.remaining-coins');
-    this.wageredCoins = document.querySelector('.bet-number');
-
-
     // Table theme menu
     this.currentThemeId = 0;
     this.themeName = document.querySelector('.theme-name');
@@ -118,31 +112,19 @@ class Menu {
       // ...
     }
   }
+
+  shuffleNotice() {
+    const element = document.querySelector('.loader-text');
+    let i = 0;
+
+    const interval = setInterval(() => {
+      if (i <= 2) {
+        i += 1;
+        element.textContent += '.';
+      } else {
+        clearInterval(interval);
+        document.querySelector('.loader-container').remove();
+      }
+    }, 850);
+  }
 }
-
-// else if ((!Number.isFinite(betValue.value))
-//           || (isNaN(betValue.value) === true)) {
-//       // If the value entered isn't a legitimate number
-//       alert('You need to input an ACTUAL numerical value. Don\'t try to break the system.');
-//       betValue.value = '';
-//       // ...
-//     } else if (betValue.value <= 0 || !Number.isInteger(betValue.value)) {
-//       // If the value entered is a decimal or less than 1
-//       betValue.value = '';
-//       alert('Needs to be a whole number greater than 0 yeah?');
-//       // ...
-//     } else if (betValue.value > playerCoins) {
-//       // If the user tries to bet an amount that's higher than the total coins they have
-//       alert(`You only have ${playerCoins} coins. Don't lie to me yankee.`);
-//       // ...
-//     }
-
-
-// else if (/* str <= 0 || */ Number.isInteger(str) === false) {
-//   // If the value entered is a decimal or less than 1
-//   console.log(parseInt(str, 10));
-//   console.log(Number.isInteger(str));
-//   str = '';
-//   alert('Needs to be a whole number greater than 0 yeah?');
-//   // ...
-// }

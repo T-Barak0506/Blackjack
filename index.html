@@ -11,7 +11,7 @@
   <meta name="keywords" content="keywords,here">
   <link rel="stylesheet" href="style.css" type="text/css">
   <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="card.js" defer></script>
   <script src="deck.js" defer></script>
   <script src="player.js" defer></script>
@@ -46,6 +46,10 @@
       <div class="coin-amount" data-cValue="0"></div>
     </div>
 
+    <div class="loader-container">
+      <div class="loader-text">Shuffling deck</div>
+    </div>
+
     <div class="card-container">
       <div class="card-space" id="p1-space">
         <!-- Player's cards here -->
@@ -60,7 +64,7 @@
       </div>
     </div>
 
-    <div class="button-container">
+    <div class="button-container hidden">
       <div class="button-content">
 
         <div id="double-container">
