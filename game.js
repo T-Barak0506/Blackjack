@@ -107,7 +107,7 @@ class Game {
         this.currency.playerCoins += bjWin;
         this.currency.totalBet = 0;
         this.currency.updateCoinCount();
-      }, 700);
+      }, 800);
     }
 
     if (this.playerHandValue > 21 || this.dealerHandValue > this.playerHandValue && this.dealerHandValue <= 21) {
@@ -578,7 +578,24 @@ menu.resultOverlay.addEventListener('click', () => {
 });
 
 menu.insureYes.addEventListener('click', () => {
+  const insureAmount = Math.floor(currency.totalBet * 0.5);
+  currency.totalBet += insureAmount;
+  currency.playerCoins -= insureAmount;
+  currency.updateCoinCount();
 
+  menu.disableBtn(menu.insureYes);
+  menu.disableBtn(menu.insureNo);
+  menu.toggleDisplay(menu.insuranceMenu);
+});
+
+menu.insureNo.addEventListener('click', () => {
+  menu.disableBtn(menu.insureYes);
+  menu.disableBtn(menu.insureNo);
+  menu.toggleDisplay(menu.insuranceMenu);
+
+  setTimeout(() => {
+    menu.toggleDisplay(menu.cmdMenu);
+  }, 450);
 });
 
 
