@@ -16,7 +16,7 @@ class Menu {
     this.aquaTheme = document.querySelector('#choice3');
     this.charcoalTheme = document.querySelector('#choice4');
 
-    // Table
+    // Table space
     this.tableMain = document.querySelector('#container');
     this.p1Border = document.querySelector('#p1-space');
     this.cpuBorder = document.querySelector('#cpu-space');
@@ -32,35 +32,41 @@ class Menu {
     this.splitContainer = document.querySelector('#split-container');
 
     // Insurance menu
-    this.insuranceMenu = undefined;
-    this.insureYes = undefined;
-    this.insureNo = undefined;
+    this.insuranceMenu = document.querySelector('.insurance-container');
+    this.insureYes = document.querySelector('#yes');
+    this.insureNo = document.querySelector('#no');
+
+    // Result screen overlay
+    this.resultOverlay = document.querySelector('.result-overlay-container');
+    this.resTopText = document.querySelector('#top-text');
+    this.resBottomText = document.querySelector('#bottom-text');
 
     // Misc.
-    this.nextRoundButton = undefined;
+    this.ContinueButton = undefined;
   }
 
   disableBtn(btn) {
     // Disables and grays out a button
     btn.disabled = true;
-    btn.style.backgroundColor = 'gray';
+
+    if (btn !== this.start) {
+      btn.style.backgroundColor = 'gray';
+    }
   }
 
   enableBtn(btn) {
     btn.disabled = false;
 
 
-    if (btn === this.hitButton) {
+    if (btn === this.hitButton || btn === this.insureYes) {
       btn.style.backgroundColor = '#00ce00';
-    } if (btn === this.standButton) {
+    } if (btn === this.standButton || btn === this.insureNo) {
       btn.style.backgroundColor = '#ff2400';
+    } if (btn === this.doubleButton) {
+      btn.style.backgroundColor = '#ff9100';
+    } else if (btn === this.splitButton) {
+      btn.style.backgroundColor = '#0000cd';
     }
-
-    // if (btn === this.doubleButton) {
-    //   btn.style.backgroundColor = '#ff9100';
-    // } else if (btn === this.splitButton) {
-    //   btn.style.backgroundColor = '#0000cd';
-    // }
   }
 
   toggleDisplay(item) {
@@ -114,17 +120,26 @@ class Menu {
   }
 
   shuffleNotice() {
-    const element = document.querySelector('.loader-text');
+    const elementNode = document.querySelector('.loader-text');
+    const nodeContainer = document.querySelector('.loader-container');
+
+    elementNode.textContent = 'Shuffling Deck';
+    nodeContainer.style.display = 'flex';
+
     let i = 0;
 
     const interval = setInterval(() => {
       if (i <= 2) {
         i += 1;
-        element.textContent += '.';
+        elementNode.textContent += '.';
       } else {
         clearInterval(interval);
-        document.querySelector('.loader-container').remove();
+        nodeContainer.style.display = 'none';
       }
-    }, 850);
+    }, 650);
+  }
+
+  toggleResultScreen() {
+    this.resultOverlay.classList.toggle('hidden');
   }
 }

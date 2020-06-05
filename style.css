@@ -82,6 +82,10 @@ body {
   color: yellow;
 }
 
+.remaining-coins:hover {
+  cursor: pointer;
+}
+
 #bet-amount {
   font-size: calc(100% + 1rem);
   border: 0;
@@ -254,11 +258,13 @@ body {
 #player {
   margin-left: 2.5em;
   margin-right: 2em;
+  z-index: 2;
 }
 
 #dealer {
   margin-right: 2.5em;
   margin-left: 2em;
+  z-index: 2;
 }
 
 
@@ -288,15 +294,6 @@ body {
   font-size: calc(2.8rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
 
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 /* card container and space ------------------------------------------------------------------------- */
 .card-container {
@@ -468,7 +465,87 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+
+.insurance-container {
+  user-select: none;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 0px 40px 40px #1f1f1f;
+  opacity: 70%;
+  margin: 0.5rem;
+  padding: 0.2rem;
+  position: absolute;
+  width: 17.125rem;
+  height: 110px;
+  border: 1px whitesmoke solid;
+  font-family: 'Roboto', sans-serif;
+  background-color: black;
+  bottom: 0.5%;
+  left: 14%;
+  border-radius: 10px;
+  transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  -webkit-transition: 0.5s;
+}
+
+.insurance-text {
+  font-size: 1.5rem;
+}
+
+
+
+#choice-content {
+  width: 100%;
+  height: 100%;
+}
+
+.insurance-choices {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.yes-container, .no-container {
+  max-width: 26%;
+  margin: 0;
+}
+
+#yes:enabled {
+  background-color: #00ce00;
+  transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  -webkit-transition: 0s;
+}
+
+#no:enabled {
+  background-color: #ff2400;
+  transition: 0s;
+  -moz-transition: 0s;
+  -o-transition: 0s;
+  -webkit-transition: 0s;
+}
+
+#yes:hover {
+  background-color: rgb(132, 255, 132);
+  cursor: pointer;
+}
+
+#no:hover {
+  background-color: #ffa597;
+  cursor: pointer;
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+
 .total-bet-container {
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
   opacity: 70%;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -483,6 +560,17 @@ body {
   border-radius: 50px;
 }
 
+.total-bet-container.hidden2 {
+  bottom: -20%;
+  pointer-events: none;
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
+  visibility: hidden;
+  opacity: 0;
+}
+
 
 .total-bet-label {
   margin-bottom: 0.2rem;
@@ -491,7 +579,7 @@ body {
 .total-bet-container .fa-coins {
   position: absolute;
   margin: 0.5rem;
-  left: 10%;
+  left: 7%;
   font-size: 2.3rem;
 }
 
@@ -520,7 +608,63 @@ span.bet-number {
   -moz-transition: 0.4s;
   -o-transition: 0.4s;
   -webkit-transition: 0.4s;
+  visibility: hidden;
   opacity: 0;
+}
+
+.result-overlay-container {
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 2;
+  opacity: 100%;
+  cursor: pointer;
+}
+
+.result-overlay-container.hidden {
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.result-overlay-container .text {
+  width: calc(5rem + 47vw);
+  height: calc(1rem + 9vh);
+  padding: 0;
+  color: white;
+  margin: 0;
+  font-size: 2rem;
+}
+
+#top-text {
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid white;
+}
+
+#bottom-text {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-top: 2px solid white;
 }
 
 .orientation-background {
@@ -616,7 +760,7 @@ span.bet-number {
   }
 
   @media only screen and (min-width: 768px) and (min-height: 1024px) {
-    /* Ipads and medium sized tablets */
+    /* medium sized tablets */
 
     .orientation-background {
       display: none;
@@ -641,6 +785,10 @@ span.bet-number {
 
     .coin-container {
       margin-top: 2vh;
+    }
+
+    .coin-amount {
+      font-size: calc(0.5rem + 2vh);
     }
 
     .total-bet-container {
@@ -766,6 +914,29 @@ span.bet-number {
     .button-container {
       left: 10%;
     }
+
+    .result-overlay-container .text {
+      width: calc(5rem + 47vw);
+      height: calc(1rem + 5vh);
+      padding: 0;
+      color: white;
+      margin: 0;
+    }
+
+    #top-text {
+      font-size: calc(2.2rem + 2vh);
+    }
+    
+    #bottom-text {
+      padding-top: 5px;
+      font-size: 2.3rem;
+      line-height: 1;
+    }
+
+    .insurance-container {
+      bottom: 0.5%;
+      left: 10%;
+    }
     
 
 
@@ -776,6 +947,10 @@ span.bet-number {
     .total-bet-container {
       bottom: calc(0.5% + -3.5vh);
     } 
+
+    .coin-amount {
+      font-size: calc(0.01rem + 2vh);
+    }
   }
 }
 
@@ -851,6 +1026,8 @@ span.bet-number {
       display: block;
       left: 17%;
       margin-top: 0rem;
+      width: 87%;
+      margin-right: 0;
     }
   
     .card {
@@ -924,6 +1101,29 @@ span.bet-number {
       margin-left: 1.5rem;
     }
 
+    .result-overlay-container .text {
+      width: calc(5rem + 47vw);
+      height: calc(1rem + 9vh);
+      padding: 0;
+      color: white;
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    #top-text {
+      font-size: 2.2rem;
+    }
+    
+    #bottom-text {
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .insurance-container {
+      bottom: -38%;
+      left: 2%;
+    }
+
   }
 
   @media only screen and (min-height: 355px) {
@@ -981,6 +1181,11 @@ span.bet-number {
       border: 1px solid white;
       background-color: rgb(0, 0, 0);
     }
+
+    .insurance-container {
+      bottom: -30.5%;
+      left: 6%;
+    }
   }
 
   @media only screen and (min-height: 370px) {
@@ -999,6 +1204,11 @@ span.bet-number {
       max-height: 92px;
     }
 
+    .insurance-container {
+      bottom: -22.5%;
+      left: 6%;
+    }
+
 
   }
 
@@ -1012,11 +1222,11 @@ span.bet-number {
     }
 
     .inactive {
-      transform: translate(24vw, -75vh);
-      -o-transform: translate(24vw, -75vh);
-      -webkit-transform: translate(24vw, -75vh);
-      -ms-transform: translate(24vw, -75vh);
-      -moz-transform: translate(24vw, -75vh);
+      transform: translate(24vw, -78vh);
+      -o-transform: translate(24vw, -78vh);
+      -webkit-transform: translate(24vw, -78vh);
+      -ms-transform: translate(24vw, -78vh);
+      -moz-transform: translate(24vw, -78vh);
       transition: 0.5s;
       -moz-transition: 0.5s;
       -o-transition: 0.5s;
@@ -1037,8 +1247,6 @@ span.bet-number {
 
     .total-bet-container {
       position: relative;
-      width: 16rem;
-      height: 90px;
       float: right;
       bottom: -6%;
       right: 17%;
@@ -1068,6 +1276,19 @@ span.bet-number {
     .choice {
       max-width: 25%;
       max-height: 25%;
+    }
+
+    #top-text {
+      font-size: 4.2rem;
+    }
+    
+    #bottom-text {
+      font-size: 2.9rem;
+    }
+
+    .insurance-container {
+      bottom: 2.5%;
+      left: 10%;
     }
 
   }
@@ -1108,6 +1329,15 @@ span.bet-number {
       bottom: -10%;
       right: 17%;
     } 
+
+    .result-overlay-container .text {
+      width: calc(5rem + 47vw);
+      height: calc(1rem + 7vh);
+      padding: 0;
+      color: white;
+      margin: 0;
+      font-size: 2rem;
+    }
 
   }
 

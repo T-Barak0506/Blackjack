@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 class Currency {
   constructor() {
     // Raw coin data
@@ -11,8 +12,13 @@ class Currency {
   }
 
   updateCoinCount() {
-    this.coinAmount.textContent = this.playerCoins.toString();
-    this.remainingCoins.textContent = this.playerCoins.toString();
-    this.wageredCoins.textContent = this.totalBet.toString();
+    this.coinAmount.textContent = this.playerCoins;
+    this.remainingCoins.textContent = this.playerCoins;
+    this.wageredCoins.textContent = this.totalBet;
+  }
+
+  insertMax() {
+    const betAmount = document.querySelector('#bet-amount');
+    betAmount.value = this.playerCoins;
   }
 }

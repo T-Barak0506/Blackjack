@@ -11,7 +11,6 @@
   <meta name="keywords" content="keywords,here">
   <link rel="stylesheet" href="style.css" type="text/css">
   <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="card.js" defer></script>
   <script src="deck.js" defer></script>
   <script src="player.js" defer></script>
@@ -35,6 +34,11 @@
 
   <div id="container">
 
+    <div class="result-overlay-container hidden">
+      <div class="text" id="top-text">dealer wins</div>
+      <div class="text" id="bottom-text">text</div>
+    </div>
+
     <div class="text">
       <p id="player">You: <strong><span id="p1" class="counter"></span></strong></p>
       <p id="dealer">Dealer: <span id="cpu" class="counter"></span></p>
@@ -47,13 +51,12 @@
     </div>
 
     <div class="loader-container">
-      <div class="loader-text">Shuffling deck</div>
+      <div class="loader-text"></div>
     </div>
 
     <div class="card-container">
       <div class="card-space" id="p1-space">
         <!-- Player's cards here -->
-        <!-- <div class="card" style="background-image: url('/media/Playing Cards/cards/10Di.png')"></div> -->
 
       </div>
 
@@ -78,7 +81,7 @@
         </div>
 
         <div class="stand-container">
-          <button class="buttons" id="stand" title="Try your luck"><i class="fas fa-ban fa-3x"></i></button>
+          <button class="buttons" id="stand" title="end your turn"><i class="fas fa-ban fa-3x"></i></button>
           <p class="label" id="stand-label">Stand</p>
         </div>
 
@@ -87,6 +90,27 @@
           <p class="label" id="split-label">Split</p>
         </div>
       </div>
+    </div>
+
+    <div class="insurance-container hidden">
+      <div class="insurance-text">Insurance?</div>
+
+      <div id="choice-content">
+        <div class="insurance-choices">
+          <div class="yes-container">
+            <button class="buttons" id="yes"><i class="fas fa-check fa-3x"></i></i></button>
+            <p class="label2" id="yes-label">Yes</p>
+          </div>
+
+          <div class="no-container">
+            <button class="buttons" id="no"><i class="fas fa-times fa-3x"></i></button>
+            <p class="label2" id="hit-label">No</p>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
 
     <div class="total-bet-container hidden2">
@@ -106,10 +130,10 @@
   </div>
 
   <div class="bet-container">
-    <h1>Place your Bets:</h1>
+    <h1>Place your Bet:</h1>
     <!-- <h1>Feeling lucky? Place your bets!</h1> -->
     <input type="text" placeholder="Enter amount here" id="bet-amount" autocomplete="off">
-    <h4>You currently have <span class="remaining-coins">0</span> coins.</h4>
+    <h4>You currently have <span class="remaining-coins" onclick="game.currency.insertMax()">0</span> coins.</h4>
 
     <div class="theme-container">
       <div class="title-text">
