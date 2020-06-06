@@ -63,6 +63,9 @@ class Deck {
   }
 
   createDeck() {
+    const protoDeck = [];
+    let i = 0;
+
     // 13 values per suit
     this.suits.forEach((suit) => {
       this.values.forEach((value) => {
@@ -75,6 +78,37 @@ class Deck {
       this.deckOfCards[i].visual += this.cardVisuals[i];
     }
 
+    /* ---------------------------------------------------- */
+
+    // Adds these cards to the protoDeck variable before pushing everything to the-
+    // main deck (156-card deck)
+
+    while (i < 2) {
+      this.suits.forEach((suit) => {
+        this.values.forEach((value) => {
+          protoDeck.push(new Card(suit, value));
+        });
+      });
+
+      // Adds the appropriate image file for each card
+      for (let x = 0; x < protoDeck.length; x++) {
+        protoDeck[x].visual += this.cardVisuals[x];
+      }
+
+      while (protoDeck.length > 0) {
+        this.deckOfCards.push(protoDeck.pop());
+      }
+
+      i++;
+    }
+
+
     return this.deckOfCards;
+  }
+
+  restartDeck() {
+    while (this.discardPile.length > 0) {
+      this.deckOfCards.push(this.discardPile.pop());
+    }
   }
 }

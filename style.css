@@ -1039,11 +1039,11 @@ span.bet-number {
     }
 
     .inactive {
-      transform: translate(24vw, -75vh);
-      -o-transform: translate(24vw, -75vh);
-      -webkit-transform: translate(24vw, -75vh);
-      -ms-transform: translate(24vw, -75vh);
-      -moz-transform: translate(24vw, -75vh);
+      transform: translate(24vw, -90vh);
+      -o-transform: translate(24vw, -90vh);
+      -webkit-transform: translate(24vw, -90vh);
+      -ms-transform: translate(24vw, -90vh);
+      -moz-transform: translate(24vw, -90vh);
       transition: 0.5s;
       -moz-transition: 0.5s;
       -o-transition: 0.5s;

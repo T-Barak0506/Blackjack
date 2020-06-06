@@ -137,9 +137,10 @@ class Menu {
         nodeContainer.style.display = 'none';
       }
     }, 650);
-  }
 
-  toggleResultScreen() {
-    this.resultOverlay.classList.toggle('hidden');
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      this.toggleBetMenu();
+    }, 2500);
   }
 }

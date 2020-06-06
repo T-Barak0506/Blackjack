@@ -3,7 +3,6 @@
 /* eslint-disable one-var */
 /* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable prefer-const */
 /* eslint-disable no-undef */
 
 class Dealer {
@@ -37,7 +36,7 @@ class Dealer {
 
   getPlayerCardVisual(hand) {
     // Creates the card div
-    let card = document.createElement('div');
+    const card = document.createElement('div');
     card.classList.add('card');
     card.classList.add('inactive');
 
@@ -52,7 +51,7 @@ class Dealer {
 
   getDealerCardVisual(hand) {
     // Creates the card
-    let card = document.createElement('div');
+    const card = document.createElement('div');
     card.classList.add('card');
     card.classList.add('inactive');
 
@@ -60,12 +59,18 @@ class Dealer {
     this.cardSpaceCPU.appendChild(card);
 
     setTimeout(() => {
-      if (hand.length === 2 && hand[hand.length - 1].hidden === true) {
-        card.style.backgroundImage = "url('/misc./cover.png')";
-      } else {
-        card.style.backgroundImage = `url('${hand[hand.length - 1].visual}')`;
+      try {
+        if (hand.length === 2 && hand[hand.length - 1].hidden === true) {
+          card.style.backgroundImage = "url('/misc./cover.png')";
+        } else {
+          card.style.backgroundImage = `url('${hand[hand.length - 1].visual}')`;
+        }
+        card.classList.toggle('inactive');
+      } catch (err) {
+        card.style.backgroundColor = '#555555';
+        card.style.color = '#ffffff';
+        card.textContent = `Couldn't display visual because: ${err}`;
       }
-      card.classList.toggle('inactive');
     }, 175);
   }
 
@@ -108,6 +113,7 @@ class Dealer {
           this.getDealerCardVisual(dealerHand);
         }, 130);
       }
+      console.log(theDeck.length);
     }, 2050);
 
     return `${playerHand} ${dealerHand}`;
