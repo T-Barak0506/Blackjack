@@ -9,10 +9,15 @@ class Dealer {
   constructor() {
     this.dealerHand = [];
     this.cardSpaceCPU = document.querySelector('#cpu-space');
-    this.wageredCoins = 0;
+
+    // Sounds
+    this.dealSound = new Sound('./media/sounds/cardShove1.wav');
+    this.shuffleSound = new Sound('./media/sounds/cardShuffle.wav');
   }
 
   shuffle(deck) {
+    this.shuffleSound.playSound();
+
     let counter = 0;
 
     // Shuffle the deck thrice because... why not :)
@@ -83,37 +88,46 @@ class Dealer {
 
       setTimeout(() => {
         this.getPlayerCardVisual(playerHand);
+        this.dealSound.playSound();
       }, 100);
     }, 550);
 
     setTimeout(() => {
+      this.dealSound.stopSound();
+
       // Adds the card to the raw deck, and displays the accompanying visual
       dealerHand.push(theDeck.pop());
       this.getDealerCardVisual(dealerHand);
+      this.dealSound.playSound();
     }, 1050);
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
+      this.dealSound.stopSound();
+
 
       if (playerHand.length <= 1) {
         playerHand.push(theDeck.pop());
         setTimeout(() => {
           this.getPlayerCardVisual(playerHand);
+          this.dealSound.playSound();
         }, 130);
       }
     }, 1550);
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
+      this.dealSound.stopSound();
+
       if (dealerHand.length <= 1) {
         dealerHand.push(theDeck.pop());
 
         setTimeout(() => {
           dealerHand[dealerHand.length - 1].hidden = true;
           this.getDealerCardVisual(dealerHand);
+          this.dealSound.playSound();
         }, 130);
       }
-      console.log(theDeck.length);
     }, 2050);
 
     return `${playerHand} ${dealerHand}`;

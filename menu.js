@@ -42,6 +42,7 @@ class Menu {
     this.resBottomText = document.querySelector('#bottom-text');
 
     // Misc.
+    this.betNotice = document.querySelector('.bet-notice');
     this.ContinueButton = undefined;
   }
 
@@ -136,11 +137,14 @@ class Menu {
         clearInterval(interval);
         nodeContainer.style.display = 'none';
       }
-    }, 650);
+    }, 1050);
 
     setTimeout(() => {
       window.scrollTo(0, 0);
+    }, 3900);
+
+    setTimeout(() => {
       this.toggleBetMenu();
-    }, 2500);
+    }, 4000);
   }
 }

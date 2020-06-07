@@ -84,6 +84,7 @@ class Deck {
     // main deck (156-card deck)
 
     while (i < 2) {
+      // eslint-disable-next-line no-loop-func
       this.suits.forEach((suit) => {
         this.values.forEach((value) => {
           protoDeck.push(new Card(suit, value));

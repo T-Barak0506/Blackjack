@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap');
 
 * {
   margin: 0;
@@ -109,17 +110,14 @@ body {
   -o-transition: 0.5s;
   -webkit-transition: 0.5s;
   top: 50vh;
-
 }
 
 .theme-container {
   position: relative;
   width: 50%;
   height: 40%;
-  /* border: 1px solid white; */
   text-align: left;
   padding: 10px;
-
 }
 
 .theme-choice-container {
@@ -667,6 +665,34 @@ span.bet-number {
   border-top: 2px solid white;
 }
 
+.bet-notice {
+  z-index: 3;
+  height: 8vh;
+  width: 53%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -moz-transform: translate(46%, 21vh);
+  -ms-transform: translate(46%, 21vh);
+  -o-transform: translate(46%, 21vh);
+  transform: translate(46%, 21vh);
+  position: absolute;
+  font-family: 'Playfair Display', serif;  
+  color: rgb(255, 241, 194);
+  font-size: 1.9rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
+  text-align: center;
+  line-height: 1;
+}
+
+
 .orientation-background {
   position: relative;
   font-size: 1.3rem;
@@ -936,6 +962,10 @@ span.bet-number {
     .insurance-container {
       bottom: 0.5%;
       left: 10%;
+    }
+
+    .bet-notice {
+      transform: translate(46%, 48vh);
     }
     
 
