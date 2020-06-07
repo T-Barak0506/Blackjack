@@ -18,15 +18,20 @@ class Game {
 
     // SOUNDS:
     // this.backgroundMusic = new Sound('./media/Casino-delfino.mp3');
-    this.themeChange = new Sound('./media/sounds/chipLay3.wav');
-    this.dealSound = new Sound('./media/sounds/cardShove1.wav');
+    this.themeChange = new Sound('./media/sounds/themeChange.wav');
+    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
     this.flipSound = new Sound('./media/sounds/cardFlip.wav');
-    this.crowdGasp = new Sound('./media/sounds/THAT_Crowd_Gasp[Youtubetomp3.sc].mp3');
-    this.cardHitSound = new Sound('./media/sounds/diceThrow4.wav');
-    this.doubleSound = new Sound('./media/sounds/chipsHandle1.wav');
-    this.startSound = new Sound('./media/sounds/chipsHandle4.wav');
-    this.cardRemoveSound = new Sound('./media/sounds/cardTakeOutPackage1.wav');
-    this.playerStandSound = new Sound('./media/sounds/cardPlace2.wav');
+    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
+    this.crowdBoo = new Sound('./media/sounds/crowdBoo.mp3');
+    this.crowdAw = new Sound('./media/sounds/crowdAw.mp3');
+    this.crowdCheer = new Sound('./media/sounds/applause.mp3');
+    this.crowdClap = new Sound('./media/sounds/crowdClap.wav');
+    this.coinWinSound = new Sound('./media/sounds/ka-ching.mp3');
+    this.cardHitSound = new Sound('./media/sounds/playerHit.wav');
+    this.doubleSound = new Sound('./media/sounds/doubleDown.wav');
+    this.startSound = new Sound('./media/sounds/start.wav');
+    this.cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
+    this.playerStandSound = new Sound('./media/sounds/removeCards.wav');
 
 
     // COMMON CHECKERS
@@ -112,6 +117,8 @@ class Game {
       this.currency.storeCoins();
 
       setTimeout(() => {
+        this.crowdClap.playSound();
+        this.coinWinSound.playSound();
         this.menu.resTopText.textContent = 'blackjack!!';
         this.menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
         this.menu.toggleDisplay(this.menu.resultOverlay);
@@ -126,6 +133,7 @@ class Game {
       this.currency.storeCoins();
 
       setTimeout(() => {
+        this.crowdBoo.playSound();
         this.menu.resTopText.textContent = 'dealer wins!';
         this.menu.resBottomText.textContent = `You lost ${this.currency.totalBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
         this.currency.totalBet = 0;
@@ -156,6 +164,8 @@ class Game {
       this.currency.storeCoins();
 
       setTimeout(() => {
+        this.crowdCheer.playSound();
+        this.coinWinSound.playSound();
         this.menu.resTopText.textContent = 'you win!';
         this.menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
         this.currency.totalBet = 0;
@@ -387,6 +397,7 @@ class Game {
           this.menu.toggleBetMenu();
         }
       } else {
+        this.crowdAw.playSound();
         this.menu.resTopText.textContent = 'game over!';
         this.menu.resBottomText.textContent = 'You ran out of coins!';
         this.menu.toggleDisplay(this.menu.resultOverlay);
@@ -620,7 +631,7 @@ menu.resultOverlay.addEventListener('click', () => {
 });
 
 menu.insureYes.addEventListener('click', () => {
-  const insureAmount = Math.floor(currency.totalBet * 0.5);
+  const insureAmount = (currency.totalBet !== 1) ? Math.floor(currency.totalBet * 0.5) : 1;
   currency.insureBet += insureAmount;
   currency.playerCoins -= insureAmount;
   currency.updateCoinCount();

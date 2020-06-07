@@ -11,10 +11,10 @@ class Dealer {
     this.cardSpaceCPU = document.querySelector('#cpu-space');
 
     // Sounds
-    this.dealSound = new Sound('./media/sounds/cardShove1.wav');
-    this.dealSound2 = new Sound('./media/sounds/cardShove1.wav');
-    this.shuffleSound = new Sound('./media/sounds/cardFan2.wav');
-    this.shuffleSound2 = new Sound('./media/sounds/cardFan1.wav');
+    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
+    this.dealSound2 = new Sound('./media/sounds/cardDeal.wav');
+    this.shuffleSound = new Sound('./media/sounds/cardShuffle2.wav');
+    this.shuffleSound2 = new Sound('./media/sounds/cardShuffle.wav');
   }
 
   shuffle(deck) {

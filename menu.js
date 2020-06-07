@@ -10,7 +10,6 @@ class Menu {
 
     // Table theme menu
     this.currentThemeId = 0;
-    this.themeName = document.querySelector('.theme-name');
     this.classicTheme = document.querySelector('#choice1');
     this.rubyTheme = document.querySelector('#choice2');
     this.aquaTheme = document.querySelector('#choice3');
