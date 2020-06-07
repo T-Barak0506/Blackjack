@@ -117,9 +117,10 @@ class Game {
         this.currency.storeCoins();
 
         setTimeout(() => {
+          this.coinWinSound.stopSound();
           this.menu.resTopText.textContent = 'push';
           this.menu.resBottomText.textContent = 'Your wager was returned';
-          this.menu.toggleDisplay(this.menu.resultOverlay);
+          this.menu.resultOverlay.classList.add('hidden');
           this.currency.updateCoinCount();
         }, 450);
       } else {
@@ -690,3 +691,4 @@ menu.insureNo.addEventListener('click', () => {
 
 
 console.dir(game);
+console.log(document.querySelector('div #red'));
