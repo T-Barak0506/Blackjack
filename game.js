@@ -107,7 +107,7 @@ class Game {
     }
 
 
-    if (this.bjChecker === true && this.playerHandValue === 21 && this.player.playerHand.length === 2) {
+    if (this.bjChecker === true && this.playerHandValue === 21 && this.dealerHandValue !== 21 && this.dealer.dealerHand.length !== 2) {
       // If the player's first 2 cards equal 21
       const bjWin = Math.floor(this.currency.totalBet * 1.5);
       this.menu.toggleDisplay(this.menu.cmdMenu);
@@ -397,6 +397,7 @@ class Game {
           this.menu.toggleBetMenu();
         }
       } else {
+        this.crowdBoo.stopSound();
         this.crowdAw.playSound();
         this.menu.resTopText.textContent = 'game over!';
         this.menu.resBottomText.textContent = 'You ran out of coins!';
