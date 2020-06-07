@@ -107,23 +107,38 @@ class Game {
     }
 
 
-    if (this.bjChecker === true && this.playerHandValue === 21 && this.dealerHandValue !== 21 && this.dealer.dealerHand.length !== 2) {
+    if (this.bjChecker === true && this.playerHandValue === 21) {
       // If the player's first 2 cards equal 21
-      const bjWin = Math.floor(this.currency.totalBet * 1.5);
-      this.menu.toggleDisplay(this.menu.cmdMenu);
 
-      this.currency.playerCoins += bjWin;
-      this.currency.totalBet = 0;
-      this.currency.storeCoins();
+      if (this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2) {
+        // Returns the wagered coins to the player
+        this.currency.playerCoins += this.currency.totalBet;
+        this.currency.totalBet = 0;
+        this.currency.storeCoins();
 
-      setTimeout(() => {
-        this.crowdClap.playSound();
-        this.coinWinSound.playSound();
-        this.menu.resTopText.textContent = 'blackjack!!';
-        this.menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
-      }, 550);
+        setTimeout(() => {
+          this.menu.resTopText.textContent = 'push';
+          this.menu.resBottomText.textContent = 'Your wager was returned';
+          this.menu.toggleDisplay(this.menu.resultOverlay);
+          this.currency.updateCoinCount();
+        }, 450);
+      } else {
+        const bjWin = Math.floor(this.currency.totalBet * 1.5);
+        this.menu.toggleDisplay(this.menu.cmdMenu);
+
+        this.currency.playerCoins += bjWin;
+        this.currency.totalBet = 0;
+        this.currency.storeCoins();
+
+        setTimeout(() => {
+          this.crowdClap.playSound();
+          this.coinWinSound.playSound();
+          this.menu.resTopText.textContent = 'blackjack!!';
+          this.menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+          this.menu.toggleDisplay(this.menu.resultOverlay);
+          this.currency.updateCoinCount();
+        }, 550);
+      }
     }
 
     if (this.playerHandValue > 21 || this.dealerHandValue > this.playerHandValue && this.dealerHandValue <= 21 && this.insuranceHand === false || this.playerHandValue === this.dealerHandValue && this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2 && this.player.playerHand.length !== 2 && this.insuranceHand === false) {
@@ -399,8 +414,11 @@ class Game {
       } else {
         this.crowdBoo.stopSound();
         this.crowdAw.playSound();
+        document.querySelector('#p1').textContent = '💀';
+        document.querySelector('#cpu').textContent = '';
+        document.querySelector('#dealer').textContent = '';
         this.menu.resTopText.textContent = 'game over!';
-        this.menu.resBottomText.textContent = 'You ran out of coins!';
+        this.menu.resBottomText.textContent = 'You blew all your coins!';
         this.menu.toggleDisplay(this.menu.resultOverlay);
         this.gameOver = true;
       }
