@@ -12,11 +12,17 @@ class Dealer {
 
     // Sounds
     this.dealSound = new Sound('./media/sounds/cardShove1.wav');
-    this.shuffleSound = new Sound('./media/sounds/cardShuffle.wav');
+    this.dealSound2 = new Sound('./media/sounds/cardShove1.wav');
+    this.shuffleSound = new Sound('./media/sounds/cardFan2.wav');
+    this.shuffleSound2 = new Sound('./media/sounds/cardFan1.wav');
   }
 
   shuffle(deck) {
     this.shuffleSound.playSound();
+
+    setTimeout(() => {
+      this.shuffleSound2.playSound();
+    }, 2900);
 
     let counter = 0;
 
@@ -88,36 +94,38 @@ class Dealer {
 
       setTimeout(() => {
         this.getPlayerCardVisual(playerHand);
-        this.dealSound.playSound();
+        setTimeout(() => {
+          this.dealSound.playSound();
+        }, 100);
       }, 100);
     }, 550);
 
     setTimeout(() => {
-      this.dealSound.stopSound();
-
       // Adds the card to the raw deck, and displays the accompanying visual
       dealerHand.push(theDeck.pop());
       this.getDealerCardVisual(dealerHand);
-      this.dealSound.playSound();
+      setTimeout(() => {
+        this.dealSound2.playSound();
+      }, 100);
     }, 1050);
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
-      this.dealSound.stopSound();
 
 
       if (playerHand.length <= 1) {
         playerHand.push(theDeck.pop());
         setTimeout(() => {
           this.getPlayerCardVisual(playerHand);
-          this.dealSound.playSound();
+          setTimeout(() => {
+            this.dealSound.playSound();
+          }, 100);
         }, 130);
       }
     }, 1550);
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
-      this.dealSound.stopSound();
 
       if (dealerHand.length <= 1) {
         dealerHand.push(theDeck.pop());
@@ -125,7 +133,9 @@ class Dealer {
         setTimeout(() => {
           dealerHand[dealerHand.length - 1].hidden = true;
           this.getDealerCardVisual(dealerHand);
-          this.dealSound.playSound();
+          setTimeout(() => {
+            this.dealSound2.playSound();
+          }, 100);
         }, 130);
       }
     }, 2050);

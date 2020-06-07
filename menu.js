@@ -147,4 +147,13 @@ class Menu {
       this.toggleBetMenu();
     }, 4000);
   }
+
+  storeThemeId() {
+    localStorage.setItem('themeId', this.currentThemeId.toString());
+  }
+
+  getStoredTheme() {
+    const storedTheme = (localStorage.getItem('themeId') !== null) ? localStorage.getItem('themeId') : 1;
+    this.currentThemeId = parseInt(storedTheme, 10);
+  }
 }

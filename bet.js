@@ -23,4 +23,15 @@ class Currency {
     const betAmount = document.querySelector('#bet-amount');
     betAmount.value = this.playerCoins;
   }
+
+  storeCoins() {
+    // Saves the total coins in local storage (if the total is greater than 2500)
+    const storedCoins = (this.playerCoins > 2500) ? this.playerCoins : 2500;
+    localStorage.setItem('playerCoins', storedCoins.toString());
+  }
+
+  getStoredCoins() {
+    const storedCoins = (localStorage.getItem('playerCoins') !== null) ? localStorage.getItem('playerCoins') : 2500;
+    this.playerCoins = parseInt(storedCoins, 10);
+  }
 }

@@ -21,6 +21,7 @@ class Game {
     this.themeChange = new Sound('./media/sounds/chipLay3.wav');
     this.dealSound = new Sound('./media/sounds/cardShove1.wav');
     this.flipSound = new Sound('./media/sounds/cardFlip.wav');
+    this.crowdGasp = new Sound('./media/sounds/THAT_Crowd_Gasp[Youtubetomp3.sc].mp3');
     this.cardHitSound = new Sound('./media/sounds/diceThrow4.wav');
     this.doubleSound = new Sound('./media/sounds/chipsHandle1.wav');
     this.startSound = new Sound('./media/sounds/chipsHandle4.wav');
@@ -33,7 +34,6 @@ class Game {
     this.splitChecker = false;
     this.legitBetValue = false;
     this.gameOver = false;
-
 
     // HAND VALUES
     this.playerHandValue = 0;
@@ -101,72 +101,81 @@ class Game {
       timerNum = 500;
     }
 
+
     if (this.bjChecker === true && this.playerHandValue === 21 && this.player.playerHand.length === 2) {
       // If the player's first 2 cards equal 21
       const bjWin = Math.floor(this.currency.totalBet * 1.5);
       this.menu.toggleDisplay(this.menu.cmdMenu);
 
+      this.currency.playerCoins += bjWin;
+      this.currency.totalBet = 0;
+      this.currency.storeCoins();
 
       setTimeout(() => {
         this.menu.resTopText.textContent = 'blackjack!!';
         this.menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
         this.menu.toggleDisplay(this.menu.resultOverlay);
-
-        this.currency.playerCoins += bjWin;
-        this.currency.totalBet = 0;
         this.currency.updateCoinCount();
       }, 550);
     }
 
     if (this.playerHandValue > 21 || this.dealerHandValue > this.playerHandValue && this.dealerHandValue <= 21 && this.insuranceHand === false || this.playerHandValue === this.dealerHandValue && this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2 && this.player.playerHand.length !== 2 && this.insuranceHand === false) {
       // If the player goes over 21 or the dealer has a higher hand value
+
+      // The player loses all wagered coins
+      this.currency.storeCoins();
+
       setTimeout(() => {
         this.menu.resTopText.textContent = 'dealer wins!';
         this.menu.resBottomText.textContent = `You lost ${this.currency.totalBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-
-        // The player loses all wagered coins
         this.currency.totalBet = 0;
+
+        this.menu.toggleDisplay(this.menu.resultOverlay);
         this.currency.updateCoinCount();
       }, timerNum);
     } else if (this.dealerHandValue === this.playerHandValue && this.bjChecker === false || this.playerHandValue === this.dealerHandValue && this.dealerHandValue === 21 && this.bjChecker === true && this.dealer.dealerHand.length === 2) {
       // If the dealer has the same hand value as the player
+
+      // Returns the wagered coins to the player
+      this.currency.playerCoins += this.currency.totalBet;
+      this.currency.totalBet = 0;
+      this.currency.storeCoins();
+
       setTimeout(() => {
         this.menu.resTopText.textContent = 'push';
         this.menu.resBottomText.textContent = 'Your wager was returned';
         this.menu.toggleDisplay(this.menu.resultOverlay);
-
-        // Returns the wagered coins to the player
-        this.currency.playerCoins += this.currency.totalBet;
-        this.currency.totalBet = 0;
         this.currency.updateCoinCount();
       }, 450);
     } else if (this.playerHandValue > this.dealerHandValue && this.playerHandValue <= 21 && this.bjChecker === false || this.dealerHandValue > 21 && this.bjChecker === false) {
       // If the player has a higher hand value or if the dealer goes over 21
       const winAmount = this.currency.totalBet * 2;
+
+      // Returns the wagered coins, doubled, to the player
+      this.currency.playerCoins += winAmount;
+      this.currency.storeCoins();
+
       setTimeout(() => {
         this.menu.resTopText.textContent = 'you win!';
         this.menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-
-        // Returns the wagered coins, doubled, to the player
-        this.currency.playerCoins += winAmount;
         this.currency.totalBet = 0;
+        this.menu.toggleDisplay(this.menu.resultOverlay);
         this.currency.updateCoinCount();
       }, 550);
     } else if (this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2 && this.insuranceHand === true) {
       // If the dealer gets blackjack and the player has insurance
       const winAmount = this.currency.insureBet * 2;
 
+      // Returns the wagered insurance coins, doubled, to the player
+      this.currency.playerCoins += winAmount;
+      this.currency.totalBet = 0;
+      this.currency.insureBet = 0;
+      this.currency.storeCoins();
+
       setTimeout(() => {
         this.menu.resTopText.textContent = 'insured';
         this.menu.resBottomText.textContent = '';
         this.menu.toggleDisplay(this.menu.resultOverlay);
-
-        // Returns the wagered coins, doubled, to the player
-        this.currency.playerCoins += winAmount;
-        this.currency.totalBet = 0;
-        this.currency.insureBet = 0;
         this.currency.updateCoinCount();
       }, 550);
     }
@@ -260,9 +269,9 @@ class Game {
     const item = document.querySelectorAll('#cpu-space .card')[1];
 
     // Reveals the 2nd card in the dealer's hand
-    this.flipSound.playSound();
     hand[hand.length - 1].hidden = false;
     item.style.backgroundImage = `url('${hand[hand.length - 1].visual}')`;
+    this.flipSound.playSound();
 
 
     if (this.playerHandValue >= 22) {
@@ -285,7 +294,9 @@ class Game {
               this.dealSound.stopSound();
               hand.push(theDeck.pop());
               this.dealer.getDealerCardVisual(this.dealer.dealerHand);
-              this.dealSound.playSound();
+              setTimeout(() => {
+                this.dealSound.playSound();
+              }, 100);
             }, 200);
 
             setTimeout(() => {
@@ -306,10 +317,11 @@ class Game {
   checkForBlackjack() {
     if (this.playerHandValue === 21) {
       this.bjChecker = true;
+      this.crowdGasp.playSound();
       this.menu.toggleDisplay(this.menu.cmdMenu);
       setTimeout(() => {
         this.dealerPlay(this.dealer.dealerHand, this.deck.deckOfCards);
-      }, 700);
+      }, 1200);
     } else {
       this.bjChecker = false;
     }
@@ -399,73 +411,46 @@ const {
 
 
 // mouseOver and click events for the theme choice buttons
-menu.classicTheme.addEventListener('mouseover', () => {
-  menu.themeName.textContent = 'Classic';
-  menu.themeName.style.color = '#004b00';
-
-  setTimeout(() => {
-    menu.themeName.textContent = '';
-  }, 2000);
-});
-
 menu.classicTheme.addEventListener('click', () => {
   game.themeChange.playSound();
   menu.currentThemeId = 0;
   menu.toggleThemes();
+  menu.storeThemeId();
 });
 
-menu.rubyTheme.addEventListener('mouseover', () => {
-  menu.themeName.textContent = 'Ruby';
-  menu.themeName.style.color = '#750202';
-
-  setTimeout(() => {
-    menu.themeName.textContent = '';
-  }, 2000);
-});
 
 menu.rubyTheme.addEventListener('click', () => {
   game.themeChange.playSound();
   menu.currentThemeId = 1;
   menu.toggleThemes();
+  menu.storeThemeId();
 });
 
-menu.aquaTheme.addEventListener('mouseover', () => {
-  menu.themeName.textContent = 'Aqua';
-  menu.themeName.style.color = '#007e8e';
-
-  setTimeout(() => {
-    menu.themeName.textContent = '';
-  }, 2000);
-});
 
 menu.aquaTheme.addEventListener('click', () => {
   game.themeChange.playSound();
   menu.currentThemeId = 2;
   menu.toggleThemes();
-});
-
-menu.charcoalTheme.addEventListener('mouseover', () => {
-  menu.themeName.textContent = 'Charcoal';
-  menu.themeName.style.color = '#545454';
-
-  setTimeout(() => {
-    menu.themeName.textContent = '';
-  }, 2000);
+  menu.storeThemeId();
 });
 
 menu.charcoalTheme.addEventListener('click', () => {
   game.themeChange.playSound();
   menu.currentThemeId = 3;
   menu.toggleThemes();
+  menu.storeThemeId();
 });
 
 
 // ---------------------------------------------------------------
 
-currency.updateCoinCount();
+currency.getStoredCoins();
+menu.getStoredTheme();
+menu.toggleThemes();
 deck.createDeck();
 dealer.shuffle(deck.deckOfCards);
 menu.shuffleNotice();
+currency.updateCoinCount();
 
 
 // Adds the "onClick" functions to the hit, stand, double and split buttons
@@ -492,7 +477,9 @@ menu.doubleButton.addEventListener('click', () => {
     game.dealSound.stopSound();
     player.playerHit(player.playerHand, deck.deckOfCards);
     dealer.getPlayerCardVisual(player.playerHand);
-    game.dealSound.playSound();
+    setTimeout(() => {
+      game.dealSound.playSound();
+    }, 100);
   }, 400);
 
   setTimeout(() => {
@@ -525,7 +512,9 @@ menu.hitButton.addEventListener('click', () => {
     game.dealSound.stopSound();
     player.playerHit(player.playerHand, deck.deckOfCards);
     dealer.getPlayerCardVisual(player.playerHand);
-    game.dealSound.playSound();
+    setTimeout(() => {
+      game.dealSound.playSound();
+    }, 100);
   }, 400);
 
   setTimeout(() => {
@@ -571,9 +560,9 @@ menu.standButton.addEventListener('click', () => {
 // Start the game!
 menu.start.addEventListener('click', () => {
   game.checkBetValue(menu.betValueInput);
-  game.startSound.playSound();
 
   if (game.legitBetValue === true) {
+    game.startSound.playSound();
     menu.enableBtn(menu.hitButton);
     menu.enableBtn(menu.standButton);
     menu.enableBtn(menu.doubleButton);
@@ -582,6 +571,7 @@ menu.start.addEventListener('click', () => {
     menu.toggleBetMenu(); // Hides the bet menu
 
     // Gives 2 cards to both the player and dealer
+    localStorage.setItem('playerCoins', '2500');
     dealer.initDeal2Hand(player.playerHand, dealer.dealerHand, deck.deckOfCards);
 
     setTimeout(() => {
