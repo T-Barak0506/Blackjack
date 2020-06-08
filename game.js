@@ -416,8 +416,7 @@ class Game {
         this.crowdBoo.stopSound();
         this.crowdAw.playSound();
         document.querySelector('#p1').textContent = '💀';
-        document.querySelector('#cpu').textContent = '';
-        document.querySelector('#dealer').textContent = '';
+        document.querySelector('p#dealer').style.display = 'none';
         this.menu.resTopText.textContent = 'game over!';
         this.menu.resBottomText.textContent = 'You blew all your coins!';
         this.menu.toggleDisplay(this.menu.resultOverlay);

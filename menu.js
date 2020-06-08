@@ -70,7 +70,23 @@ class Menu {
   }
 
   toggleDisplay(item) {
-    item.classList.toggle('hidden');
+    if (item !== this.resultOverlay) {
+      if (!item.classList.contains('hidden')) {
+      // if the element doesn't already have the hidden class "hidden"
+        item.classList.toggle('hidden');
+
+        setTimeout(() => {
+          item.style.display = 'none';
+        }, 500);
+      // .
+      } else {
+      // if the element has the "hidden" class
+        item.style.display = 'block';
+        item.classList.toggle('hidden');
+      }
+    } else {
+      item.classList.toggle('hidden');
+    }
   }
 
   toggleBetMenu() {
