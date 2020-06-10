@@ -426,7 +426,7 @@ body {
   -webkit-transition: 0s;
 }
 
-#double-container:disabled, #split-container:disabled {
+#double-container, #split-container {
   display: none;
 }
 

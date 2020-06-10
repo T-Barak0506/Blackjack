@@ -70,7 +70,7 @@ class Menu {
   }
 
   toggleDisplay(item) {
-    if (item !== this.resultOverlay) {
+    if (item !== this.resultOverlay && item !== this.betNotice) {
       if (!item.classList.contains('hidden')) {
       // if the element doesn't already have the hidden class "hidden"
         item.classList.toggle('hidden');
@@ -82,8 +82,23 @@ class Menu {
       } else {
       // if the element has the "hidden" class
         item.style.display = 'block';
-        item.classList.toggle('hidden');
+
+        setTimeout(() => {
+          item.classList.toggle('hidden');
+        }, 100);
       }
+    } else if (item === this.betNotice) {
+      // Displays the item, then automatically hides it a couple seconds later.
+      item.classList.remove('hidden');
+
+      setTimeout(() => {
+        item.classList.add('hidden');
+        setTimeout(() => {
+          this.betNotice.textContent = '';
+          this.betNotice.style.display = 'none';
+        }, 500);
+      }, 1900);
+      // .
     } else {
       item.classList.toggle('hidden');
     }
@@ -93,8 +108,20 @@ class Menu {
     const mainContainer = document.querySelector('#container');
     const betContainer = document.querySelector('.bet-container');
 
-    mainContainer.classList.toggle('blur');
-    betContainer.classList.toggle('blur');
+    if (betContainer.classList.contains('blur')) {
+      mainContainer.classList.toggle('blur');
+      betContainer.classList.toggle('blur');
+
+      setTimeout(() => {
+        betContainer.style.display = 'none';
+      }, 500);
+    } else {
+      betContainer.style.display = 'block';
+      setTimeout(() => {
+        mainContainer.classList.toggle('blur');
+        betContainer.classList.toggle('blur');
+      }, 100);
+    }
   }
 
   toggleTotalBetMenu() {

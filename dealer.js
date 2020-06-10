@@ -81,6 +81,7 @@ class Dealer {
         card.style.backgroundColor = '#555555';
         card.style.color = '#ffffff';
         card.textContent = `Couldn't display visual because: ${err}`;
+        console.error(err);
       }
     }, 175);
   }

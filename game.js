@@ -48,6 +48,7 @@ class Game {
     // HAND MODIFIERS
     this.insuranceHand = false;
     this.splitHand = false;
+    this.splitHandNum = null;
   }
 
   checkBetValue(betValue) {
@@ -354,23 +355,28 @@ class Game {
   }
 
   checkHand() {
-    // Checks if the hand meets the requirements to double or split
     const doubleAmount = Math.floor(this.currency.totalBet * 1.8);
 
-    if (this.playerHandValue >= 9 && this.playerHandValue <= 18 && doubleAmount <= this.currency.playerCoins) {
-      this.menu.doubleContainer.style.display = 'block';
-    } else {
-      this.menu.doubleContainer.style.display = 'none';
-    }
-
+    this.menu.doubleContainer.style.display = 'none';
     this.menu.splitContainer.style.display = 'none';
 
+    // Checks if the hand meets the requirements to double
+    if (this.playerHandValue >= 9 && this.playerHandValue <= 18 && doubleAmount <= this.currency.playerCoins && this.currency.totalBet !== 1) {
+      this.menu.doubleContainer.style.display = 'block';
+    }
+
+    // Checks if the hand meets the requirements to double or split
+    if (this.currency.totalBet < this.currency.playerCoins) {
+      // If the player's wager is smaller than the coins they have remanining
+      // this.menu.splitContainer.style.display = 'block';
+    }
+
     // Checks if the hand meets the requirements to split
-  //   if (this.player.playerHand[0].value && this.player.playerHand[1].value === faceCards || this.player.playerHand[0].value === this.player.playerHand[1].value) {
-  //     this.menu.splitContainer.style.display = 'block';
-  //   } else {
-  //     this.menu.splitContainer.style.display = 'none';
-  //   }
+    // if (this.player.playerHand[0].value === this.player.playerHand[1].value) {
+
+    // } else {
+    //   this.menu.splitContainer.style.display = 'none';
+    // }
   }
 
   nextRound() {
@@ -505,7 +511,7 @@ menu.doubleButton.addEventListener('click', () => {
 
   setTimeout(() => {
     game.dealSound.stopSound();
-    player.playerHit(player.playerHand, deck.deckOfCards);
+    player.playerHit(deck.deckOfCards);
     dealer.getPlayerCardVisual(player.playerHand);
     setTimeout(() => {
       game.dealSound.playSound();
@@ -520,14 +526,6 @@ menu.doubleButton.addEventListener('click', () => {
   setTimeout(() => {
     game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
   }, 1699);
-
-  setTimeout(() => {
-    menu.toggleDisplay(menu.betNotice);
-    setTimeout(() => {
-      menu.betNotice.textContent = '';
-      menu.betNotice.style.display = 'none';
-    }, 500);
-  }, 1900);
 });
 
 
@@ -540,7 +538,7 @@ menu.hitButton.addEventListener('click', () => {
 
   setTimeout(() => {
     game.dealSound.stopSound();
-    player.playerHit(player.playerHand, deck.deckOfCards);
+    player.playerHit(deck.deckOfCards);
     dealer.getPlayerCardVisual(player.playerHand);
     setTimeout(() => {
       game.dealSound.playSound();
@@ -554,12 +552,16 @@ menu.hitButton.addEventListener('click', () => {
       menu.disableBtn(menu.hitButton);
       menu.disableBtn(menu.standButton);
       setTimeout(() => {
-        game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+        if (game.splitHand === false || game.splitHandNum === 2) {
+          game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+        }
       }, 560);
       // .
     } else if (game.playerHandValue >= 22) {
       setTimeout(() => {
-        game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+        if (game.splitHand === false || game.splitHandNum === 2) {
+          game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+        }
       }, 560);
       // .
     } else {
@@ -581,8 +583,36 @@ menu.standButton.addEventListener('click', () => {
   menu.disableBtn(menu.splitButton);
 
   setTimeout(() => {
-    game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+    if (game.splitHand === false || game.splitHandNum === 2) {
+      game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+    }
   }, 560);
+});
+
+menu.splitButton.addEventListener('click', () => {
+  const splitAmount = currency.totalBet;
+  game.doubleSound.playSound();
+  game.splitHand = true;
+  game.splitHandNum = 1;
+  menu.betNotice.textContent = 'Split bet accepted.';
+  menu.betNotice.style.display = 'block';
+  menu.toggleDisplay(menu.betNotice);
+
+  currency.playerCoins -= splitAmount;
+  currency.totalBet += splitAmount;
+  currency.updateCoinCount();
+
+  setTimeout(() => {
+    game.dealSound.playSound();
+    player.playerSplit();
+  }, 400);
+
+
+  menu.toggleDisplay(menu.cmdMenu);
+  menu.disableBtn(menu.hitButton);
+  menu.disableBtn(menu.standButton);
+  menu.disableBtn(menu.doubleButton);
+  menu.disableBtn(menu.splitButton);
 });
 
 /* -------------------------------------------------------------------------------------*/
@@ -690,4 +720,3 @@ menu.insureNo.addEventListener('click', () => {
 
 
 console.dir(game);
-console.log(document.querySelector('div #red'));
