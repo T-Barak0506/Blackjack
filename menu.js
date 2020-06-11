@@ -147,7 +147,7 @@ class Menu {
       // ...
     } else if (this.currentThemeId === 2) {
       // ...
-      this.tableMain.style.setProperty('--table', 'radial-gradient(#007e8e, #005d68)');
+      this.tableMain.style.setProperty('--table', 'radial-gradient(#006772, #005d68)');
       this.tableBackground.style.setProperty('--tableBG', '#005d68');
       this.p1Border.style.setProperty('--table-border', '2px rgba(14,230,255, 0.277) solid');
       this.cpuBorder.style.setProperty('--table-border', '2px rgba(14,230,255, 0.277) solid');
