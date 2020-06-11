@@ -367,8 +367,8 @@ class Game {
 
     // Checks if the hand meets the requirements to double or split
     if (this.currency.totalBet < this.currency.playerCoins) {
-      // If the player's wager is smaller than the coins they have remanining
-      // this.menu.splitContainer.style.display = 'block';
+      // If the player's wager is smaller than the coins they have remaining
+      this.menu.splitContainer.style.display = 'block';
     }
 
     // Checks if the hand meets the requirements to split
