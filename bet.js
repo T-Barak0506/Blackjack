@@ -5,6 +5,7 @@ class Currency {
     this.playerCoins = 2500;
     this.totalBet = 0;
     this.insureBet = 0;
+    this.splitBet = 0;
 
     // CSS visual equivalents
     this.coinAmount = document.querySelector('.coin-amount'); // Amount shown at top of screen

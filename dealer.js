@@ -8,6 +8,7 @@
 class Dealer {
   constructor() {
     this.dealerHand = [];
+    // this.handValue = 0;
     this.cardSpaceCPU = document.querySelector('#cpu-space');
 
     // Sounds

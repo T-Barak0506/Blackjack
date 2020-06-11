@@ -538,6 +538,7 @@ menu.hitButton.addEventListener('click', () => {
 
   setTimeout(() => {
     game.dealSound.stopSound();
+
     player.playerHit(deck.deckOfCards);
     dealer.getPlayerCardVisual(player.playerHand);
     setTimeout(() => {

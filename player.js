@@ -21,10 +21,10 @@ class Player {
     splitSpace.classList.add('split-space');
     document.body.appendChild(splitSpace);
 
-    this.splitHand.push(this.playerHand.pop());
+    this.splitHand.push(this.playerHand.pop()); // Moves the card object from the deck
 
     setTimeout(() => {
-      splitSpace.appendChild(cardToHide);
+      splitSpace.appendChild(cardToHide); // Moves the 2nd card to the side
       cardToHide.style.display = 'none';
     }, 583);
 
