@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
@@ -17,7 +18,6 @@ class Game {
 
 
     // SOUNDS:
-    // this.backgroundMusic = new Sound('./media/Casino-delfino.mp3');
     this.themeChange = new Sound('./media/sounds/themeChange.wav');
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
     this.flipSound = new Sound('./media/sounds/cardFlip.wav');
@@ -48,7 +48,7 @@ class Game {
     // HAND MODIFIERS
     this.insuranceHand = false;
     this.splitHand = false;
-    this.splitHandNum = null;
+    this.splitHandNum = 0;
   }
 
   checkBetValue(betValue) {
@@ -397,9 +397,12 @@ class Game {
         this.deck.discardPile.push(this.dealer.dealerHand.pop());
       }
 
+      // Resets the values for card values and hand modifiers
       this.playerHandValue = 0;
       this.dealerHandValue = 0;
       this.insuranceHand = false;
+      this.splitHand = false;
+      this.splitHandNum = 0;
 
       document.querySelector('#p1').textContent = `${this.playerHandValue.toString()}`;
       document.querySelector('#cpu').textContent = `${this.dealerHandValue.toString()}`;
@@ -430,6 +433,75 @@ class Game {
       }
     }, 500);
   }
+
+  swapSplitHands() {
+    const hand1 = document.querySelector('#p1-space');
+    const hand2 = document.querySelector('#split-space');
+    const p1Cards = document.querySelectorAll('#p1-space .card');
+    const transferArr = [];
+
+    const transferDiv = document.createElement('div');
+    transferDiv.setAttribute('id', 'transfer-space');
+    transferDiv.style.display = 'none';
+    document.body.appendChild(transferDiv);
+
+    console.log(p1Cards);
+
+    p1Cards.forEach((card) => card.classList.toggle('inactive'));
+    this.cardRemoveSound.playSound();
+
+    setTimeout(() => {
+      while (this.player.playerHand.length > 0) {
+        // Moves the cards from the playerHand array to the 'staging' array
+        transferArr.push(this.player.playerHand.shift());
+      }
+      if (hand1.childNodes.length > 0) {
+        // Moves the card divs from the main hand to the "transferDiv"
+        while (hand1.childNodes.length > 0) {
+          transferDiv.appendChild(hand1.childNodes[0]);
+        }
+      }
+
+      while (this.player.splitHand.length > 0) {
+        // Moves the cards from the player's 2nd hand to the original hand
+        this.player.playerHand.push(this.player.splitHand.shift());
+      }
+      if (hand2.childNodes.length > 0) {
+        // Moves the card divs from the 2nd hand to the main hand
+        // NOTE: when this runs, there is likely to already be child elements-
+      // in this parentDiv, so it shouldn't return 'null'.
+        while (hand2.childNodes.length > 0) {
+          hand1.appendChild(hand2.childNodes[0]);
+        }
+      }
+
+      while (transferArr.length > 0) {
+        // Moves the cards from the "staging" hand to the player's 2nd hand
+        this.player.splitHand.push(transferArr.shift());
+      }
+      if (transferDiv.childNodes.length > 0) {
+        // Moves the card divs from the 'transferDiv' hand to the main hand
+        while (transferDiv.childNodes.length > 0) {
+          hand2.appendChild(transferDiv.childNodes[0]);
+        }
+      }
+    }, 650);
+
+    setTimeout(() => {
+      console.log(p1Cards);
+      p1Cards.forEach((card) => card.classList.toggle('inactive'));
+      this.dealSound.playSound();
+      transferDiv.remove();
+    }, 1400);
+
+    setTimeout(() => {
+      this.getPlayerHandValue(this.player.playerHand);
+    }, 1950);
+
+
+    console.log(this.player.playerHand);
+    console.log(this.player.splitHand);
+  }
 }
 
 
@@ -446,7 +518,7 @@ const {
 /* ------------------------------------------------------------------------------------------------------*/
 
 
-// mouseOver and click events for the theme choice buttons
+// Click events for the theme choice buttons
 menu.classicTheme.addEventListener('click', () => {
   game.themeChange.playSound();
   menu.currentThemeId = 0;
@@ -586,12 +658,17 @@ menu.standButton.addEventListener('click', () => {
   setTimeout(() => {
     if (game.splitHand === false || game.splitHandNum === 2) {
       game.dealerPlay(dealer.dealerHand, deck.deckOfCards);
+    } else {
+      game.swapSplitHands();
     }
   }, 560);
 });
 
 menu.splitButton.addEventListener('click', () => {
   const splitAmount = currency.totalBet;
+  // game.swapSplitHands();
+
+  console.log(document.querySelectorAll('#p1-space .card'));
   game.doubleSound.playSound();
   game.splitHand = true;
   game.splitHandNum = 1;
@@ -599,21 +676,38 @@ menu.splitButton.addEventListener('click', () => {
   menu.betNotice.style.display = 'block';
   menu.toggleDisplay(menu.betNotice);
 
+  currency.splitBet = splitAmount;
   currency.playerCoins -= splitAmount;
   currency.totalBet += splitAmount;
   currency.updateCoinCount();
-
-  setTimeout(() => {
-    game.dealSound.playSound();
-    player.playerSplit();
-  }, 400);
-
 
   menu.toggleDisplay(menu.cmdMenu);
   menu.disableBtn(menu.hitButton);
   menu.disableBtn(menu.standButton);
   menu.disableBtn(menu.doubleButton);
   menu.disableBtn(menu.splitButton);
+
+  setTimeout(() => {
+    game.dealSound.playSound();
+    player.playerSplit();
+  }, 400);
+
+  setTimeout(() => {
+    player.playerHit(deck.deckOfCards);
+    dealer.getPlayerCardVisual(player.playerHand);
+    setTimeout(() => {
+      game.dealSound.playSound();
+    }, 100);
+
+    setTimeout(() => {
+      game.getPlayerHandValue(player.playerHand);
+      menu.splitContainer.style.display = 'none';
+      menu.doubleContainer.style.display = 'none';
+      menu.toggleDisplay(menu.cmdMenu);
+      menu.enableBtn(menu.hitButton);
+      menu.enableBtn(menu.standButton);
+    }, 750);
+  }, 1400);
 });
 
 /* -------------------------------------------------------------------------------------*/
@@ -627,7 +721,7 @@ menu.start.addEventListener('click', () => {
     menu.enableBtn(menu.hitButton);
     menu.enableBtn(menu.standButton);
     menu.enableBtn(menu.doubleButton);
-    menu.enableBtn(menu.splitButton);
+    menu.disableBtn(menu.splitButton);
     menu.disableBtn(menu.start);
     menu.toggleBetMenu(); // Hides the bet menu
 
@@ -641,6 +735,7 @@ menu.start.addEventListener('click', () => {
       game.getDealerHandValue(dealer.dealerHand);
       menu.toggleTotalBetMenu();
       game.checkForBlackjack();
+      console.log(document.querySelectorAll('#p1-space .card').length);
 
 
       if (game.playerHandValue === 21) {

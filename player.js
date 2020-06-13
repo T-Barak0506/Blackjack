@@ -18,7 +18,7 @@ class Player {
 
 
     const splitSpace = document.createElement('div'); // creates the space for the 2nd card to be used later
-    splitSpace.classList.add('split-space');
+    splitSpace.setAttribute('id', 'split-space');
     document.body.appendChild(splitSpace);
 
     this.splitHand.push(this.playerHand.pop()); // Moves the card object from the deck

@@ -60,16 +60,8 @@
     </div>
 
     <div class="card-container">
-      <div class="card-space" id="p1-space">
-        <!-- Player's cards here -->
-
-      </div>
-
-
-      <div class="card-space" id="cpu-space">
-        <!-- Dealer's cards here -->
-
-      </div>
+      <div class="card-space" id="p1-space"></div>
+      <div class="card-space" id="cpu-space"></div>
     </div>
 
     <div class="button-container hidden">
@@ -134,7 +126,7 @@
 
   </div>
 
-  <div class="bet-container">
+  <form class="bet-container">
     <h1>Place your Bets:</h1>
     <input type="text" placeholder="Enter amount here" id="bet-amount" autocomplete="off">
     <h4>You currently have <span class="remaining-coins" onclick="game.currency.insertMax()">0</span> coins.</h4>
@@ -152,8 +144,8 @@
       </div>
     </div>
 
-    <button id="deal-button">Start</button>
-  </div>
+    <button type="submit" id="deal-button">Start</button>
+  </form>
 
 
 </body>
