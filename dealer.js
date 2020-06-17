@@ -61,7 +61,7 @@ class Dealer {
     }, 175);
   }
 
-  getDealerCardVisual(hand) {
+  getDealerCardVisual() {
     // Creates the card
     const card = document.createElement('div');
     card.classList.add('card');
@@ -72,10 +72,10 @@ class Dealer {
 
     setTimeout(() => {
       try {
-        if (hand.length === 2 && hand[hand.length - 1].hidden === true) {
+        if (this.dealerHand.length === 2 && this.dealerHand[this.dealerHand.length - 1].hidden === true) {
           card.style.backgroundImage = "url('/misc./cover.png')";
         } else {
-          card.style.backgroundImage = `url('${hand[hand.length - 1].visual}')`;
+          card.style.backgroundImage = `url('${this.dealerHand[this.dealerHand.length - 1].visual}')`;
         }
         card.classList.toggle('inactive');
       } catch (err) {
@@ -87,46 +87,72 @@ class Dealer {
     }, 175);
   }
 
+  dealerHit(theDeck) {
+    this.dealSound.stopSound();
+    this.dealerHand.push(theDeck.pop());
+
+    setTimeout(() => {
+      this.dealSound.playSound();
+    }, 100);
+
+    this.getDealerCardVisual();
+  }
+
   initDeal2Hand(playerHand, dealerHand, theDeck) {
     // adds 2 cards each to the player's and dealer's hands
+    const card1 = document.createElement('div');
+    const card2 = document.createElement('div');
+
+    card1.classList.add('card');
+    card1.classList.add('inactive');
+    card2.classList.add('card');
+    card2.classList.add('inactive');
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
       playerHand.push(theDeck.pop());
 
       setTimeout(() => {
-        this.getPlayerCardVisual(playerHand);
+        this.dealSound.stopSound();
+        // Generates the card image and sends it to the player
+        document.getElementById('p1-space').appendChild(card1);
+
         setTimeout(() => {
-          this.dealSound.playSound();
+          card1.style.backgroundImage = `url('${playerHand[playerHand.length - 1].visual}')`;
+          card1.classList.toggle('inactive');
+        }, 175);
+        setTimeout(() => {
+          this.dealSound2.playSound();
         }, 100);
       }, 100);
     }, 550);
 
     setTimeout(() => {
-      // Adds the card to the raw deck, and displays the accompanying visual
-      dealerHand.push(theDeck.pop());
-      this.getDealerCardVisual(dealerHand);
-      setTimeout(() => {
-        this.dealSound2.playSound();
-      }, 100);
+      // Adds a card to the dealer's hand
+      this.dealerHit(theDeck);
     }, 1050);
 
     setTimeout(() => {
       // Adds the card to the raw deck, and displays the accompanying visual
-
-
       if (playerHand.length <= 1) {
         playerHand.push(theDeck.pop());
         setTimeout(() => {
-          this.getPlayerCardVisual(playerHand);
+          // Generates the card image and sends it to the player
+          document.getElementById('p1-space').appendChild(card2);
+
           setTimeout(() => {
-            this.dealSound.playSound();
+            card2.style.backgroundImage = `url('${playerHand[playerHand.length - 1].visual}')`;
+            card2.classList.toggle('inactive');
+          }, 175);
+          setTimeout(() => {
+            this.dealSound2.playSound();
           }, 100);
         }, 130);
       }
     }, 1550);
 
     setTimeout(() => {
+      this.dealSound.stopSound();
       // Adds the card to the raw deck, and displays the accompanying visual
 
       if (dealerHand.length <= 1) {
@@ -136,22 +162,11 @@ class Dealer {
           dealerHand[dealerHand.length - 1].hidden = true;
           this.getDealerCardVisual(dealerHand);
           setTimeout(() => {
-            this.dealSound2.playSound();
+            this.dealSound.playSound();
           }, 100);
         }, 130);
       }
     }, 2050);
-
-    return `${playerHand} ${dealerHand}`;
-  }
-
-
-  checkDeck(deck, discardPile) {
-    if (deck.length <= 13) {
-      while (discardPile.length > 1) {
-        deck.push(discardPile.pop());
-      }
-    }
   }
 }
 /*--------------------------------*/
