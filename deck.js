@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
@@ -64,7 +65,7 @@ class Deck {
 
   createDeck() {
     const protoDeck = [];
-    let i = 0;
+    let n = 0;
 
     // 13 values per suit
     this.suits.forEach((suit) => {
@@ -83,8 +84,7 @@ class Deck {
     // Adds these cards to the protoDeck variable before pushing everything to the-
     // main deck (156-card deck)
 
-    while (i < 2) {
-      // eslint-disable-next-line no-loop-func
+    while (n < 2) {
       this.suits.forEach((suit) => {
         this.values.forEach((value) => {
           protoDeck.push(new Card(suit, value));
@@ -96,11 +96,12 @@ class Deck {
         protoDeck[x].visual += this.cardVisuals[x];
       }
 
+      // Adds the extra cards to the main deck
       while (protoDeck.length > 0) {
         this.deckOfCards.push(protoDeck.pop());
       }
 
-      i++;
+      n++;
     }
 
 
