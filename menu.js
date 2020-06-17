@@ -69,7 +69,7 @@ class Menu {
     }
   }
 
-  toggleDisplay(item) {
+  toggleDisplay(item, duration = 1900) {
     if (item !== this.resultOverlay && item !== this.betNotice) {
       if (!item.classList.contains('hidden')) {
       // if the element doesn't already have the hidden class "hidden"
@@ -89,7 +89,11 @@ class Menu {
       }
     } else if (item === this.betNotice) {
       // Displays the item, then automatically hides it a couple seconds later.
-      item.classList.remove('hidden');
+      this.betNotice.style.display = 'block';
+
+      setTimeout(() => {
+        item.classList.remove('hidden');
+      }, 100);
 
       setTimeout(() => {
         item.classList.add('hidden');
@@ -97,7 +101,7 @@ class Menu {
           this.betNotice.textContent = '';
           this.betNotice.style.display = 'none';
         }, 500);
-      }, 1900);
+      }, duration);
       // .
     } else {
       item.classList.toggle('hidden');
