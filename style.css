@@ -966,6 +966,9 @@ span.bet-number {
 
     .bet-notice {
       transform: translate(46%, 48vh);
+      -moz-transform: translate(46%, 48vh);
+      -ms-transform: translate(46%, 48vh);
+      -webkit-transform: translate(46%, 48vh);
     }
     
 
