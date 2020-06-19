@@ -4,7 +4,6 @@ class Player {
   constructor() {
     this.playerHand = [];
     this.splitHand = [];
-    this.cardSpaceP1 = document.querySelector('#p1-space');
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
   }
 
@@ -15,7 +14,7 @@ class Player {
     card.classList.add('inactive');
 
     // Generates the card image and sends it to the player
-    this.cardSpaceP1.appendChild(card);
+    document.querySelector('#p1-space').appendChild(card);
 
     setTimeout(() => {
       card.style.backgroundImage = `url('${this.playerHand[this.playerHand.length - 1].visual}')`;

@@ -15,23 +15,6 @@ class Game {
     this.currency = new Currency();
 
 
-    // SOUNDS:
-    this.themeChange = new Sound('./media/sounds/themeChange.wav');
-    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
-    this.flipSound = new Sound('./media/sounds/cardFlip.wav');
-    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
-    this.crowdBoo = new Sound('./media/sounds/crowdBoo.mp3');
-    this.crowdAw = new Sound('./media/sounds/crowdAw.mp3');
-    this.crowdCheer = new Sound('./media/sounds/applause.mp3');
-    this.crowdClap = new Sound('./media/sounds/crowdClap.wav');
-    this.coinWinSound = new Sound('./media/sounds/ka-ching.mp3');
-    this.cardHitSound = new Sound('./media/sounds/playerHit.wav');
-    this.doubleSound = new Sound('./media/sounds/doubleDown.wav');
-    this.startSound = new Sound('./media/sounds/start.wav');
-    this.cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
-    this.playerStandSound = new Sound('./media/sounds/removeCards.wav');
-
-
     // COMMON CHECKERS
     this.bjChecker = true;
     this.legitBetValue = false;
@@ -46,6 +29,22 @@ class Game {
     this.insuranceHand = false;
     this.splitHand = false;
     this.splitHandNum = 0;
+
+
+    // SOUNDS:
+    this.themeChange = new Sound('./media/sounds/themeChange.wav');
+    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
+    this.flipSound = new Sound('./media/sounds/cardFlip.wav');
+    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
+    this.crowdAw = new Sound('./media/sounds/crowdAw.mp3');
+    this.crowdCheer = new Sound('./media/sounds/applause.mp3');
+    this.crowdClap = new Sound('./media/sounds/crowdClap.wav');
+    this.coinWinSound = new Sound('./media/sounds/ka-ching.mp3');
+    this.cardHitSound = new Sound('./media/sounds/playerHit.wav');
+    this.doubleSound = new Sound('./media/sounds/doubleDown.wav');
+    this.startSound = new Sound('./media/sounds/start.wav');
+    this.cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
+    this.playerStandSound = new Sound('./media/sounds/removeCards.wav');
   }
 
   checkBetValue(betValue) {
@@ -161,7 +160,7 @@ class Game {
       this.currency.storeCoins();
 
       setTimeout(() => {
-        this.crowdBoo.playSound();
+        this.crowdAw.playSound();
         this.menu.resTopText.textContent = 'dealer wins!';
 
         if (this.splitHand === true) {
@@ -407,18 +406,11 @@ class Game {
       this.menu.doubleContainer.style.display = 'block';
     }
 
-    // Checks if the hand meets the requirements to double or split
+    // Checks if the hand meets the requirements to be splittable
     if (this.currency.totalBet < this.currency.playerCoins) {
       // If the player's wager is smaller than the coins they have remaining
       this.menu.splitContainer.style.display = 'block';
     }
-
-    // Checks if the hand meets the requirements to split
-    // if (this.player.playerHand[0].value === this.player.playerHand[1].value) {
-
-    // } else {
-    //   this.menu.splitContainer.style.display = 'none';
-    // }
   }
 
   nextRound() {
@@ -480,8 +472,7 @@ class Game {
       }
 
       // If the player has no coins left
-      this.crowdBoo.stopSound();
-      this.crowdAw.playSound();
+      this.crowdAw.stopSound();
       document.querySelector('#p1').textContent = '💀';
       document.querySelector('p#dealer').style.display = 'none';
       this.menu.resTopText.textContent = 'game over!';
@@ -614,7 +605,7 @@ currency.updateCoinCount();
 
 // Adds the "onClick" functions to the hit, stand, double and split buttons
 menu.doubleButton.addEventListener('click', () => {
-  const doubleAmount = Math.floor(currency.totalBet * 1.8);
+  const doubleAmount = currency.totalBet;
 
   game.doubleSound.playSound();
 
@@ -627,8 +618,8 @@ menu.doubleButton.addEventListener('click', () => {
   menu.disableBtn(menu.splitButton);
 
   // Adds the coins to the wager
-  currency.playerCoins -= doubleAmount;
-  currency.totalBet = doubleAmount;
+  currency.playerCoins -= currency.totalBet;
+  currency.totalBet += doubleAmount;
   currency.updateCoinCount();
 
   setTimeout(() => {
@@ -667,19 +658,24 @@ menu.hitButton.addEventListener('click', () => {
 
       setTimeout(() => {
         if (game.splitHandNum % 2 === 0) {
+          // If the player didn't split their hand or they're on their 2nd hand (if they did split)
           game.dealerPlay(deck.deckOfCards);
         } else {
           game.swapSplitHands();
 
           setTimeout(() => {
+            // Displays the hand number on-screen for 2 seconds
             menu.betNotice.textContent = `Hand #${game.splitHandNum}`;
             menu.toggleDisplay(menu.betNotice, 2000);
+
+            // Receive a card from the deck (since each split hand now only has 1 card)
             player.playerHit(deck.deckOfCards, player.playerHand);
           }, 2000);
 
           setTimeout(() => {
             game.getPlayerHandValue();
             if (game.playerHandValue === 21 && player.playerHand.length === 2 && game.splitHandNum === 2) {
+              // If the player's 1st 2 cards equal 21 (not a blackjack this time)
               game.dealerPlay(deck.deckOfCards);
             } else {
               menu.enableBtn(menu.hitButton);
@@ -693,6 +689,7 @@ menu.hitButton.addEventListener('click', () => {
     } else if (game.playerHandValue >= 22) {
       setTimeout(() => {
         if (game.splitHandNum % 2 === 0) {
+          // If the player didn't split their hand or they're on their 2nd hand (if they did split)
           game.dealerPlay(deck.deckOfCards);
         } else {
           game.swapSplitHands();

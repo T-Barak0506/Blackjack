@@ -8,8 +8,6 @@
 class Dealer {
   constructor() {
     this.dealerHand = [];
-    // this.handValue = 0;
-    this.cardSpaceCPU = document.querySelector('#cpu-space');
 
     // Sounds
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
@@ -68,7 +66,7 @@ class Dealer {
     card.classList.add('inactive');
 
     // Generates the card image and sends it to the player
-    this.cardSpaceCPU.appendChild(card);
+    document.querySelector('#cpu-space').appendChild(card);
 
     setTimeout(() => {
       try {
