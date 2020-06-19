@@ -396,7 +396,7 @@ class Game {
   }
 
   checkHand() {
-    const doubleAmount = Math.floor(this.currency.totalBet * 1.8);
+    const doubleAmount = this.currency.totalBet;
 
     this.menu.doubleContainer.style.display = 'none';
     this.menu.splitContainer.style.display = 'none';
@@ -407,7 +407,7 @@ class Game {
     }
 
     // Checks if the hand meets the requirements to be splittable
-    if (this.currency.totalBet < this.currency.playerCoins) {
+    if (this.currency.totalBet <= this.currency.playerCoins && this.player.playerHand[0].value === this.player.playerHand[1].value) {
       // If the player's wager is smaller than the coins they have remaining
       this.menu.splitContainer.style.display = 'block';
     }
