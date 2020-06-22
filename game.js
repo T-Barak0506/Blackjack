@@ -16,13 +16,8 @@ class Game {
 
 
     // COMMON CHECKERS
-    this.bjChecker = true;
     this.legitBetValue = false;
     this.gameOver = false;
-
-    // HAND VALUES
-    this.playerHandValue = 0;
-    this.dealerHandValue = 0;
 
 
     // HAND MODIFIERS
@@ -35,7 +30,6 @@ class Game {
     this.themeChange = new Sound('./media/sounds/themeChange.wav');
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
     this.flipSound = new Sound('./media/sounds/cardFlip.wav');
-    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
     this.crowdAw = new Sound('./media/sounds/crowdAw.mp3');
     this.crowdCheer = new Sound('./media/sounds/applause.mp3');
     this.crowdClap = new Sound('./media/sounds/crowdClap.wav');
@@ -50,6 +44,8 @@ class Game {
   checkBetValue(betValue) {
     // If the start button is clicked, checks the value entered to make sure it's legit
     // TODO: Create a custom alert
+
+    const { currency } = this;
     let str = betValue.value.trim();
 
     if (str[str.length - 1] === '.') {
@@ -82,9 +78,9 @@ class Game {
       // ...
     }
 
-    if (parseInt(str, 10) > this.currency.playerCoins) {
+    if (parseInt(str, 10) > currency.playerCoins) {
       // If the user tries to bet more coins than they currently have
-      alert(`You only have ${this.currency.playerCoins} coins, Don't try and lie to me cowboy.`);
+      alert(`You only have ${currency.playerCoins} coins, Don't try and lie to me cowboy.`);
       betValue.value = '';
       return betValue.value;
       // ...
@@ -93,284 +89,200 @@ class Game {
     this.legitBetValue = true;
 
     // Displays the total bet
-    this.currency.totalBet = Math.floor(str);
+    currency.totalBet = Math.floor(str);
 
     // Subtracts the bet value from the player's total coins
-    this.currency.playerCoins -= Math.floor(parseInt(str, 10));
+    currency.playerCoins -= Math.floor(parseInt(str, 10));
 
     // Display the changes
-    this.currency.updateCoinCount();
+    currency.updateCoinCount();
 
-    return this.currency.playerCoins;
+    return currency.playerCoins;
   }
 
 
   determineWinner() {
-    let timerNum;
+    const {
+      dealer, menu, player, currency,
+    } = this;
 
-    if (this.playerHandValue > 21) {
-      timerNum = 900;
-    } else {
-      timerNum = 500;
-    }
-
-
-    if (this.bjChecker === true && this.playerHandValue === 21) {
+    if (player.bjChecker === true && player.handValue === 21) {
       // If the player's first 2 cards equal 21 (blackjack)
-      const bjWin = Math.floor(this.currency.totalBet * 1.5);
+      const bjWin = Math.floor(currency.totalBet * 1.5);
 
-      if (this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2) {
+      if (dealer.handValue === 21 && dealer.dealerHand.length === 2) {
         // If the dealer also has blackjack
-        this.currency.playerCoins += this.currency.totalBet;
-        this.currency.totalBet = 0;
-        this.currency.storeCoins();
+        menu.toggleDisplay(menu.cmdMenu);
+        currency.playerCoins += currency.totalBet;
+        currency.totalBet = 0;
+        currency.storeCoins();
+
 
         setTimeout(() => {
           this.coinWinSound.stopSound();
-          this.menu.resTopText.textContent = 'push';
-          this.menu.resBottomText.textContent = 'Your wager was returned';
-          this.menu.resultOverlay.classList.add('hidden');
-          this.currency.updateCoinCount();
-        }, 450);
+          menu.resTopText.textContent = 'push';
+          menu.resBottomText.textContent = 'Your wager was returned';
+          menu.resultOverlay.classList.remove('hidden');
+          currency.updateCoinCount();
+        }, 700);
 
-        return `You: ${this.playerHandValue}, CPU: ${this.dealerHandValue}`;
+        return menu.resBottomText.textContent;
       }
 
       // If only the player has blackjack
-      this.menu.toggleDisplay(this.menu.cmdMenu);
+      menu.toggleDisplay(menu.cmdMenu);
 
-      this.currency.playerCoins += bjWin;
-      this.currency.totalBet = 0;
-      this.currency.storeCoins();
+      currency.playerCoins += bjWin;
+      currency.totalBet = 0;
+      currency.storeCoins();
 
       setTimeout(() => {
         this.crowdClap.playSound();
         this.coinWinSound.playSound();
-        this.menu.resTopText.textContent = 'blackjack!!';
-        this.menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
-      }, 550);
+        menu.resTopText.textContent = 'blackjack!!';
+        menu.resBottomText.textContent = `You won ${bjWin.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+        menu.toggleDisplay(menu.resultOverlay);
+        currency.updateCoinCount();
+      }, 700);
+
+      return menu.resBottomText.textContent;
     }
 
-    if (this.playerHandValue > 21 || (this.dealerHandValue > this.playerHandValue && this.dealerHandValue <= 21 && !this.insuranceHand) || (this.playerHandValue === this.dealerHandValue && this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2 && this.player.playerHand.length !== 2 && !this.insuranceHand)) {
+    if (player.handValue > 21 || (dealer.handValue > player.handValue && dealer.handValue <= 21 && !this.insuranceHand) || (player.handValue === dealer.handValue && dealer.handValue === 21 && dealer.dealerHand.length === 2 && player.playerHand.length !== 2 && !this.insuranceHand)) {
       // If the player goes over 21 or the dealer has a higher hand value (not exceeding 21)
 
       // The player loses all wagered coins
-      this.currency.storeCoins();
+      currency.storeCoins();
 
       setTimeout(() => {
         this.crowdAw.playSound();
-        this.menu.resTopText.textContent = 'dealer wins!';
+        menu.resTopText.textContent = 'dealer wins!';
 
         if (this.splitHand === true) {
-          this.menu.resBottomText.textContent = `You lost ${this.currency.splitBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-          this.currency.totalBet -= this.currency.splitBet;
+          menu.resBottomText.textContent = `You lost ${currency.splitBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+          currency.totalBet -= currency.splitBet;
         } else {
-          this.menu.resBottomText.textContent = `You lost ${this.currency.totalBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-          this.currency.totalBet = 0;
+          menu.resBottomText.textContent = `You lost ${currency.totalBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+          currency.totalBet = 0;
         }
 
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
-      }, timerNum);
+        menu.toggleDisplay(menu.resultOverlay);
+        currency.updateCoinCount();
+      }, 500);
 
-      return `You: ${this.playerHandValue}, CPU: ${this.dealerHandValue}`;
+      return menu.resBottomText.textContent;
     }
 
-    if (this.dealerHandValue === this.playerHandValue && !this.bjChecker) {
+    if (dealer.handValue === player.handValue && !player.bjChecker) {
       // If the dealer has the same hand value as the player
 
       // Returns the wagered coins to the player
       if (this.splitHand === true) {
-        this.currency.playerCoins += this.currency.splitBet;
-        this.currency.totalBet -= this.currency.splitBet;
+        currency.playerCoins += currency.splitBet;
+        currency.totalBet -= currency.splitBet;
       } else {
-        this.currency.playerCoins += this.currency.totalBet;
-        this.currency.totalBet = 0;
+        currency.playerCoins += currency.totalBet;
+        currency.totalBet = 0;
       }
 
-      this.currency.storeCoins();
+      currency.storeCoins();
 
       setTimeout(() => {
-        this.menu.resTopText.textContent = 'push';
-        this.menu.resBottomText.textContent = 'Your wager was returned';
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
-      }, 450);
+        menu.resTopText.textContent = 'push';
+        menu.resBottomText.textContent = 'Your wager was returned';
+        menu.toggleDisplay(menu.resultOverlay);
+        currency.updateCoinCount();
+      }, 300);
 
-      return `You: ${this.playerHandValue}, CPU: ${this.dealerHandValue}`;
+      return menu.resBottomText.textContent;
     }
 
-    if ((this.playerHandValue > this.dealerHandValue && this.playerHandValue <= 21 && !this.bjChecker) || (this.dealerHandValue > 21 && !this.bjChecker)) {
+    if ((player.handValue > dealer.handValue && player.handValue <= 21 && !player.bjChecker) || (dealer.handValue > 21 && !player.bjChecker)) {
       // If the player has a higher hand value than the dealer or if the dealer goes over 21
-      const winAmount = (!this.currency.splitBet) ? this.currency.totalBet * 2 : this.currency.splitBet * 2;
+      const winAmount = (!currency.splitBet) ? currency.totalBet * 2 : currency.splitBet * 2;
 
       // Returns the wagered coins, doubled, to the player
-      this.currency.playerCoins += winAmount;
-      this.currency.storeCoins();
+      currency.playerCoins += winAmount;
+      currency.storeCoins();
 
       setTimeout(() => {
         this.crowdCheer.playSound();
         this.coinWinSound.playSound();
-        this.menu.resTopText.textContent = 'you win!';
+        menu.resTopText.textContent = 'you win!';
 
         if (this.splitHand === true) {
-          this.currency.totalBet -= this.currency.splitBet;
-          this.menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+          currency.totalBet -= currency.splitBet;
+          menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
         } else {
-          this.menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
-          this.currency.totalBet = 0;
+          menu.resBottomText.textContent = `You won ${winAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
+          currency.totalBet = 0;
         }
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
+        menu.toggleDisplay(menu.resultOverlay);
+        currency.updateCoinCount();
       }, 550);
 
-      return `You: ${this.playerHandValue}, CPU: ${this.dealerHandValue}`;
+      return menu.resBottomText.textContent;
     }
 
-    if (this.dealerHandValue === 21 && this.dealer.dealerHand.length === 2 && this.insuranceHand === true) {
+    if (dealer.handValue === 21 && dealer.dealerHand.length === 2 && this.insuranceHand === true) {
       // If the dealer gets blackjack and the player has insurance
-      const winAmount = this.currency.insureBet * 2;
+      const winAmount = currency.insureBet * 2;
 
       // Returns the wagered insurance coins, doubled, to the player
-      this.currency.playerCoins += winAmount;
-      this.currency.totalBet = 0;
-      this.currency.insureBet = 0;
-      this.currency.storeCoins();
+      currency.playerCoins += winAmount;
+      currency.totalBet = 0;
+      currency.insureBet = 0;
+      currency.storeCoins();
 
       setTimeout(() => {
-        this.menu.resTopText.textContent = 'insured';
-        this.menu.resBottomText.textContent = '';
-        this.menu.toggleDisplay(this.menu.resultOverlay);
-        this.currency.updateCoinCount();
+        menu.resTopText.textContent = 'insured';
+        menu.resBottomText.textContent = '';
+        menu.toggleDisplay(menu.resultOverlay);
+        currency.updateCoinCount();
       }, 550);
+
+      return menu.resBottomText.textContent;
     }
   }
 
-
-  getDealerHandValue() {
-    let handValue = 0;
-
-    this.dealerHandValue = 0;
-
-    // loops through all the card values in the hand, adds these values, and displays the sum as a-
-    // final hand value for the player's hand.
-    this.dealer.dealerHand.forEach((hand) => {
-      if (hand.hidden === false) {
-        if (hand.value === 'K' || hand.value === 'Q' || hand.value === 'J') {
-          handValue += 10;
-          return handValue;
-        }
-
-        if (hand.value === 'A') {
-          handValue += 11;
-          return handValue;
-        }
-
-        handValue += parseInt(hand.value, 10);
-        return handValue;
-      }
-    });
-
-    // Loops through the array again, but checks for aces. If the hand value exceeds 21, ten-
-    // is subtracted from this value. (Since Aces can also equal 1).
-    this.dealer.dealerHand.forEach((hand) => {
-      if (hand.hidden === false) {
-        if (hand.value === 'A' && handValue > 21) {
-          handValue -= 10;
-          return handValue;
-        }
-      }
-    });
-
-    this.dealerHandValue += handValue;
-    document.getElementById('cpu').textContent = `${this.dealerHandValue.toString()}`;
-  }
-
-  getPlayerHandValue() {
-    let handValue = 0;
-
-    this.playerHandValue = 0;
-
-    // loops through all the card values in the hand, adds these values, and displays the sum as a-
-    // final hand value for the player's hand.
-    this.player.playerHand.forEach((hand) => {
-      if (hand.value === 'K' || hand.value === 'Q' || hand.value === 'J') {
-        handValue += 10;
-        return handValue;
-      }
-
-      if (hand.value === 'A') {
-        handValue += 11;
-        return handValue;
-      }
-
-      handValue += parseInt(hand.value, 10);
-      return handValue;
-    });
-
-    // Looping to check for aces. If the hand value exceeds 21, ten-
-    //  is subtracted from this value. (Since Aces can also equal 1).
-
-    this.player.playerHand.forEach((hand) => {
-      if (hand.value === 'A' && handValue > 21) {
-        handValue -= 10;
-      }
-    });
-
-    // adds the total to the handValue
-    this.playerHandValue += handValue;
-    document.getElementById('p1').textContent = `${this.playerHandValue.toString()}`;
-
-    // Ends the game if the player's hand exceeds 21
-    if (this.playerHandValue >= 21 && !this.bjChecker) {
-      this.menu.disableBtn(this.menu.hitButton);
-      this.menu.disableBtn(this.menu.standButton);
-      this.menu.toggleDisplay(this.menu.cmdMenu);
-    }
-
-    return this.playerHandValue;
-  }
 
   dealerPlay(theDeck) {
-    this.menu.disableBtn(this.menu.standButton);
-    this.menu.disableBtn(this.menu.hitButton);
-
     const item = document.querySelectorAll('#cpu-space .card')[1];
+    const { dealer, menu, player } = this;
+
+    menu.disableBtn(menu.standButton);
+    menu.disableBtn(menu.hitButton);
 
     // Reveals the 2nd card in the dealer's hand
-    this.dealer.dealerHand[this.dealer.dealerHand.length - 1].hidden = false;
-    item.style.backgroundImage = `url('${this.dealer.dealerHand[this.dealer.dealerHand.length - 1].visual}')`;
+    dealer.dealerHand[dealer.dealerHand.length - 1].hidden = false;
+    item.style.backgroundImage = `url('${dealer.dealerHand[dealer.dealerHand.length - 1].visual}')`;
     this.flipSound.playSound();
 
 
-    if ((this.playerHandValue >= 22 && this.splitHand === false) || (this.playerHandValue === 21 && this.bjChecker === true)) {
+    if ((player.handValue >= 22 && this.splitHand === false) || (player.handValue === 21 && player.bjChecker === true)) {
+      // if the player goes over 21 or gets blackjack, the dealer doesn't draw any additional cards
       setTimeout(() => {
-        this.getDealerHandValue();
+        dealer.getDealerHandValue();
         this.determineWinner();
       }, 750);
-      return this.dealerHandValue;
+      return dealer.handValue;
       // .
     }
 
-    if ((this.playerHandValue <= 21 && !this.bjChecker) || (this.playerHandValue === 21 && !this.bjChecker) || this.splitHand === true) {
+    if ((player.handValue <= 21 && !player.bjChecker) || (player.handValue === 21 && !player.bjChecker) || this.splitHand === true) {
+      // If the player doesn't exceed 21 and doesn't have blackjack
       setTimeout(() => {
-        this.getDealerHandValue();
+        dealer.getDealerHandValue();
       }, 750);
 
-      // Check the hand value after each draw; draws each card-
-      // in .75 second increments
+
       setTimeout(() => {
         const interval = setInterval(() => {
-          if (this.dealerHandValue < 17) {
+          if (dealer.handValue < 17) {
             setTimeout(() => {
-              this.dealer.dealerHit(theDeck);
+              dealer.dealerHit(theDeck);
             }, 200);
-
-            setTimeout(() => {
-              this.getDealerHandValue();
-            }, 900);
+            // .
           } else {
             this.determineWinner();
             clearInterval(interval);
@@ -378,42 +290,44 @@ class Game {
         }, 1200);
       }, 500);
 
-      return this.dealerHandValue;
+      return dealer.handValue;
     }
   }
 
-  checkForBlackjack() {
-    if (this.playerHandValue === 21) {
-      this.bjChecker = true;
-      this.crowdGasp.playSound();
+  checkForBlackjack2() {
+    if (this.player.handValue === 21 && this.player.bjChecker === true) {
       this.menu.toggleDisplay(this.menu.cmdMenu);
       setTimeout(() => {
         this.dealerPlay(this.deck.deckOfCards);
       }, 1200);
-    } else {
-      this.bjChecker = false;
     }
   }
 
   checkHand() {
-    const doubleAmount = this.currency.totalBet;
+    const { menu, player, currency } = this;
+    const doubleAmount = currency.totalBet;
+    const faceCards = player.playerHand.filter((card) => card.value === 'K' || card.value === 'Q' || card.value === 'J' || card.value === '10');
 
-    this.menu.doubleContainer.style.display = 'none';
-    this.menu.splitContainer.style.display = 'none';
+    menu.doubleContainer.style.display = 'none';
+    menu.splitContainer.style.display = 'none';
 
     // Checks if the hand meets the requirements to double
-    if (this.playerHandValue >= 9 && this.playerHandValue <= 18 && doubleAmount <= this.currency.playerCoins && this.currency.totalBet !== 1) {
-      this.menu.doubleContainer.style.display = 'block';
+    if (player.handValue >= 9 && player.handValue <= 18 && doubleAmount <= currency.playerCoins && currency.totalBet !== 1) {
+      menu.doubleContainer.style.display = 'block';
     }
 
-    // Checks if the hand meets the requirements to be splittable
-    if (this.currency.totalBet <= this.currency.playerCoins && this.player.playerHand[0].value === this.player.playerHand[1].value) {
+    // Checks if the hand meets the requirements to be splitable
+    if ((currency.totalBet <= currency.playerCoins && player.playerHand[0].value === player.playerHand[1].value)
+    || (currency.totalBet <= currency.playerCoins && faceCards.length === 2)) {
       // If the player's wager is smaller than the coins they have remaining
-      this.menu.splitContainer.style.display = 'block';
+      menu.splitContainer.style.display = 'block';
     }
   }
 
   nextRound() {
+    const {
+      menu, player, currency, deck, dealer,
+    } = this;
     const cards = document.querySelectorAll('.card');
 
     cards.forEach((card) => card.classList.toggle('inactive'));
@@ -424,20 +338,21 @@ class Game {
       cards.forEach((card) => card.remove());
 
       // removes the card objects from the player and dealer's hands
-      while (this.player.playerHand.length >= 1) {
-        this.deck.discardPile.push(this.player.playerHand.pop());
+      while (player.playerHand.length >= 1) {
+        deck.discardPile.push(player.playerHand.pop());
       }
-      while (this.dealer.dealerHand.length >= 1) {
-        this.deck.discardPile.push(this.dealer.dealerHand.pop());
+      while (dealer.dealerHand.length >= 1) {
+        deck.discardPile.push(dealer.dealerHand.pop());
       }
-      while (this.player.splitHand.length >= 1) {
-        this.deck.discardPile.push(this.player.splitHand.pop());
+      while (player.splitHand.length >= 1) {
+        deck.discardPile.push(player.splitHand.pop());
       }
 
       // Resets the values for card values and hand modifiers
-      this.playerHandValue = 0;
-      this.dealerHandValue = 0;
+      player.handValue = 0;
+      dealer.handValue = 0;
       this.splitHandNum = 0;
+      currency.splitBet = 0;
       this.insuranceHand = false;
 
       // If the player split their hand, delete the extra hand
@@ -446,38 +361,38 @@ class Game {
         this.splitHand = false;
       }
 
-      document.querySelector('#p1').textContent = `${this.playerHandValue.toString()}`;
-      document.querySelector('#cpu').textContent = `${this.dealerHandValue.toString()}`;
+      document.querySelector('#p1').textContent = `${player.handValue.toString()}`;
+      document.querySelector('#cpu').textContent = `${dealer.handValue.toString()}`;
 
 
-      if (this.currency.playerCoins > 0) {
+      if (currency.playerCoins > 0) {
         // If the players still has coins remaining
-        this.menu.enableBtn(this.menu.start);
+        menu.enableBtn(menu.start);
         this.legitBetValue = false;
-        this.menu.cmdMenu.classList.add('hidden');
-        this.menu.insuranceMenu.classList.add('hidden');
-        this.bjChecker = true;
+        menu.cmdMenu.classList.add('hidden');
+        menu.insuranceMenu.classList.add('hidden');
+        player.bjChecker = true;
 
 
-        if (this.deck.deckOfCards.length <= 13) {
+        if (deck.deckOfCards.length <= 13) {
           // If there is less than 14 remaining cards in the deck
-          this.deck.restartDeck();
-          this.menu.shuffleNotice();
-          this.dealer.shuffle(this.deck.deckOfCards);
+          deck.restartDeck();
+          menu.shuffleNotice();
+          dealer.shuffle(deck.deckOfCards);
         } else {
-          this.menu.toggleBetMenu();
+          menu.toggleBetMenu();
         }
 
-        return this.currency.playerCoins;
+        return currency.playerCoins;
       }
 
       // If the player has no coins left
       this.crowdAw.stopSound();
       document.querySelector('#p1').textContent = '💀';
       document.querySelector('p#dealer').style.display = 'none';
-      this.menu.resTopText.textContent = 'game over!';
-      this.menu.resBottomText.textContent = 'You blew all your coins!';
-      this.menu.toggleDisplay(this.menu.resultOverlay);
+      menu.resTopText.textContent = 'game over!';
+      menu.resBottomText.textContent = 'You blew all your coins!';
+      menu.toggleDisplay(menu.resultOverlay);
       this.gameOver = true;
     }, 500);
   }
@@ -536,13 +451,13 @@ class Game {
     }, 650);
 
     setTimeout(() => {
-      document.querySelectorAll('#p1-space .card').forEach((card) => card.classList.toggle('inactive'));
+      document.querySelectorAll('#p1-space .card').forEach((card) => card.classList.toggle('inactive')); // Displays the cards
       this.dealSound.playSound();
       transferDiv.remove();
     }, 1150);
 
     setTimeout(() => {
-      this.getPlayerHandValue();
+      this.player.getPlayerHandValue();
     }, 1750);
   }
 }
@@ -628,7 +543,6 @@ menu.doubleButton.addEventListener('click', () => {
   }, 400);
 
   setTimeout(() => {
-    game.getPlayerHandValue();
     menu.toggleDisplay(menu.cmdMenu);
   }, 1199);
 
@@ -650,12 +564,8 @@ menu.hitButton.addEventListener('click', () => {
   }, 400);
 
   setTimeout(() => {
-    game.getPlayerHandValue();
-
-    if (game.playerHandValue === 21) {
-      menu.disableBtn(menu.hitButton);
-      menu.disableBtn(menu.standButton);
-
+    if (player.handValue >= 21) {
+      menu.toggleDisplay(menu.cmdMenu);
       setTimeout(() => {
         if (game.splitHandNum % 2 === 0) {
           // If the player didn't split their hand or they're on their 2nd hand (if they did split)
@@ -673,8 +583,7 @@ menu.hitButton.addEventListener('click', () => {
           }, 2000);
 
           setTimeout(() => {
-            game.getPlayerHandValue();
-            if (game.playerHandValue === 21 && player.playerHand.length === 2 && game.splitHandNum === 2) {
+            if (player.handValue === 21 && player.playerHand.length === 2 && game.splitHandNum === 2) {
               // If the player's 1st 2 cards equal 21 (not a blackjack this time)
               game.dealerPlay(deck.deckOfCards);
             } else {
@@ -682,30 +591,7 @@ menu.hitButton.addEventListener('click', () => {
               menu.enableBtn(menu.standButton);
               menu.toggleDisplay(menu.cmdMenu);
             }
-          }, 2700);
-        }
-      }, 560);
-      // .
-    } else if (game.playerHandValue >= 22) {
-      setTimeout(() => {
-        if (game.splitHandNum % 2 === 0) {
-          // If the player didn't split their hand or they're on their 2nd hand (if they did split)
-          game.dealerPlay(deck.deckOfCards);
-        } else {
-          game.swapSplitHands();
-
-          setTimeout(() => {
-            menu.betNotice.textContent = `Hand #${game.splitHandNum}`;
-            menu.toggleDisplay(menu.betNotice, 2000);
-            player.playerHit(deck.deckOfCards, player.playerHand);
-          }, 2000);
-
-          setTimeout(() => {
-            game.getPlayerHandValue();
-            menu.enableBtn(menu.hitButton);
-            menu.enableBtn(menu.standButton);
-            menu.toggleDisplay(menu.cmdMenu);
-          }, 2700);
+          }, 2705);
         }
       }, 560);
       // .
@@ -740,15 +626,14 @@ menu.standButton.addEventListener('click', () => {
       }, 2000);
 
       setTimeout(() => {
-        game.getPlayerHandValue();
-        if (game.playerHandValue === 21 && player.playerHand.length === 2 && game.splitHandNum === 2) {
+        if (player.handValue === 21 && player.playerHand.length === 2 && game.splitHandNum === 2) {
           game.dealerPlay(deck.deckOfCards);
         } else {
           menu.enableBtn(menu.hitButton);
           menu.enableBtn(menu.standButton);
           menu.toggleDisplay(menu.cmdMenu);
         }
-      }, 2700);
+      }, 2705);
     }
   }, 560);
 });
@@ -781,17 +666,15 @@ menu.splitButton.addEventListener('click', () => {
   setTimeout(() => {
     menu.betNotice.textContent = `Hand #${game.splitHandNum}`;
 
-    // menu.toggleDisplay(menu.betNotice, 1900);
     player.playerHit(deck.deckOfCards);
 
     setTimeout(() => {
-      game.getPlayerHandValue();
       menu.splitContainer.style.display = 'none';
       menu.doubleContainer.style.display = 'none';
       menu.toggleDisplay(menu.cmdMenu);
       menu.enableBtn(menu.hitButton);
       menu.enableBtn(menu.standButton);
-    }, 750);
+    }, 700);
   }, 1400);
 });
 
@@ -815,27 +698,30 @@ menu.start.addEventListener('click', () => {
     dealer.initDeal2Hand(player.playerHand, dealer.dealerHand, deck.deckOfCards);
 
     setTimeout(() => {
-      game.getPlayerHandValue(); // Check hand value
+      player.getPlayerHandValue(); // Check hand value
       game.checkHand(); // Checks if the player can double down or split
-      game.getDealerHandValue();
+      dealer.getDealerHandValue();
       menu.toggleTotalBetMenu();
-      game.checkForBlackjack();
+      player.checkForBlackjack();
+      game.checkForBlackjack2();
 
-      if (game.playerHandValue === 21) {
+      if (player.handValue === 21) {
         menu.disableBtn(menu.hitButton);
         menu.disableBtn(menu.standButton);
         menu.disableBtn(menu.doubleButton);
         menu.disableBtn(menu.splitButton);
+        return;
       }
 
-      if ((currency.totalBet * 0.5) < currency.playerCoins && dealer.dealerHand[0].value === 'A' && game.playerHandValue <= 20) {
+      if ((currency.totalBet * 0.5) < currency.playerCoins && dealer.dealerHand[0].value === 'A' && player.handValue <= 20) {
         // If the user has enough coins, doesn't have an hand of 21, and the dealer's face up card is an ace
         menu.enableBtn(menu.insureYes);
         menu.enableBtn(menu.insureNo);
         menu.toggleDisplay(menu.insuranceMenu);
-      } else {
-        menu.toggleDisplay(menu.cmdMenu);
+        return;
       }
+
+      menu.toggleDisplay(menu.cmdMenu);
     }, 2800);
     // ...
   }

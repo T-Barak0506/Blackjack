@@ -104,7 +104,6 @@ class Deck {
       n++;
     }
 
-
     return this.deckOfCards;
   }
 

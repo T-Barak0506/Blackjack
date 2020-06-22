@@ -57,14 +57,19 @@ class Menu {
   enableBtn(btn) {
     btn.disabled = false;
 
-
     if (btn === this.hitButton || btn === this.insureYes) {
       btn.style.backgroundColor = '#00ce00';
-    } if (btn === this.standButton || btn === this.insureNo) {
+    }
+
+    if (btn === this.standButton || btn === this.insureNo) {
       btn.style.backgroundColor = '#ff2400';
-    } if (btn === this.doubleButton) {
+    }
+
+    if (btn === this.doubleButton) {
       btn.style.backgroundColor = '#ff9100';
-    } else if (btn === this.splitButton) {
+    }
+
+    if (btn === this.splitButton) {
       btn.style.backgroundColor = '#0000cd';
     }
   }
@@ -112,6 +117,7 @@ class Menu {
     const mainContainer = document.querySelector('#container');
     const betContainer = document.querySelector('.bet-container');
 
+    // If the bet form is already on-screen
     if (betContainer.classList.contains('blur')) {
       mainContainer.classList.toggle('blur');
       betContainer.classList.toggle('blur');
@@ -119,13 +125,15 @@ class Menu {
       setTimeout(() => {
         betContainer.style.display = 'none';
       }, 500);
-    } else {
-      betContainer.style.display = 'block';
-      setTimeout(() => {
-        mainContainer.classList.toggle('blur');
-        betContainer.classList.toggle('blur');
-      }, 100);
+      return;
     }
+
+    // If the bet form is not on-screen
+    betContainer.style.display = 'block';
+    setTimeout(() => {
+      mainContainer.classList.toggle('blur');
+      betContainer.classList.toggle('blur');
+    }, 100);
   }
 
   toggleTotalBetMenu() {

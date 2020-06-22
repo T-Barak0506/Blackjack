@@ -1,13 +1,14 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 /* eslint-disable one-var */
 /* eslint-disable no-plusplus */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable no-undef */
 
 class Dealer {
   constructor() {
     this.dealerHand = [];
+    this.handValue = 0;
 
     // Sounds
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
@@ -44,22 +45,8 @@ class Dealer {
     return deck;
   }
 
-  getPlayerCardVisual(hand) {
-    // Creates the card div
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.classList.add('inactive');
 
-    // Generates the card image and sends it to the player
-    document.getElementById('p1-space').appendChild(card);
-
-    setTimeout(() => {
-      card.style.backgroundImage = `url('${hand[hand.length - 1].visual}')`;
-      card.classList.toggle('inactive');
-    }, 175);
-  }
-
-  getDealerCardVisual() {
+  getCardVisual() {
     // Creates the card
     const card = document.createElement('div');
     card.classList.add('card');
@@ -71,11 +58,13 @@ class Dealer {
     setTimeout(() => {
       try {
         if (this.dealerHand.length === 2 && this.dealerHand[this.dealerHand.length - 1].hidden === true) {
-          card.style.backgroundImage = "url('/misc./cover.png')";
+          // If the dealt card is the 2nd card in the dealer's hand, show the cover image
+          card.style.backgroundImage = "url('/misc/cover.png')";
         } else {
           card.style.backgroundImage = `url('${this.dealerHand[this.dealerHand.length - 1].visual}')`;
         }
         card.classList.toggle('inactive');
+        // .
       } catch (err) {
         card.style.backgroundColor = '#555555';
         card.style.color = '#ffffff';
@@ -85,16 +74,65 @@ class Dealer {
     }, 175);
   }
 
+
+  getDealerHandValue() {
+    let value = 0;
+    this.handValue = 0;
+
+    // loops through all the card values in the hand, adds these values, and displays the sum as a-
+    // final hand value for the player's hand.
+    this.dealerHand.forEach((hand) => {
+      // If the card object has true for its hidden value, ignore it's value.
+      if (hand.hidden === true) return;
+
+      // if the card is a king, queen, or jack
+      if (hand.value === 'K' || hand.value === 'Q' || hand.value === 'J') {
+        value += 10;
+        return;
+      }
+
+      // if the card is a ace
+      if (hand.value === 'A') {
+        value += 11;
+        return;
+      }
+
+      // If the card is a standard number card
+      value += parseInt(hand.value, 10);
+    });
+
+    // Loops through the array again, but checks for aces. If the hand value exceeds 21,-
+    // 10 is subtracted from this value. (Since Aces can also equal 1).
+    this.dealerHand.forEach((hand) => {
+      if (hand.hidden === false && hand.value === 'A' && value > 21) {
+        value -= 10;
+        return value;
+      }
+    });
+
+    this.handValue += value;
+    document.getElementById('cpu').textContent = `${this.handValue.toString()}`;
+    // .
+  }
+
+
   dealerHit(theDeck) {
     this.dealSound.stopSound();
     this.dealerHand.push(theDeck.pop());
+
+    this.getCardVisual();
 
     setTimeout(() => {
       this.dealSound.playSound();
     }, 100);
 
-    this.getDealerCardVisual();
+    if (this.dealerHand.length >= 2) {
+      setTimeout(() => {
+        this.getDealerHandValue();
+      }, 700);
+    }
   }
+
 
   initDeal2Hand(playerHand, dealerHand, theDeck) {
     // adds 2 cards each to the player's and dealer's hands
@@ -103,6 +141,7 @@ class Dealer {
 
     card1.classList.add('card');
     card1.classList.add('inactive');
+
     card2.classList.add('card');
     card2.classList.add('inactive');
 
@@ -158,7 +197,7 @@ class Dealer {
 
         setTimeout(() => {
           dealerHand[dealerHand.length - 1].hidden = true;
-          this.getDealerCardVisual(dealerHand);
+          this.getCardVisual(dealerHand);
           setTimeout(() => {
             this.dealSound.playSound();
           }, 100);

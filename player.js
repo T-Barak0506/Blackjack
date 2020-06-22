@@ -4,10 +4,23 @@ class Player {
   constructor() {
     this.playerHand = [];
     this.splitHand = [];
+    this.handValue = 0;
+    this.bjChecker = true;
     this.dealSound = new Sound('./media/sounds/cardDeal.wav');
+    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
   }
 
-  getPlayerCardVisual() {
+  checkForBlackjack() {
+    if (this.handValue === 21) {
+      this.bjChecker = true;
+      this.crowdGasp.playSound();
+      return;
+    }
+
+    this.bjChecker = false;
+  }
+
+  getCardVisual() {
     // Creates the card div
     const card = document.createElement('div');
     card.classList.add('card');
@@ -22,6 +35,51 @@ class Player {
     }, 175);
   }
 
+
+  getPlayerHandValue() {
+    let value = 0;
+    this.handValue = 0;
+
+    // loops through all the card values in the hand, adds these values, and displays the sum as a-
+    // final hand value for the player's hand.
+    this.playerHand.forEach((hand) => {
+      // if the card is a king, queen, or jack
+      if (hand.value === 'K' || hand.value === 'Q' || hand.value === 'J') {
+        value += 10;
+        return value;
+      }
+
+      // if the card is a ace
+      if (hand.value === 'A') {
+        value += 11;
+        return value;
+      }
+
+      // If the card is a standard number card
+      value += parseInt(hand.value, 10);
+      return value;
+    });
+
+    // Looping again but to check for aces. If the hand value exceeds 21, ten-
+    //  is subtracted from this value. (Since Aces can also equal 1).
+    this.playerHand.forEach((hand) => {
+      if (hand.value === 'A' && value > 21) {
+        value -= 10;
+      }
+    });
+
+    // adds the total to the handValue
+    this.handValue += value;
+    document.getElementById('p1').textContent = `${this.handValue.toString()}`;
+
+    if (this.playerHandValue >= 21 && !this.bjChecker) {
+      document.querySelector('.button-container').classList.toggle('hidden');
+    }
+
+    return this.handValue;
+  }
+
+
   playerHit(theDeck) {
     this.dealSound.stopSound();
     this.playerHand.push(theDeck.pop());
@@ -30,7 +88,11 @@ class Player {
       this.dealSound.playSound();
     }, 100);
 
-    this.getPlayerCardVisual();
+    setTimeout(() => {
+      this.getPlayerHandValue();
+    }, 700);
+
+    this.getCardVisual();
   }
 
 

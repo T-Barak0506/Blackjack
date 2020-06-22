@@ -889,6 +889,7 @@ span.bet-number {
       text-align: center;
       width: 95%;
       margin: auto;
+      display: none;
       -moz-transform: translate(-26vw, 8.8vh);
       -ms-transform: translate(-26vw, 8.8vh);
       -o-transform: translate(-26vw, 8.8vh);
