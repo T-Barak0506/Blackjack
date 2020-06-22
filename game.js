@@ -38,7 +38,6 @@ class Game {
     this.doubleSound = new Sound('./media/sounds/doubleDown.wav');
     this.startSound = new Sound('./media/sounds/start.wav');
     this.cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
-    this.playerStandSound = new Sound('./media/sounds/removeCards.wav');
   }
 
   checkBetValue(betValue) {
@@ -605,7 +604,7 @@ menu.hitButton.addEventListener('click', () => {
 
 
 menu.standButton.addEventListener('click', () => {
-  game.playerStandSound.playSound();
+  game.cardRemoveSound.playSound();
 
   menu.toggleDisplay(menu.cmdMenu);
   menu.disableBtn(menu.hitButton);
