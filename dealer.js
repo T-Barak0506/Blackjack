@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
@@ -9,19 +10,16 @@ class Dealer {
   constructor() {
     this.dealerHand = [];
     this.handValue = 0;
-
-    // Sounds
-    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
-    this.dealSound2 = new Sound('./media/sounds/cardDeal.wav');
-    this.shuffleSound = new Sound('./media/sounds/cardShuffle2.wav');
-    this.shuffleSound2 = new Sound('./media/sounds/cardShuffle.wav');
   }
 
   shuffle(deck) {
-    this.shuffleSound.playSound();
+    const shuffleSound = new Sound('./media/sounds/cardShuffle2.wav');
+    const shuffleSound2 = new Sound('./media/sounds/cardShuffle.wav');
+
+    shuffleSound.playSound(1700);
 
     setTimeout(() => {
-      this.shuffleSound2.playSound();
+      shuffleSound2.playSound(1700);
     }, 2900);
 
     let counter = 0;
@@ -117,13 +115,14 @@ class Dealer {
 
 
   dealerHit(theDeck) {
-    this.dealSound.stopSound();
+    const dealSound = new Sound('./media/sounds/cardDeal.wav');
+
     this.dealerHand.push(theDeck.pop());
 
     this.getCardVisual();
 
     setTimeout(() => {
-      this.dealSound.playSound();
+      dealSound.playSound(1000);
     }, 100);
 
     if (this.dealerHand.length >= 2) {
@@ -135,6 +134,10 @@ class Dealer {
 
 
   initDeal2Hand(playerHand, dealerHand, theDeck) {
+    // Gets the needed sound files
+    const dealSound = new Sound('./media/sounds/cardDeal.wav');
+    const dealSound2 = new Sound('./media/sounds/cardDeal.wav');
+
     // adds 2 cards each to the player's and dealer's hands
     const card1 = document.createElement('div');
     const card2 = document.createElement('div');
@@ -150,17 +153,18 @@ class Dealer {
       playerHand.push(theDeck.pop());
 
       setTimeout(() => {
-        this.dealSound.stopSound();
         // Generates the card image and sends it to the player
         document.getElementById('p1-space').appendChild(card1);
+
+        setTimeout(() => {
+          dealSound2.playSound();
+        }, 100);
 
         setTimeout(() => {
           card1.style.backgroundImage = `url('${playerHand[playerHand.length - 1].visual}')`;
           card1.classList.toggle('inactive');
         }, 175);
-        setTimeout(() => {
-          this.dealSound2.playSound();
-        }, 100);
+        // .
       }, 100);
     }, 550);
 
@@ -182,14 +186,14 @@ class Dealer {
             card2.classList.toggle('inactive');
           }, 175);
           setTimeout(() => {
-            this.dealSound2.playSound();
+            dealSound2.playSound(1000);
           }, 100);
         }, 130);
       }
     }, 1550);
 
     setTimeout(() => {
-      this.dealSound.stopSound();
+      dealSound.stopSound();
       // Adds the card to the raw deck, and displays the accompanying visual
 
       if (dealerHand.length <= 1) {
@@ -199,7 +203,7 @@ class Dealer {
           dealerHand[dealerHand.length - 1].hidden = true;
           this.getCardVisual(dealerHand);
           setTimeout(() => {
-            this.dealSound.playSound();
+            dealSound.playSound(1000);
           }, 100);
         }, 130);
       }
