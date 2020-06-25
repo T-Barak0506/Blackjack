@@ -104,6 +104,13 @@ class Deck {
       n++;
     }
 
+    // this.deckOfCards = [...this.deckOfCards,
+    //   new Card('Sp', 'Q', '/media/Playing Cards/cards/QSp.png'),
+    //   new Card('Cl', 'K', '/media/Playing Cards/cards/KCl.png'),
+    //   new Card('Di', 'A', '/media/Playing Cards/cards/ADi.png'),
+    //   new Card('He', '3', '/media/Playing Cards/cards/3He.png'),
+    // ];
+
     return this.deckOfCards;
   }
 
