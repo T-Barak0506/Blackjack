@@ -15,16 +15,12 @@ class Sound {
       setTimeout(() => {
         // Removes the audio element after the sound is finished playing
         this.sound.remove();
-      }, removeAfter);
+      }, removeAfter + 50);
     }
   }
 
   stopSound() {
     this.sound.pause();
     this.sound.currentTime = 0;
-  }
-
-  removeSound() {
-    this.sound.remove();
   }
 }
