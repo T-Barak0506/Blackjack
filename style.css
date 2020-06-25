@@ -102,6 +102,17 @@ body {
   border-radius: 24px;
 }
 
+#bet-amount::-webkit-outer-spin-button,
+#bet-amount::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+#bet-amount[type=number] {
+  -moz-appearance: textfield;
+}
+
 .bet-container.blur {
   visibility: visible;
   opacity: 1;
