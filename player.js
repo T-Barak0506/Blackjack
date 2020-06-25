@@ -6,14 +6,14 @@ class Player {
     this.splitHand = [];
     this.handValue = 0;
     this.bjChecker = true;
-    this.dealSound = new Sound('./media/sounds/cardDeal.wav');
-    this.crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
   }
 
   checkForBlackjack() {
     if (this.handValue === 21) {
+      const crowdGasp = new Sound('./media/sounds/crowdGasp.mp3');
+
       this.bjChecker = true;
-      this.crowdGasp.playSound();
+      crowdGasp.playSound(1000);
       return;
     }
 
@@ -81,11 +81,13 @@ class Player {
 
 
   playerHit(theDeck) {
-    this.dealSound.stopSound();
+    const dealSound = new Sound('./media/sounds/cardDeal.wav');
+
+    dealSound.stopSound();
     this.playerHand.push(theDeck.pop());
 
     setTimeout(() => {
-      this.dealSound.playSound();
+      dealSound.playSound(1000);
     }, 100);
 
     setTimeout(() => {
