@@ -8,12 +8,23 @@ class Sound {
     document.body.appendChild(this.sound);
   }
 
-  playSound() {
+  playSound(removeAfter = false) {
     this.sound.play();
+
+    if (removeAfter) {
+      setTimeout(() => {
+        // Removes the audio element after the sound is finished playing
+        this.sound.remove();
+      }, removeAfter);
+    }
   }
 
   stopSound() {
     this.sound.pause();
     this.sound.currentTime = 0;
+  }
+
+  removeSound() {
+    this.sound.remove();
   }
 }
