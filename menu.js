@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-/* eslint-disable class-methods-use-this */
 class Menu {
   constructor() {
     // bet menu
@@ -75,26 +74,30 @@ class Menu {
   }
 
   toggleDisplay(item, duration = 1900) {
-    if (item !== this.resultOverlay && item !== this.betNotice) {
-      if (!item.classList.contains('hidden')) {
-      // if the element doesn't already have the hidden class "hidden"
-        item.classList.toggle('hidden');
+    const specialItem = !!((item === this.resultOverlay || item === this.betNotice));
 
-        setTimeout(() => {
-          item.style.display = 'none';
-        }, 500);
-      // .
-      } else {
-      // if the element has the "hidden" class
-        item.style.display = 'block';
+    // if the item is not the result overlay or bet reminder
+    if (!item.classList.contains('hidden') && !specialItem) {
+      // hides the item
+      item.classList.add('hidden');
 
-        setTimeout(() => {
-          item.classList.toggle('hidden');
-        }, 100);
-      }
-    } else if (item === this.betNotice) {
-      // Displays the item, then automatically hides it a couple seconds later.
-      this.betNotice.style.display = 'block';
+      setTimeout(() => {
+        item.style.display = 'none';
+      }, 500);
+      return;
+    }
+
+    if (item.classList.contains('hidden') && !specialItem) {
+      // Displays the item
+      item.style.display = 'block';
+      item.classList.remove('hidden');
+      return;
+    }
+
+    // if the item is the bet reminder
+    if (specialItem && item === this.betNotice) {
+      // Displays the item, then automatically hides it.
+      item.style.display = 'block';
 
       setTimeout(() => {
         item.classList.remove('hidden');
@@ -102,15 +105,18 @@ class Menu {
 
       setTimeout(() => {
         item.classList.add('hidden');
-        setTimeout(() => {
-          this.betNotice.textContent = '';
-          this.betNotice.style.display = 'none';
-        }, 500);
       }, duration);
-      // .
-    } else {
-      item.classList.toggle('hidden');
+
+      setTimeout(() => {
+        this.betNotice.textContent = '';
+        this.betNotice.style.display = 'none';
+      }, duration + 500);
+
+      return;
     }
+
+    // If the selected item is the result overlay
+    item.classList.toggle('hidden');
   }
 
   toggleBetMenu() {
@@ -118,21 +124,21 @@ class Menu {
     const betContainer = document.querySelector('.bet-container');
 
     // If the bet form is already on-screen
-    if (betContainer.classList.contains('blur')) {
-      mainContainer.classList.toggle('blur');
-      betContainer.classList.toggle('blur');
+    if (this.betContainer.classList.contains('blur')) {
+      this.tableMain.classList.toggle('blur');
+      this.betContainer.classList.toggle('blur');
 
       setTimeout(() => {
-        betContainer.style.display = 'none';
+        this.betContainer.style.display = 'none';
       }, 500);
       return;
     }
 
     // If the bet form is not on-screen
-    betContainer.style.display = 'block';
+    this.betContainer.style.display = 'block';
     setTimeout(() => {
-      mainContainer.classList.toggle('blur');
-      betContainer.classList.toggle('blur');
+      this.tableMain.classList.toggle('blur');
+      this.betContainer.classList.toggle('blur');
     }, 100);
   }
 
