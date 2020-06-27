@@ -33,7 +33,7 @@ class Game {
     const { currency } = this;
     const str = Math.floor(parseInt(betValue.value.trim(), 10)); // Round the value down if it's a decimal
 
-    console.log(str);
+    console.log(document.querySelector('div'));
 
     if (str <= 0) {
       // If the number submitted is less than 0
@@ -260,7 +260,7 @@ class Game {
         const interval = setInterval(() => {
           if (dealer.handValue < 17) {
             setTimeout(() => {
-              dealer.dealerHit(theDeck);
+              dealer.dealerHit(theDeck, menu.totalBetMenu);
             }, 200);
             // .
           } else {
@@ -314,6 +314,7 @@ class Game {
     cards.forEach((card) => card.classList.toggle('inactive'));
     cardRemoveSound.playSound(1200);
 
+
     setTimeout(() => {
       // Deletes the card visual divs
       cards.forEach((card) => card.remove());
@@ -335,8 +336,10 @@ class Game {
       this.splitHandNum = 0;
       currency.splitBet = 0;
       this.insuranceHand = false;
+      menu.cmdMenu.style.top = '97%';
+      menu.insuranceMenu.style.bottom = '-30.5%';
 
-      // If the player split their hand, delete the extra hand
+      // If the player split their hand, delete the extra hand div
       if (this.splitHand === true) {
         document.querySelector('#split-space').remove();
         this.splitHand = false;
@@ -345,6 +348,8 @@ class Game {
       document.querySelector('#p1').textContent = `${player.handValue.toString()}`;
       document.querySelector('#cpu').textContent = `${dealer.handValue.toString()}`;
 
+      document.querySelector('#container').scrollTop = 0;
+      document.querySelector('#container').style.overflow = 'hidden';
 
       if (currency.playerCoins > 0) {
         // If the players still has coins remaining
@@ -380,11 +385,16 @@ class Game {
   swapSplitHands() {
     const dealSound = new Sound('./media/sounds/cardDeal.wav');
     const cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
-    const hand1 = document.querySelector('#p1-space');
-    const hand2 = document.querySelector('#split-space');
+    const splitHand = document.querySelector('#split-space');
     const p1Cards = document.querySelectorAll('#p1-space .card');
     const splitNum = (this.splitHandNum === 1) ? 2 : 1;
     const transferArr = [];
+
+    const minPhoneWidth = window.matchMedia('(min-width: 615px)');
+    const maxPhoneWidth = window.matchMedia('(max-width: 850px)');
+    const landscapeMode = window.matchMedia('(orientation: landscape)');
+
+    const { menu, player } = this;
 
     const transferDiv = document.createElement('div');
     transferDiv.setAttribute('id', 'transfer-space');
@@ -398,37 +408,44 @@ class Game {
 
     cardRemoveSound.playSound(1200);
 
+    // If the viewport has a min-width of 610px or more, a max-width of 850px or less
+    if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches && player.splitHand.length <= 3) {
+      menu.cmdMenu.style.top = '67%';
+      document.querySelector('#container').scrollTop = 0;
+      document.querySelector('#container').style.overflow = 'hidden';
+    }
+
     setTimeout(() => {
-      while (this.player.playerHand.length > 0) {
+      while (player.playerHand.length > 0) {
         // Moves the cards from the playerHand array to the 'staging' array
-        transferArr.push(this.player.playerHand.shift());
+        transferArr.push(player.playerHand.shift());
       }
-      if (hand1.childNodes.length > 0) {
+      if (menu.p1Border.childNodes.length > 0) {
         // Moves the card divs from the main hand to the "transferDiv"
-        while (hand1.childNodes.length > 0) {
-          transferDiv.appendChild(hand1.childNodes[0]);
+        while (menu.p1Border.childNodes.length > 0) {
+          transferDiv.appendChild(menu.p1Border.childNodes[0]);
         }
       }
 
-      while (this.player.splitHand.length > 0) {
+      while (player.splitHand.length > 0) {
         // Moves the cards from the player's 2nd hand to the original hand
-        this.player.playerHand.push(this.player.splitHand.shift());
+        player.playerHand.push(player.splitHand.shift());
       }
-      if (hand2.childNodes.length > 0) {
+      if (splitHand.childNodes.length > 0) {
         // Moves the card divs from the 2nd hand to the main hand
-        while (hand2.childNodes.length > 0) {
-          hand1.appendChild(hand2.childNodes[0]);
+        while (splitHand.childNodes.length > 0) {
+          menu.p1Border.appendChild(splitHand.childNodes[0]);
         }
       }
 
       while (transferArr.length > 0) {
         // Moves the cards from the "staging" hand to the player's 2nd hand
-        this.player.splitHand.push(transferArr.shift());
+        player.splitHand.push(transferArr.shift());
       }
       if (transferDiv.childNodes.length > 0) {
         // Moves the card divs from the 'transferDiv' hand to the main hand
         while (transferDiv.childNodes.length > 0) {
-          hand2.appendChild(transferDiv.childNodes[0]);
+          splitHand.appendChild(transferDiv.childNodes[0]);
         }
       }
     }, 650);
@@ -440,7 +457,7 @@ class Game {
     }, 1150);
 
     setTimeout(() => {
-      this.player.getPlayerHandValue();
+      player.getPlayerHandValue();
     }, 1750);
   }
 }
@@ -455,6 +472,14 @@ const game = new Game();
 const {
   menu, player, dealer, deck, currency,
 } = game;
+
+const minPhoneWidth = window.matchMedia('(min-width: 615px)');
+const maxPhoneWidth = window.matchMedia('(max-width: 850px)');
+const landscapeMode = window.matchMedia('(orientation: landscape)');
+
+if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
+  document.querySelector('#container').style.overflow = 'hidden';
+}
 
 /* ------------------------------------------------------------------------------------------------------*/
 
@@ -552,7 +577,7 @@ menu.hitButton.addEventListener('click', () => {
   menu.disableBtn(menu.splitButton);
 
   setTimeout(() => {
-    player.playerHit(deck.deckOfCards);
+    player.playerHit(deck.deckOfCards, menu.cmdMenu);
   }, 400);
 
   setTimeout(() => {
@@ -571,7 +596,7 @@ menu.hitButton.addEventListener('click', () => {
             menu.toggleDisplay(menu.betNotice, 2000);
 
             // Receive a card from the deck (since each split hand now only has 1 card)
-            player.playerHit(deck.deckOfCards, player.playerHand);
+            player.playerHit(deck.deckOfCards);
           }, 2000);
 
           setTimeout(() => {
@@ -682,6 +707,13 @@ menu.start.addEventListener('click', () => {
 
   game.checkBetValue(menu.betValueInput);
 
+  // If the viewport has a min-width of 610px or more, a max-width of 850px or less
+  if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
+    menu.cmdMenu.style.top = '67%';
+    menu.insuranceMenu.style.bottom = '-1.5%';
+    // document.querySelector('#container').style.overflow = 'hidden';
+  }
+
   if (game.legitBetValue === true) {
     startSound.playSound(1200);
     menu.enableBtn(menu.hitButton);
@@ -692,8 +724,8 @@ menu.start.addEventListener('click', () => {
     menu.toggleBetMenu(); // Hides the bet menu
 
     // Gives 2 cards to both the player and dealer
-    localStorage.setItem('playerCoins', '2500');
     dealer.initDeal2Hand(player.playerHand, dealer.dealerHand, deck.deckOfCards);
+    localStorage.setItem('playerCoins', '2500');
 
     setTimeout(() => {
       player.getPlayerHandValue(); // Check hand value
@@ -722,6 +754,12 @@ menu.start.addEventListener('click', () => {
 
       menu.toggleDisplay(menu.cmdMenu);
     }, 2800);
+
+    setTimeout(() => {
+      if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
+        document.querySelector('.total-bet-container').style.bottom = '18%';
+      }
+    }, 3000);
     // ...
   }
 });
@@ -730,25 +768,22 @@ menu.start.addEventListener('click', () => {
 
 // After the round finishes and the overlay is displayed, click on it to go to the next round
 menu.resultOverlay.addEventListener('click', () => {
-  if (game.gameOver === false) {
-    game.menu.toggleDisplay(menu.resultOverlay);
+  if (game.gameOver === true) return location.reload();
 
-    setTimeout(() => {
-      if (game.splitHandNum === 1 || game.splitHandNum === 0) {
-        game.nextRound();
-        menu.toggleTotalBetMenu();
-      } else {
-        game.swapSplitHands();
-        setTimeout(() => {
-          game.determineWinner();
-        }, 2000);
-      }
-    }, 300);
-    return;
+  game.menu.toggleDisplay(menu.resultOverlay);
+  setTimeout(() => {
+    if (game.splitHandNum === 1 || game.splitHandNum === 0) {
+      game.nextRound();
+      menu.toggleTotalBetMenu();
+    } else {
+      game.swapSplitHands();
+      setTimeout(() => {
+        game.determineWinner();
+      }, 2000);
+    }
+  }, 300);
+
   // .
-  }
-
-  location.reload();
 });
 
 menu.insureYes.addEventListener('click', () => {

@@ -114,8 +114,13 @@ class Dealer {
   }
 
 
-  dealerHit(theDeck) {
+  dealerHit(theDeck, totalBetContainer = null) {
     const dealSound = new Sound('./media/sounds/cardDeal.wav');
+    const mainContainer = document.querySelector('#container');
+
+    const minPhoneWidth = window.matchMedia('(min-width: 615px)');
+    const maxPhoneWidth = window.matchMedia('(max-width: 850px)');
+    const landscapeMode = window.matchMedia('(orientation: landscape)');
 
     this.dealerHand.push(theDeck.pop());
 
@@ -124,6 +129,17 @@ class Dealer {
     setTimeout(() => {
       dealSound.playSound(1000);
     }, 100);
+
+    setTimeout(() => {
+      const fourCardHand = !!((this.dealerHand.length === 4));
+
+      // If the viewport has a min-width of 610px or more, a max-width of 850px or less, and-
+      // if the player has 4 cards and the cmd menu is specified with a 'top' value no less than 90%
+      if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches && fourCardHand && totalBetContainer && totalBetContainer.style.bottom === '18%') {
+        totalBetContainer.style.bottom = '-1%';
+        mainContainer.style.overflow = 'auto';
+      }
+    }, 300);
 
     if (this.dealerHand.length >= 2) {
       setTimeout(() => {
