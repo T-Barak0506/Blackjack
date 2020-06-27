@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 class Menu {
@@ -41,7 +42,7 @@ class Menu {
 
     // Misc.
     this.betNotice = document.querySelector('.bet-notice');
-    this.ContinueButton = undefined;
+    this.totalBetMenu = document.querySelector('.total-bet-container');
   }
 
   disableBtn(btn) {
@@ -74,6 +75,7 @@ class Menu {
   }
 
   toggleDisplay(item, duration = 1900) {
+    // returns true if the first parameter equals one of the items below
     const specialItem = !!((item === this.resultOverlay || item === this.betNotice));
 
     // if the item is not the result overlay or bet reminder
