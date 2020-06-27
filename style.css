@@ -243,7 +243,7 @@ body {
   border: 2px solid whitesmoke;
   background-color: rgb(0, 0, 0);
   height: calc(3.6rem + 2vh);
-  width: calc(10.5rem + 1vw);
+  width: calc(9rem + 4vw);
   flex-direction: row;
   align-items: center;
   z-index: 2;
@@ -288,6 +288,7 @@ body {
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   width: 50%;
   height: 32vh;
@@ -346,7 +347,6 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 5%;
-  /* background-image: url('/media/Playing Cards/cards/10Di.png'); */
   transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
@@ -632,7 +632,7 @@ span.bet-number {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   top: 0;
   left: 0;
   right: 0;
@@ -687,6 +687,7 @@ span.bet-number {
   -moz-transform: translate(46%, 21vh);
   -ms-transform: translate(46%, 21vh);
   -o-transform: translate(46%, 21vh);
+  -webkit-transform: translate(46%, 21vh);
   transform: translate(46%, 21vh);
   position: absolute;
   font-family: 'Playfair Display', serif;  
@@ -731,6 +732,7 @@ span.bet-number {
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -805,6 +807,15 @@ span.bet-number {
 
     #container {
       display: block;
+    }
+
+    .result-overlay-container {
+      height: 110vh;
+      -moz-transform: translate(0%, -8vh);
+      -ms-transform: translate(0%, -8vh);
+      -o-transform: translate(0%, -8vh);
+      transform: translate(0%, -8vh);
+      -webkit-transform: translate(0%, -8vh);
     }
 
     .bet-container {
@@ -900,7 +911,6 @@ span.bet-number {
       text-align: center;
       width: 95%;
       margin: auto;
-      display: none;
       -moz-transform: translate(-26vw, 8.8vh);
       -ms-transform: translate(-26vw, 8.8vh);
       -o-transform: translate(-26vw, 8.8vh);
@@ -955,19 +965,19 @@ span.bet-number {
 
     .result-overlay-container .text {
       width: calc(5rem + 47vw);
-      height: calc(1rem + 5vh);
+      height: calc(2rem + 3vh);
       padding: 0;
       color: white;
       margin: 0;
     }
 
     #top-text {
-      font-size: calc(2.2rem + 2vh);
+      font-size: calc(2.7rem + 1vh);
     }
     
     #bottom-text {
       padding-top: 5px;
-      font-size: 2.3rem;
+      font-size: calc(2rem + 1vh);
       line-height: 1;
     }
 
@@ -981,6 +991,7 @@ span.bet-number {
       -moz-transform: translate(46%, 48vh);
       -ms-transform: translate(46%, 48vh);
       -webkit-transform: translate(46%, 48vh);
+      -o-transform: translate(46%, 48vh);
     }
     
 
@@ -1118,7 +1129,7 @@ span.bet-number {
       border-left: 0;
       padding: 0;
       border-right: 0;
-      border-bottom: 2px solid whitesmoke; 
+      border-bottom: 2px solid whitesmoke;
       border-radius: 10%;
       background-color: rgba(0, 0, 0, 0);
       height: 55px;
@@ -1221,7 +1232,7 @@ span.bet-number {
 
     .button-container {
       box-shadow: 0px 0px 40px 40px #1f1f1f;
-      top: 96%;
+      top: 97%;
       left: 2%;
       border: 1px solid white;
       background-color: rgb(0, 0, 0);
