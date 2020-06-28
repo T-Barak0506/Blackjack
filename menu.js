@@ -151,35 +151,34 @@ class Menu {
 
   toggleThemes() {
     if (this.currentThemeId === 0) {
-      // ..
       this.tableMain.style.setProperty('--table', 'radial-gradient( #004b00, #003000)');
       this.tableBackground.style.setProperty('--tableBG', '#003000');
       this.p1Border.style.setProperty('--table-border', '2px rgba(0, 119, 0, 0.277) solid');
       this.cpuBorder.style.setProperty('--table-border', '2px rgba(0, 119, 0, 0.277) solid');
-      // ...
-    } else if (this.currentThemeId === 1) {
-      // ...
+      return;
+    }
+
+    if (this.currentThemeId === 1) {
       this.tableMain.style.setProperty('--table', 'radial-gradient( #750202, #5d0000)');
       this.tableBackground.style.setProperty('--tableBG', '#5d0000');
       this.p1Border.style.setProperty('--table-border', '2px rgba(192, 0, 0, 0.277) solid');
       this.cpuBorder.style.setProperty('--table-border', '2px rgba(192, 0, 0, 0.277) solid');
+      return;
+    }
 
-      // ...
-    } else if (this.currentThemeId === 2) {
-      // ...
+    if (this.currentThemeId === 2) {
       this.tableMain.style.setProperty('--table', 'radial-gradient(#006772, #005d68)');
       this.tableBackground.style.setProperty('--tableBG', '#005d68');
       this.p1Border.style.setProperty('--table-border', '2px rgba(14,230,255, 0.277) solid');
       this.cpuBorder.style.setProperty('--table-border', '2px rgba(14,230,255, 0.277) solid');
-      // ...
-    } else if (this.currentThemeId === 3) {
-      // ...
-      this.tableMain.style.setProperty('--table', 'radial-gradient(#252525, #000000)');
-      this.tableBackground.style.setProperty('--tableBG', '#000000');
-      this.p1Border.style.setProperty('--table-border', '2px rgba(103, 103, 103, 0.277) solid');
-      this.cpuBorder.style.setProperty('--table-border', '2px rgba(103, 103, 103, 0.277) solid');
-      // ...
+      return;
     }
+
+    // If the theme ID equals 3
+    this.tableMain.style.setProperty('--table', 'radial-gradient(#252525, #000000)');
+    this.tableBackground.style.setProperty('--tableBG', '#000000');
+    this.p1Border.style.setProperty('--table-border', '2px rgba(103, 103, 103, 0.277) solid');
+    this.cpuBorder.style.setProperty('--table-border', '2px rgba(103, 103, 103, 0.277) solid');
   }
 
   shuffleNotice() {
@@ -193,7 +192,7 @@ class Menu {
 
     const interval = setInterval(() => {
       if (i <= 2) {
-        i += 1;
+        i++;
         elementNode.textContent += '.';
       } else {
         clearInterval(interval);
@@ -202,7 +201,7 @@ class Menu {
     }, 1050);
 
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      document.querySelector('#container').scrollTop = 0;
     }, 3900);
 
     setTimeout(() => {

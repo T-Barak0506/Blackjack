@@ -33,8 +33,6 @@ class Game {
     const { currency } = this;
     const str = Math.floor(parseInt(betValue.value.trim(), 10)); // Round the value down if it's a decimal
 
-    console.log(document.querySelector('div'));
-
     if (str <= 0) {
       // If the number submitted is less than 0
       alert('Needs to be a whole number greater than 0 yeah?');
@@ -203,7 +201,7 @@ class Game {
       return menu.resBottomText.textContent;
     }
 
-    if (dealer.handValue === 21 && dealer.dealerHand.length === 2 && this.insuranceHand === true) {
+    if (dealer.handValue === 21 && dealer.dealerHand.length === 2 && this.insuranceHand) {
       // If the dealer gets blackjack and the player has insurance
       const winAmount = currency.insureBet * 2;
 
@@ -307,6 +305,11 @@ class Game {
   nextRound() {
     const cards = document.querySelectorAll('.card');
     const cardRemoveSound = new Sound('./media/sounds/removeCards.wav');
+
+    const minPhoneWidth = window.matchMedia('(min-width: 615px)');
+    const maxPhoneWidth = window.matchMedia('(max-width: 850px)');
+    const landscapeMode = window.matchMedia('(orientation: landscape)');
+
     const {
       menu, player, currency, deck, dealer,
     } = this;
@@ -336,8 +339,13 @@ class Game {
       this.splitHandNum = 0;
       currency.splitBet = 0;
       this.insuranceHand = false;
-      menu.cmdMenu.style.top = '97%';
-      menu.insuranceMenu.style.bottom = '-30.5%';
+
+
+      if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
+        document.querySelector('#container').style.overflow = 'hidden';
+        menu.cmdMenu.style.top = '97%';
+        menu.insuranceMenu.style.bottom = '-30.5%';
+      }
 
       // If the player split their hand, delete the extra hand div
       if (this.splitHand === true) {
@@ -466,7 +474,6 @@ class Game {
 /* -------------------------------------------*/
 
 const game = new Game();
-// game.backgroundMusic.playSound();
 
 // Destructuring the game object to reduce clutter
 const {
