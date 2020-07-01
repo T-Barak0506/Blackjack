@@ -33,43 +33,71 @@ class Game {
     const { currency } = this;
     const str = Math.floor(parseInt(betValue.value.trim(), 10)); // Round the value down if it's a decimal
 
+    const betFormAlert = document.createElement('div');
+    betFormAlert.classList.add('bet-form-alert');
+    document.querySelector('.bet-container').appendChild(betFormAlert);
+
     if (str <= 0) {
-      // If the number submitted is less than 0
-      alert('Needs to be a whole number greater than 0 yeah?');
+      // If the number submitted is less than 1
+      betValue.blur();
+      betFormAlert.style.display = 'flex';
+      betFormAlert.textContent = 'Needs to be a whole number greater than 0 yeah?';
       betValue.value = '';
-      return betValue.value;
+
+      setTimeout(() => {
+        betFormAlert.remove();
+      }, 3500);
+      return;
       // ...
     }
 
     if (isNaN(str)) {
-      alert('You need to provide an ACTUAL numerical value. Don\'t try to break me.');
+      // if the input isn't a number
+      betValue.blur();
+      betFormAlert.style.display = 'flex';
+      betFormAlert.textContent = 'You need to provide an ACTUAL value. Don\'t try to break the game.';
       betValue.value = '';
-      return betValue.value;
+
+      setTimeout(() => {
+        betFormAlert.remove();
+      }, 5000);
+      return;
       // ...
     }
 
     if (!str) {
       // If the input value is submitted blank
-      alert('You need to input an amount of coins to bet.');
+      betValue.blur();
+      betFormAlert.style.display = 'flex';
+      betFormAlert.textContent = 'You need to input an amount of coins to bet.';
       betValue.value = '';
-      return betValue.value;
+
+      setTimeout(() => {
+        betFormAlert.remove();
+      }, 3500);
+      return;
       // ...
     }
 
     if (str > currency.playerCoins) {
       // If the user tries to bet more coins than they currently have
-      alert(`You only have ${currency.playerCoins} coins, Don't try and lie to me cowboy.`);
+      betValue.blur();
+      betFormAlert.style.display = 'flex';
+      betFormAlert.textContent = `You only have ${currency.playerCoins} coins, Don't try and lie to me cowboy.`;
       betValue.value = '';
-      return betValue.value;
+
+      setTimeout(() => {
+        betFormAlert.remove();
+      }, 5000);
+      return;
       // ...
     }
 
     this.legitBetValue = true;
-    currency.totalBet = str; // Displays the total bet
+    betFormAlert.remove();
+    currency.totalBet = str; // Displays the input value as the total bet
     currency.playerCoins -= str; // Subtracts the bet value from the player's total coins
     currency.updateCoinCount(); // Display the changes
-
-    return currency.playerCoins;
   }
 
 
@@ -119,7 +147,7 @@ class Game {
         currency.updateCoinCount();
       }, 700);
 
-      return menu.resBottomText.textContent;
+      return;
     }
 
     if (player.handValue > 21 || (dealer.handValue > player.handValue && dealer.handValue <= 21 && !this.insuranceHand) || (player.handValue === dealer.handValue && dealer.handValue === 21 && dealer.dealerHand.length === 2 && player.playerHand.length !== 2 && !this.insuranceHand)) {
@@ -145,7 +173,7 @@ class Game {
         currency.updateCoinCount();
       }, 700);
 
-      return menu.resBottomText.textContent;
+      return;
     }
 
     if (dealer.handValue === player.handValue && !player.bjChecker) {
@@ -169,7 +197,7 @@ class Game {
         currency.updateCoinCount();
       }, 300);
 
-      return menu.resBottomText.textContent;
+      return;
     }
 
     if ((player.handValue > dealer.handValue && player.handValue <= 21 && !player.bjChecker) || (dealer.handValue > 21 && !player.bjChecker)) {
@@ -198,7 +226,7 @@ class Game {
         currency.updateCoinCount();
       }, 550);
 
-      return menu.resBottomText.textContent;
+      return;
     }
 
     if (dealer.handValue === 21 && dealer.dealerHand.length === 2 && this.insuranceHand) {
@@ -217,8 +245,6 @@ class Game {
         menu.toggleDisplay(menu.resultOverlay);
         currency.updateCoinCount();
       }, 550);
-
-      return menu.resBottomText.textContent;
     }
   }
 
@@ -243,7 +269,7 @@ class Game {
         dealer.getDealerHandValue();
         this.determineWinner();
       }, 750);
-      return dealer.handValue;
+      return;
       // .
     }
 
@@ -267,8 +293,6 @@ class Game {
           }
         }, 1200);
       }, 500);
-
-      return dealer.handValue;
     }
   }
 
@@ -377,7 +401,7 @@ class Game {
           menu.toggleBetMenu();
         }
 
-        return currency.playerCoins;
+        return;
       }
 
       // If the player has no coins left
@@ -710,18 +734,18 @@ menu.splitButton.addEventListener('click', () => {
 
 // Start the game!
 menu.start.addEventListener('click', () => {
-  const startSound = new Sound('./media/sounds/start.wav');
-
   game.checkBetValue(menu.betValueInput);
 
   // If the viewport has a min-width of 610px or more, a max-width of 850px or less
-  if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
+  if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches && game.legitBetValue) {
     menu.cmdMenu.style.top = '67%';
     menu.insuranceMenu.style.bottom = '-1.5%';
     // document.querySelector('#container').style.overflow = 'hidden';
   }
 
-  if (game.legitBetValue === true) {
+  if (game.legitBetValue) {
+    const startSound = new Sound('./media/sounds/start.wav');
+
     startSound.playSound(1200);
     menu.enableBtn(menu.hitButton);
     menu.enableBtn(menu.standButton);
