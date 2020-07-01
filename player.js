@@ -76,8 +76,6 @@ class Player {
     if (this.playerHandValue >= 21 && !this.bjChecker) {
       document.querySelector('.button-container').classList.toggle('hidden');
     }
-
-    return this.handValue;
   }
 
 

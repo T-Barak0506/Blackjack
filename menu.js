@@ -192,7 +192,7 @@ class Menu {
 
     const interval = setInterval(() => {
       if (i <= 2) {
-        i++;
+        i += 1;
         elementNode.textContent += '.';
       } else {
         clearInterval(interval);
