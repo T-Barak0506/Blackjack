@@ -110,8 +110,6 @@ class Deck {
     //   new Card('Di', 'A', '/media/Playing Cards/cards/ADi.png'),
     //   new Card('He', '3', '/media/Playing Cards/cards/3He.png'),
     // ];
-
-    return this.deckOfCards;
   }
 
   restartDeck() {
