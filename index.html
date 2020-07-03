@@ -9,20 +9,20 @@
   <meta name="author" content="name">
   <meta name="description" content="description here">
   <meta name="keywords" content="keywords,here">
-  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="/css/game.css" type="text/css">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
-  <script src="card.js" defer></script>
-  <script src="deck.js" defer></script>
-  <script src="sound.js" defer></script>
-  <script src="player.js" defer></script>
-  <script src="dealer.js" defer></script>
-  <script src="menu.js" defer></script>
-  <script src="bet.js" defer></script>
-  <script src="game.js" defer></script>
+  <script src="js/card.js" defer></script>
+  <script src="js/deck.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/player.js" defer></script>
+  <script src="js/dealer.js" defer></script>
+  <script src="js/menu.js" defer></script>
+  <script src="js/bet.js" defer></script>
+  <script src="js/game.js" defer></script>
 </head>
 
 <body>
@@ -126,6 +126,11 @@
 
   <form class="bet-container">
     <h1>Place your Bets:</h1>
+
+    <a href="rules.html" class="rules-link" target="_blank" title="Game Rules">
+      <i class="far fa-question-circle fa-3x"></i>
+    </a>
+
     <input type="number" placeholder="Enter amount here" id="bet-amount" autocomplete="off">
     <h4>You currently have <span class="remaining-coins" onclick="game.currency.insertMax()">0</span> coins.</h4>
 

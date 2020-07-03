@@ -92,8 +92,8 @@ class Deck {
       });
 
       // Adds the appropriate image file for each card
-      for (let x = 0; x < protoDeck.length; x++) {
-        protoDeck[x].visual += this.cardVisuals[x];
+      for (let i = 0; i < protoDeck.length; i++) {
+        protoDeck[i].visual += this.cardVisuals[i];
       }
 
       // Adds the extra cards to the main deck

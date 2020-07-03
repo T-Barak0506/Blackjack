@@ -26,12 +26,12 @@ class Game {
     this.splitHandNum = 0;
   }
 
-  checkBetValue(betValue) {
+  checkBetValue() {
     // If the start button is clicked, checks the value entered to make sure it's legit
     // TODO: Create a custom alert
 
-    const { currency } = this;
-    const str = Math.floor(parseInt(betValue.value.trim(), 10)); // Round the value down if it's a decimal
+    const { currency, menu } = this;
+    const str = Math.floor(parseInt(menu.betValueInput.value.trim(), 10)); // Round the value down if it's a decimal
 
     const betFormAlert = document.createElement('div');
     betFormAlert.classList.add('bet-form-alert');
@@ -39,13 +39,14 @@ class Game {
 
     if (str <= 0) {
       // If the number submitted is less than 1
-      betValue.blur();
+      menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
       betFormAlert.textContent = 'Needs to be a whole number greater than 0 yeah?';
-      betValue.value = '';
+      menu.betValueInput.value = '';
 
       setTimeout(() => {
         betFormAlert.remove();
+        menu.betValueInput.focus();
       }, 3500);
       return;
       // ...
@@ -53,13 +54,14 @@ class Game {
 
     if (isNaN(str)) {
       // if the input isn't a number
-      betValue.blur();
+      menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
       betFormAlert.textContent = 'You need to provide an ACTUAL value. Don\'t try to break the game.';
-      betValue.value = '';
+      menu.betValueInput.value = '';
 
       setTimeout(() => {
         betFormAlert.remove();
+        menu.betValueInput.focus();
       }, 5000);
       return;
       // ...
@@ -67,13 +69,14 @@ class Game {
 
     if (!str) {
       // If the input value is submitted blank
-      betValue.blur();
+      menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
       betFormAlert.textContent = 'You need to input an amount of coins to bet.';
-      betValue.value = '';
+      menu.betValueInput.value = '';
 
       setTimeout(() => {
         betFormAlert.remove();
+        menu.betValueInput.focus();
       }, 3500);
       return;
       // ...
@@ -81,13 +84,14 @@ class Game {
 
     if (str > currency.playerCoins) {
       // If the user tries to bet more coins than they currently have
-      betValue.blur();
+      menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
       betFormAlert.textContent = `You only have ${currency.playerCoins} coins, Don't try and lie to me cowboy.`;
-      betValue.value = '';
+      menu.betValueInput.value = '';
 
       setTimeout(() => {
         betFormAlert.remove();
+        menu.betValueInput.focus();
       }, 5000);
       return;
       // ...
@@ -161,7 +165,7 @@ class Game {
         crowdAw.playSound(1700);
         menu.resTopText.textContent = 'dealer wins!';
 
-        if (this.splitHand === true) {
+        if (this.splitHand === true) { // If the player split their hand
           menu.resBottomText.textContent = `You lost ${currency.splitBet.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} coins.`;
           currency.totalBet -= currency.splitBet;
         } else {
@@ -365,6 +369,7 @@ class Game {
       this.insuranceHand = false;
 
 
+      // if the viewport is a phone
       if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches) {
         document.querySelector('#container').style.overflow = 'hidden';
         menu.cmdMenu.style.top = '97%';
@@ -734,7 +739,7 @@ menu.splitButton.addEventListener('click', () => {
 
 // Start the game!
 menu.start.addEventListener('click', () => {
-  game.checkBetValue(menu.betValueInput);
+  game.checkBetValue();
 
   // If the viewport has a min-width of 610px or more, a max-width of 850px or less
   if (minPhoneWidth.matches && maxPhoneWidth.matches && landscapeMode.matches && game.legitBetValue) {
