@@ -57,7 +57,7 @@ class Dealer {
       try {
         if (this.dealerHand.length === 2 && this.dealerHand[this.dealerHand.length - 1].hidden === true) {
           // If the dealt card is the 2nd card in the dealer's hand, show the card face-down
-          card.style.backgroundImage = "url('/misc/cover.png')";
+          card.style.backgroundImage = "url('/src/media/cards/cover.png')";
         } else {
           card.style.backgroundImage = `url('${this.dealerHand[this.dealerHand.length - 1].visual}')`;
         }
@@ -79,7 +79,7 @@ class Dealer {
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
     // final hand value for the player's hand.
     this.dealerHand.forEach((hand) => {
-      // If the card object has true for its hidden value, ignore it's value.
+      // If the card object has true for its 'hidden' value, ignore it's value.
       if (hand.hidden === true) return;
 
       // if the card is a king, queen, or jack

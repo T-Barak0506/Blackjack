@@ -6,6 +6,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 
+
 class Game {
   constructor() {
     this.player = new Player();
@@ -28,16 +29,15 @@ class Game {
 
   checkBetValue() {
     // If the start button is clicked, checks the value entered to make sure it's legit
-    // TODO: Create a custom alert
 
     const { currency, menu } = this;
-    const str = Math.floor(parseInt(menu.betValueInput.value.trim(), 10)); // Round the value down if it's a decimal
+    const betAmount = Math.floor(parseInt(menu.betValueInput.value.trim(), 10)); // Round the value down if it's a decimal
 
     const betFormAlert = document.createElement('div');
     betFormAlert.classList.add('bet-form-alert');
     document.querySelector('.bet-container').appendChild(betFormAlert);
 
-    if (str <= 0) {
+    if (betAmount <= 0) {
       // If the number submitted is less than 1
       menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
@@ -52,7 +52,7 @@ class Game {
       // ...
     }
 
-    if (isNaN(str)) {
+    if (isNaN(betAmount)) {
       // if the input isn't a number
       menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
@@ -67,7 +67,7 @@ class Game {
       // ...
     }
 
-    if (!str) {
+    if (!betAmount) {
       // If the input value is submitted blank
       menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
@@ -82,11 +82,11 @@ class Game {
       // ...
     }
 
-    if (str > currency.playerCoins) {
+    if (betAmount > currency.playerCoins) {
       // If the user tries to bet more coins than they currently have
       menu.betValueInput.blur();
       betFormAlert.style.display = 'flex';
-      betFormAlert.textContent = `You only have ${currency.playerCoins} coins, Don't try and lie to me cowboy.`;
+      betFormAlert.textContent = `You only have ${currency.playerCoins} coins, Don't try to lie to me cowboy.`;
       menu.betValueInput.value = '';
 
       setTimeout(() => {
@@ -99,8 +99,8 @@ class Game {
 
     this.legitBetValue = true;
     betFormAlert.remove();
-    currency.totalBet = str; // Displays the input value as the total bet
-    currency.playerCoins -= str; // Subtracts the bet value from the player's total coins
+    currency.totalBet = betAmount; // Displays the input value as the total bet
+    currency.playerCoins -= betAmount; // Subtracts the bet value from the player's total coins
     currency.updateCoinCount(); // Display the changes
   }
 
@@ -458,7 +458,7 @@ class Game {
         transferArr.push(player.playerHand.shift());
       }
       if (menu.p1Border.childNodes.length > 0) {
-        // Moves the card divs from the main hand to the "transferDiv"
+        // this will move the card divs from the playerHand div to the "transferDiv"
         while (menu.p1Border.childNodes.length > 0) {
           transferDiv.appendChild(menu.p1Border.childNodes[0]);
         }
@@ -469,18 +469,18 @@ class Game {
         player.playerHand.push(player.splitHand.shift());
       }
       if (splitHand.childNodes.length > 0) {
-        // Moves the card divs from the 2nd hand to the main hand
+        // Moves the card divs from the 2nd hand div to the playerHand div
         while (splitHand.childNodes.length > 0) {
           menu.p1Border.appendChild(splitHand.childNodes[0]);
         }
       }
 
       while (transferArr.length > 0) {
-        // Moves the cards from the "staging" hand to the player's 2nd hand
+        // Moves the cards from the "staging" array to the player's 2nd hand
         player.splitHand.push(transferArr.shift());
       }
       if (transferDiv.childNodes.length > 0) {
-        // Moves the card divs from the 'transferDiv' hand to the main hand
+        // Moves the card divs from the 'transferDiv' hand to the main playerHand div
         while (transferDiv.childNodes.length > 0) {
           splitHand.appendChild(transferDiv.childNodes[0]);
         }
@@ -839,9 +839,7 @@ menu.insureYes.addEventListener('click', () => {
   game.insuranceHand = true;
   menu.splitContainer.style.display = 'none';
 
-  setTimeout(() => {
-    menu.toggleDisplay(menu.cmdMenu);
-  }, 600);
+  setTimeout(() => menu.toggleDisplay(menu.cmdMenu), 600);
 });
 
 menu.insureNo.addEventListener('click', () => {
@@ -849,13 +847,15 @@ menu.insureNo.addEventListener('click', () => {
   menu.disableBtn(menu.insureNo);
   menu.toggleDisplay(menu.insuranceMenu);
 
-  setTimeout(() => {
-    menu.toggleDisplay(menu.cmdMenu);
-  }, 450);
+  setTimeout(() => menu.toggleDisplay(menu.cmdMenu), 450);
 });
 
 menu.betContainer.addEventListener('submit', (form) => {
+  // prevents the page from reloading if an invalid bet amount was provided
   form.preventDefault();
 });
 
-console.dir(game);
+
+// TODO: add a rules section
+
+document.querySelector('.rules-link').remove();

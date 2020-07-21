@@ -1,0 +1,23 @@
+{
+  "name": "Blackjack",
+  "version": "1.0.0",
+  "description": "A recreation of the popular casino game, Blackjack, built in HTML, CSS, and vanilla Javascript!",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T-Barak0506/Blackjack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/T-Barak0506/Blackjack/issues"
+  },
+  "homepage": "https://T-Barak0506.github.io/Blackjack",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  }
+}

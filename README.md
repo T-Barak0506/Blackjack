@@ -1,3 +1,3 @@
 # Blackjack
 
-Blackjack project built with HTML, CSS, and vanilla Javascript (OOP). My first javascript project :)
+A recreation of the popular casino game, Blackjack, built in HTML, CSS, and vanilla Javascript!
