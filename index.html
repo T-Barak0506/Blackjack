@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blackjack</title>
+  <meta name="author" content="T.Barak">
+  <meta name="description" content="Recreation of blackjack in HTML/CSS/javascript">
+  <meta name="keywords"
+    content="blackjack, javascript, js, blackjack game, blackjack online, blackjack javascript, blackjack github, github">
+  <link rel="stylesheet" href="/src/css/game.css" type="text/css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
+  <script src="js/card.js" defer></script>
+  <script src="js/deck.js" defer></script>
+  <script src="js/sound.js" defer></script>
+  <script src="js/player.js" defer></script>
+  <script src="js/dealer.js" defer></script>
+  <script src="js/menu.js" defer></script>
+  <script src="js/bet.js" defer></script>
+  <script src="js/game.js" defer></script>
+</head>
+
+<body>
+  <div class="orientation-background">
+    <div class="orientation-container">
+      <div class="orientation-icon"></div>
+      <div class="orientation-label">Please rotate your device</div>
+      <div class="img-citation">Icon made by <a href="https://www.flaticon.com/authors/freepik"
+          title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="container">
+    <div class="bet-notice hidden"></div>
+
+    <div class="result-overlay-container hidden">
+      <div class="text" id="top-text">dealer wins</div>
+      <div class="text" id="bottom-text">text</div>
+    </div>
+
+    <div class="text">
+      <p id="player">You: <strong><span id="p1" class="counter"></span></strong></p>
+      <p id="dealer">Dealer: <span id="cpu" class="counter"></span></p>
+    </div>
+
+
+    <div class="coin-container">
+      <i class="fas fa-coins fa-3x"></i>
+      <div class="coin-amount" data-cValue="0"></div>
+    </div>
+
+    <div class="loader-container">
+      <div class="loader-text"></div>
+    </div>
+
+    <div class="card-container">
+      <div class="card-space" id="p1-space"></div>
+      <div class="card-space" id="cpu-space"></div>
+    </div>
+
+    <div class="button-container hidden">
+      <div class="button-content">
+
+        <div id="double-container">
+          <button class="buttons" id="double" title="Receive a card"><i class="fas fa-coins fa-3x"></i></button>
+          <p class="label" id="double-label">Double<br>Down</p>
+        </div>
+
+        <div class="hit-container">
+          <button class="buttons" id="hit" title="Receive a card"><i class="fas fa-plus fa-3x"></i></button>
+          <p class="label" id="hit-label">Hit</p>
+        </div>
+
+        <div class="stand-container">
+          <button class="buttons" id="stand" title="end your turn"><i class="fas fa-ban fa-3x"></i></button>
+          <p class="label" id="stand-label">Stand</p>
+        </div>
+
+        <div id="split-container">
+          <button class="buttons" id="split" title="split your deck"><i class="fas fa-sort fa-3x"></i></button>
+          <p class="label" id="split-label">Split</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="insurance-container hidden">
+      <div class="insurance-text">Insurance?</div>
+
+      <div id="choice-content">
+        <div class="insurance-choices">
+          <div class="yes-container">
+            <button class="buttons" id="yes"><i class="fas fa-check fa-3x"></i></i></button>
+            <p class="label2" id="yes-label">Yes</p>
+          </div>
+
+          <div class="no-container">
+            <button class="buttons" id="no"><i class="fas fa-times fa-3x"></i></button>
+            <p class="label2" id="hit-label">No</p>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="total-bet-container hidden2">
+      <div class="total-bet-label">
+        Total Bet:
+      </div>
+
+      <div class="total-bet-amount">
+        <i class="fas fa-coins fa-3x"></i>
+        <span class="bet-number" data-bValue="0">0</span>
+
+      </div>
+    </div>
+
+  </div>
+
+  <form class="bet-container">
+    <h1>Place your Bets:</h1>
+
+    <a href="rules.html" class="rules-link" target="_blank" title="Game Rules">
+      <i class="far fa-question-circle fa-3x"></i>
+    </a>
+
+    <input type="number" placeholder="Enter amount here" id="bet-amount" autocomplete="off">
+    <h4>You currently have <span class="remaining-coins" onclick="game.currency.insertMax()">0</span> coins.</h4>
+
+    <div class="theme-container">
+      <div class="title-text">
+        Choose a table theme:
+      </div>
+
+      <div class="theme-choice-container">
+        <div id="choice1" class="choice"></div>
+        <div id="choice2" class="choice"></div>
+        <div id="choice3" class="choice"></div>
+        <div id="choice4" class="choice"></div>
+      </div>
+    </div>
+
+    <button type="submit" id="deal-button">Start</button>
+
+  </form>
+
+
+</body>
+
+
+</html>
