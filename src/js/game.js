@@ -828,8 +828,8 @@ menu.insureYes.addEventListener('click', () => {
   currency.playerCoins -= insureAmount;
   currency.updateCoinCount();
 
-  menu.betNotice.textContent = 'Insurance bet accepted.';
-  menu.toggleDisplay(menu.betNotice, 3300);
+  menu.betNotice.textContent = `Insurance bet accepted. (${insureAmount.toString()} coins)`;
+  menu.toggleDisplay(menu.betNotice, 3800);
 
 
   menu.disableBtn(menu.insureYes);

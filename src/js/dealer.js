@@ -79,7 +79,7 @@ class Dealer {
     // loops through all the card values in the hand, adds these values, and displays the sum as a-
     // final hand value for the player's hand.
     this.dealerHand.forEach((hand) => {
-      // If the card object has true for its 'hidden' value, ignore it's value.
+      // If the card object has true for its 'hidden' value, ignore it.
       if (hand.hidden === true) return;
 
       // if the card is a king, queen, or jack
@@ -103,7 +103,6 @@ class Dealer {
     this.dealerHand.forEach((hand) => {
       if (hand.hidden === false && hand.value === 'A' && value > 21) {
         value -= 10;
-        return value;
       }
     });
 
