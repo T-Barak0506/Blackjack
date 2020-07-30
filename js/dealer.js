@@ -57,7 +57,7 @@ class Dealer {
       try {
         if (this.dealerHand.length === 2 && this.dealerHand[this.dealerHand.length - 1].hidden === true) {
           // If the dealt card is the 2nd card in the dealer's hand, show the card face-down
-          card.style.backgroundImage = "url('/src/media/cards/cover.png')";
+          card.style.backgroundImage = "url('./media/cards/cover.png')";
         } else {
           card.style.backgroundImage = `url('${this.dealerHand[this.dealerHand.length - 1].visual}')`;
         }
