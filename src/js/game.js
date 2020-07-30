@@ -855,7 +855,6 @@ menu.betContainer.addEventListener('submit', (form) => {
   form.preventDefault();
 });
 
-
 // TODO: add a rules section
 
 document.querySelector('.rules-link').remove();
