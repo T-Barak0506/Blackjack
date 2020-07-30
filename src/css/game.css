@@ -784,7 +784,7 @@ span.bet-number {
   left: 10%;
   width: 98%;
   height: 65%;
-  background-image: url(/media/phone.svg);
+  background-image: url('./../media/phone.svg');
   background-size: contain;
   background-repeat: no-repeat;
 }
