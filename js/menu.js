@@ -39,6 +39,7 @@ class Menu {
     this.resultOverlay = document.querySelector('.result-overlay-container');
     this.resTopText = document.querySelector('#top-text');
     this.resBottomText = document.querySelector('#bottom-text');
+    this.resTapNotice = document.querySelector('#tap-notice');
 
     // Misc.
     this.betNotice = document.querySelector('.bet-notice');
@@ -98,7 +99,7 @@ class Menu {
 
     // if the item is the bet reminder
     if (specialItem && item === this.betNotice) {
-      // Displays the item, then automatically hides it.
+      // Displays the item, then automatically hides it after a set amount of time.
       item.style.display = 'block';
 
       setTimeout(() => {

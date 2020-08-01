@@ -132,6 +132,10 @@ class Game {
           currency.updateCoinCount();
         }, 700);
 
+        setTimeout(() => {
+          menu.toggleDisplay(menu.resTapNotice);
+        }, 700 + 6100);
+
         return;
       }
 
@@ -150,6 +154,10 @@ class Game {
         menu.toggleDisplay(menu.resultOverlay);
         currency.updateCoinCount();
       }, 700);
+
+      setTimeout(() => {
+        menu.toggleDisplay(menu.resTapNotice);
+      }, 700 + 6100);
 
       return;
     }
@@ -177,6 +185,10 @@ class Game {
         currency.updateCoinCount();
       }, 700);
 
+      setTimeout(() => {
+        menu.toggleDisplay(menu.resTapNotice);
+      }, 700 + 6100);
+
       return;
     }
 
@@ -200,6 +212,10 @@ class Game {
         menu.toggleDisplay(menu.resultOverlay);
         currency.updateCoinCount();
       }, 300);
+
+      setTimeout(() => {
+        menu.toggleDisplay(menu.resTapNotice);
+      }, 300 + 6100);
 
       return;
     }
@@ -230,6 +246,10 @@ class Game {
         currency.updateCoinCount();
       }, 550);
 
+      setTimeout(() => {
+        menu.toggleDisplay(menu.resTapNotice);
+      }, 550 + 6100);
+
       return;
     }
 
@@ -249,6 +269,10 @@ class Game {
         menu.toggleDisplay(menu.resultOverlay);
         currency.updateCoinCount();
       }, 550);
+
+      setTimeout(() => {
+        menu.toggleDisplay(menu.resTapNotice);
+      }, 550 + 6100);
     }
   }
 
@@ -350,7 +374,7 @@ class Game {
       // Deletes the card visual divs
       cards.forEach((card) => card.remove());
 
-      // removes the card objects from the player and dealer's hands
+      // removes the card objects from the player and dealer's hand arrays
       while (player.playerHand.length >= 1) {
         deck.discardPile.push(player.playerHand.pop());
       }
@@ -367,6 +391,8 @@ class Game {
       this.splitHandNum = 0;
       currency.splitBet = 0;
       this.insuranceHand = false;
+
+      menu.toggleDisplay(menu.resTapNotice);
 
 
       // if the viewport is a phone

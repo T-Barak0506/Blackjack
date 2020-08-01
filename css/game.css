@@ -718,6 +718,18 @@ span.bet-number {
   border-top: 2px solid white;
 }
 
+#tap-notice {
+  transition: 0.4s;
+  -moz-transition: 0.4s;
+  -o-transition: 0.4s;
+  -webkit-transition: 0.4s;
+  color: rgb(132, 0, 255);
+  text-align: center;
+  font-size: 1.5rem;
+  width: 53%;
+  display: none;
+}
+
 .bet-notice {
   z-index: 3;
   height: 8vh;
@@ -840,7 +852,7 @@ span.bet-number {
 
   }
 
-  @media only screen and (min-width: 768px) and (min-height: 1024px) {
+  @media only screen and (min-width: 768px) and (min-height: 974px) {
     /* medium sized tablets */
 
     .orientation-background {
@@ -1023,6 +1035,13 @@ span.bet-number {
       line-height: 1;
     }
 
+    #tap-notice {
+      position: relative;
+      width: 50%;
+      font-size: 2rem;
+      top: 15%;
+    }
+
     .insurance-container {
       bottom: 0.5%;
       left: 10%;
@@ -1040,7 +1059,7 @@ span.bet-number {
 
   }
 
-  @media only screen and (min-height: 1280px) {
+  @media only screen and (min-height: 1230px) {
     /* Large tablets and other monitors */ 
     .total-bet-container {
       bottom: calc(0.5% + -3.5vh);
@@ -1048,6 +1067,13 @@ span.bet-number {
 
     .coin-amount {
       font-size: calc(0.01rem + 2vh);
+    }
+
+    #tap-notice {
+      position: relative;
+      width: 40%;
+      font-size: 2.3rem;
+      top: 27%;
     }
   }
 }
@@ -1295,6 +1321,10 @@ span.bet-number {
       max-height: 82px;
     }
 
+    #tap-notice {
+      width: 41%;
+    }
+
   }
 
   @media only screen and (min-height: 406px) {
@@ -1384,6 +1414,13 @@ span.bet-number {
     
     #bottom-text {
       font-size: 2.9rem;
+    }
+
+    #tap-notice {
+      position: relative;
+      width: 41%;
+      font-size: 2.5rem;
+      top: 5%;
     }
 
     .insurance-container {
