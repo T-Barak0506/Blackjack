@@ -830,6 +830,10 @@ span.bet-number {
     #container {
       display: none;
     }
+
+    body {
+      background-color: teal;
+    }
   }
 
   @media only screen and (min-width: 370px) and (min-height: 657px) {
@@ -852,11 +856,15 @@ span.bet-number {
 
   }
 
-  @media only screen and (min-width: 768px) and (min-height: 974px) {
+  @media only screen and (min-width: 768px) and (min-height: 954px) {
     /* medium sized tablets */
 
     .orientation-background {
       display: none;
+    }
+
+    body {
+      background-color: var(--tableBG);
     }
 
     #container {
@@ -1059,7 +1067,7 @@ span.bet-number {
 
   }
 
-  @media only screen and (min-height: 1230px) {
+  @media only screen and (min-height: 1210px) {
     /* Large tablets and other monitors */ 
     .total-bet-container {
       bottom: calc(0.5% + -3.5vh);
@@ -1084,6 +1092,10 @@ span.bet-number {
 
   .orientation-background {
     display: none;
+  }
+
+  body {
+    background-color: var(--tableBG);
   }
 
   
