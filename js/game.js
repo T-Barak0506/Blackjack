@@ -302,7 +302,7 @@ class Game {
     }
 
     if ((player.handValue <= 21 && !player.bjChecker) || (player.handValue === 21 && !player.bjChecker) || this.splitHand === true) {
-      // If the player doesn't exceed 21 and doesn't have blackjack
+      // If the player's hand doesn't exceed 21 and doesn't have blackjack
       setTimeout(() => {
         dealer.getDealerHandValue();
       }, 750);
@@ -312,6 +312,7 @@ class Game {
         const interval = setInterval(() => {
           if (dealer.handValue < 17) {
             setTimeout(() => {
+              // keep drawing cards until the value is 17 or more
               dealer.dealerHit(theDeck, menu.totalBetMenu);
             }, 200);
             // .
@@ -335,14 +336,13 @@ class Game {
 
   checkHand() {
     const { menu, player, currency } = this;
-    const doubleAmount = currency.totalBet;
     const faceCards = player.playerHand.filter((card) => card.value === 'K' || card.value === 'Q' || card.value === 'J' || card.value === '10');
 
     menu.doubleContainer.style.display = 'none';
     menu.splitContainer.style.display = 'none';
 
     // Checks if the hand meets the requirements to double
-    if (player.handValue >= 9 && player.handValue <= 18 && doubleAmount <= currency.playerCoins && currency.totalBet !== 1) {
+    if (currency.totalBet <= currency.playerCoins && currency.totalBet !== 1) {
       menu.doubleContainer.style.display = 'block';
     }
 
@@ -350,6 +350,7 @@ class Game {
     if ((currency.totalBet <= currency.playerCoins && player.playerHand[0].value === player.playerHand[1].value)
     || (currency.totalBet <= currency.playerCoins && faceCards.length === 2)) {
       // If the player's wager is smaller than the coins they have remaining
+      // and the values shown on the cards are the same, allow the player to split
       menu.splitContainer.style.display = 'block';
     }
   }
@@ -797,6 +798,7 @@ menu.start.addEventListener('click', () => {
       player.checkForBlackjack();
       game.checkForBlackjack2();
 
+      // if the player has blackjack
       if (player.handValue === 21) {
         menu.disableBtn(menu.hitButton);
         menu.disableBtn(menu.standButton);
@@ -883,4 +885,4 @@ menu.betContainer.addEventListener('submit', (form) => {
 
 // TODO: add a rules section
 
-document.querySelector('.rules-link').remove();
+// document.querySelector('.rules-link').remove();

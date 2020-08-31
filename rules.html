@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/rules.css" type="text/css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+  <link rel="shortcut icon" href="./favicon/favicon.ico">
+  <link rel="manifest" href="./favicon/manifest.json">
+  <script src="https://kit.fontawesome.com/17bffe204d.js" crossorigin="anonymous"></script>
+  <title>Rules</title>
+</head>
+
+<body>
+
+  <div id="container">
+    <div class="main">
+      <section class="intro">
+        <h1 class="title">How to play Blackjack</h1>
+        <img src="./media/headerImage.jpg" alt="playing Cards">
+        <div class="body-text" style="font-style: italic;"><span id="bold">Aside from poker, blackjack is the most
+            popular card game at casinos. The
+            objective of the game is to beat the dealer by getting your hand count as close to 21 as possible without
+            going over 21.</div>
+      </section>
+
+      <section class="the-deck">
+        <h1 class="heading">The Deck</h1>
+        <div class="body-text">The classic 52-card deck is used; but depending on the casino, you'll work with anywhere
+          between 1 and 8 decks. <span class="notice">(NOTE: In this version of the game, you'll always be using 3
+            decks).</span></div>
+      </section>
+
+      <section class="card-values">
+        <h1 class="heading">Card values</h1>
+        <div class="body-text">Aces can be worth 1 or 11, face cards (king, queen & jack) are worth 10, and the value of
+          numbered cards equals the number shown on the card. <span class="notice">(For example, a hand containing a
+            jack card and a 5 card would equal 15).</span></div>
+      </section>
+
+      <section class="betting">
+        <h1 class="heading">Coins & Betting</h1>
+        <img src="./media/screenShot1.png" alt="Bet Menu">
+        <div class="body-text">Before the game can start, you will need to place an amount of coins that you would like
+          to bet. You can also choose a table theme by clicking/tapping on 1 of the 4 icons on the bottom-left of the
+          popup. When you're ready to play, click <span style="font-style: italic;">start</span>!
+
+          <span class="notice">NOTE: At the end of each round, your total amount of coins will be saved, unless the
+            total is 2500 or less in which it will be saved as 2500.</span>
+        </div>
+      </section>
+
+      <section class="deal">
+        <h1 class="heading">The Initial Deal</h1>
+        <img src="./media/screenShot2.png" alt="main Game">
+        <div class="body-text">One you place your bet, the dealer will give you and itself 2 cards. The catch is that
+          the dealer's 2nd card is face down.</div>
+      </section>
+
+      <section class="natural">
+        <h1 class="heading">Naturals/Blackjack</h1>
+        <img src="./media/screenShot3.png" alt="Example of a BlackJack">
+        <div class="body-text">If the first 2 cards in your hand are an ace and a "ten card" (a Jack, Queen, King, or a
+          10), this is known as a "natural" or a "blackjack". If you have a natural but the dealer does not, you will
+          immediately win 1.5 times your bet!
+          <span class="notice">NOTE: If you and the dealer both have a natural (or any time when you and the dealer end
+            up the same hand value after the dealer's turn), this is known as a "push", and all your bets will be
+            returned.</span>
+        </div>
+      </section>
+
+      <section class="gameplay">
+        <h1 class="heading">Gameplay</h1>
+        <div class="body-text">After the initial cards have been dealt and if the player doesn't have a natural, the
+          game will continue normally and a command menu will appear on the bottom-left corner of the screen where you
+          can click/tap on one of the buttons to decide what you want to do with your hand. You must decide whether you
+          want to "hit" (receive a card from the deck in an attempt to get closer to a hand value of 21, or even hit 21
+          exactly; green button) or "stand" (not receive any more cards for the current round and end your turn; red
+          button). After you stand, if you end up with a value closer to 21 than the dealer, you will win double your
+          bet!
+
+          <span class="notice">NOTE: You can keep "hitting" until you decide to stand (if you hand value is less than
+            21), or until you "bust" (ending up going over 21, in which case you've lost the round and the dealer
+            collects all of your bets.</span>
+        </div>
+      </section>
+
+      <section class="soft-hands">
+        <h1 class="heading">Soft hands</h1>
+        <div class="body-text">
+          Since ace cards can equal 1 or 11, the combination of an ace with any card other than a ten-card is known as a
+          "soft hand". For example, a hand containing a 4 and an ace is a soft hand since the hand can equal either 5 or
+          15. If receiving a new card causes your hand to bust by counting the ace as 11, it will be counted as 1
+          instead. This allows you to continue playing by standing or "hitting".
+        </div>
+      </section>
+
+      <section class="doubling-down">
+        <h1 class="heading">Doubling Down</h1>
+        <div class="body-text">
+          Along with being able to hit and stand, another option you have is to double down (orange button). Here, you
+          place an additional bet equal to your original bet and receive just 1 card. After that, you must stand, and
+          the dealer begins its turn.
+        </div>
+      </section>
+
+      <section class="splitting">
+        <h1 class="heading">Splitting Pairs</h1>
+        <img src="./media/screenShot4.png" alt="2 5s, example of a split">
+        <div class="body-text">
+          If the first 2 cards in your hand show the same value (for example two 7s or two face cards) you will also
+          have the option split your hand (blue button). Here, you place an additional bet equal to your original bet
+          and the cards are treated as 2 separate hands (therefore, 1 bet for each hand, equal amount). The hand to the
+          left is played first and then you must hit or stand. Only after you stand or "bust" does your next hand get
+          played.
+        </div>
+      </section>
+
+      <section class="dealer-play">
+        <h1 class="heading">The Dealer's Turn</h1>
+        <div class="body-text">
+          After you stand or bust, the dealer's 2nd card is revealed. If it's total hand-value is 17 or greater, it must
+          stand. Otherwise, it continues drawing cards until a total of 17 or greater is reached, in which case it
+          stands.
+          <span class="notice">
+            NOTE: If the dealer has an ace and counting it as 11 would bring the total hand-value to 17 or more (but not
+            more than 21), it must stand.
+          </span>
+        </div>
+      </section>
+
+      <section class="insurance">
+        <h1 class="heading">Insurance</h1>
+        <img src="./media/screenShot5.png" alt="Dealer's 1st card is an Ace so the insurance prompt will appear">
+        <div class="body-text">
+          If the dealer's face-up card is an Ace, you will be given the option to place a side bet of up to half your
+          original bet, hoping that the dealer's 2nd card is a ten card, and thus a natural for the dealer. If the
+          dealer's 2nd card is a ten-card, you'll lose the main bet, but will win double the amount of your side bet.
+          <span class="notice">NOTE: Taking insurance is usually not recommended, unless you're certain there's a large
+            amount of ten-cards still in the deck.</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+</body>
+
+</html>
