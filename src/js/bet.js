@@ -32,6 +32,7 @@ class Currency {
   }
 
   getStoredCoins() {
+    // Receives the player's total coins
     const storedCoins = (localStorage.getItem('playerCoins') !== null) ? localStorage.getItem('playerCoins') : 2500;
     this.playerCoins = parseInt(storedCoins, 10);
   }

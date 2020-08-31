@@ -103,12 +103,12 @@ class Deck {
 
       n++;
     }
-
+    /* FOR DEBUGGING PURPOSES ONLY */
     // this.deckOfCards = [...this.deckOfCards,
-    //   new Card('Sp', 'Q', '/src/media/cards/QSp.png'),
-    //   new Card('Cl', 'K', '/src/media/cards/KCl.png'),
+    //   new Card('Sp', 'J', '/src/media/cards/JSp.png'),
+    //   new Card('Cl', '5', '/src/media/cards/5Cl.png'),
     //   new Card('Di', 'A', '/src/media/cards/ADi.png'),
-    //   new Card('He', '3', '/src/media/cards/3He.png'),
+    //   new Card('He', '5', '/src/media/cards/5He.png'),
     // ];
   }
 
